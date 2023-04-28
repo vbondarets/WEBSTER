@@ -1,0 +1,52 @@
+version: '3.0'
+
+services:
+  server:
+    stdin_open: true #test
+    tty: true #test
+    container_name: node-server
+    build:
+      dockerfile: Dockerfile
+      context: ./server
+    env_file: 
+      - server/.env
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    ports:
+      - 5000:5000
+    command: npm run dev
+    depends_on:
+      - postgres
+    restart: always
+  client: 
+    stdin_open: true #test
+    tty: true #test
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    build:
+      dockerfile: Dockerfile
+      context: ./client
+    ports:
+      - 3000:3000
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+  postgres:
+    container_name: postgres-server
+    image: postgres:latest
+    environment:
+      PG_DATA: /var/lib/postgresql/data
+      POSTGRES_DB: "webster"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "root"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    ports: 
+      - 5433:5432
+    volumes: 
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+  
+
+volumes:
+  pgdata: 
