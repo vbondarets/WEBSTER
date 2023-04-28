@@ -9,11 +9,13 @@ Develop a simple graphic-design tool
         <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" alt="nodejs" width="50" height="50"/>
     </a>
 </p>
-docker build ./server -t node-server:1.0.0 
-To build server image
+<pre>
+    docker build ./server -t node-server:1.0.0 
+    To build server image
 
-docker build ./client -t node-client:1.0.0 
-To build client image
+    docker build ./client -t node-client:1.0.0 
+    To build client image
 
-docker-compose up
-To start a project
+    docker-compose up
+    To start a project
+</pre>
