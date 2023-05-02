@@ -19,9 +19,23 @@ services:
     depends_on:
       - postgres
     restart: always
+  bot:
+    stdin_open: true #test
+    tty: true #test
+    container_name: tgBot
+    build:
+      dockerfile: Dockerfile
+      context: ./tgBot
+    env_file: 
+      - ./tgBot/.env
+    volumes:
+      - ./tgBot:/app
+      - /app/node_modules
+    command: npm run dev
   client: 
     stdin_open: true #test
     tty: true #test
+    container_name: react-client
     environment:
       - CHOKIDAR_USEPOLLING=true
     build:
