@@ -16,11 +16,12 @@ bot.on('text', async (message, data, more) =>{
 bot.on('voice', async (message, data, more) =>{
     const text = message.text;
     const chatId = message.chat.id;
-    console.log(message);
-    // const link = bot.getFile()
+    // console.log(message);
+    const link = await bot.getFileLink(message.voice.file_id);
+    console.log(link);
     const from = {
         name: message.from.first_name,
         id: message.from.id
     }
-    await bot.sendMessage(chatId, "I got your voice");
+    await bot.sendMessage(chatId, `I got your voice`);
 });
