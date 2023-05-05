@@ -6,6 +6,8 @@ build-tgBot:
 	docker build ./tgBot -t node-tgbot:1.0.0 
 run: 
 	docker-compose up -d
+down: 
+	docker-compose down
 stop: 
 	docker-compose down; docker container prune; docker image prune; docker image rm webster_server; docker image rm webster_client; docker image rm webster_bot; docker image rm postgres; docker volume prune; docker volume rm webster_pgdata
 server-logs: 
