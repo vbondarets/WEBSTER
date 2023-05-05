@@ -26,15 +26,18 @@ bot.use(session());
 bot.command('new', async (ctx) => {
     ctx.session = INITIAL_SESSION
     await ctx.reply(`Context cleared, waiting for your voice or text message`);
+    return;
 });
 
 bot.command('start', async (ctx) => {
     ctx.session = INITIAL_SESSION
     await ctx.reply(`Hello, my name is WEBSTER-assistant, i'm your web assistant in image generating, send me a vioce with description of an image what you want to get`);
+    return;
 });
 
 bot.on(message('text'), async (ctx) => {
-    console.log(ctx)
+    console.log(ctx);
+    return;
 
 });
 
@@ -154,6 +157,7 @@ bot.on(message('voice'), async (ctx) => {
                             }
                             else {
                                 await ctx.reply(`Ops, something went wrong: \n${result.response.content}`);
+                                return;
                             }
                         }
                     }, 1500);
@@ -167,7 +171,6 @@ bot.on(message('voice'), async (ctx) => {
                 null,
                 `Can't generate image by your request, please try again`
             );
-            ctx.session.messages.push({ role: OpenAi.roles.ASSISTANT, content: AIRes.content });
             return;
         }
     } catch (error) {
