@@ -9,25 +9,28 @@ Develop a simple graphic-design tool
         <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" alt="nodejs" width="50" height="50"/>
     </a>
 </p>
+
+
 Installation
 ------------
 Install [Make], [Docker] and [docker-compose] to be able to start a project
-<pre>
 
-    ```
-        $ Make run
-    ```
-    To start a project
-    ```
-        $ Make reload
-    ```
-    To reload a project
-    ```
-        $ Make stop
-    ```
-    To stop a project, and delete all containers, images, and volumes
-    ```
-        $ Make reload
-    ```
-    To reload a project
-</pre>
+Starting
+------------
+To start a project
+```
+$ Make run
+```
+
+To reload a project
+```
+$ Make reload
+```
+To stop a project, and delete all containers, images, and volumes
+```
+$ Make stop
+```
+To reload a project
+```
+$ Make reload
+```
