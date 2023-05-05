@@ -4,6 +4,8 @@ build-client:
 	docker build ./client -t node-client:1.0.0 
 build-tgBot: 
 	docker build ./tgBot -t node-tgbot:1.0.0 
+npm:
+	cd server/; npm install; cd ..; cd client/; npm install; cd ..; cd tgBot/; npm install; cd ..;
 run: 
 	docker-compose up -d
 down: 
