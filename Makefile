@@ -15,4 +15,6 @@ server-logs:
 bot-logs: 
 	docker logs --follow tgBot
 reload: 
+	docker-compose down; docker-compose up -d
+rebuild: 
 	make stop; make run
