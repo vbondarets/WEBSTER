@@ -25,12 +25,12 @@ bot.use(session());
 
 bot.command('new', async (ctx) => {
     ctx.session = INITIAL_SESSION
-    await ctx.reply(`Waiting for your voice or text message`);
+    await ctx.reply(`Context cleared, waiting for your voice or text message`);
 });
 
 bot.command('start', async (ctx) => {
     ctx.session = INITIAL_SESSION
-    await ctx.reply(`Hello, send me a vioce with description of an image what you want to get`);
+    await ctx.reply(`Hello, my name is WEBSTER-assistant, i'm your web assistant in image generating, send me a vioce with description of an image what you want to get`);
 });
 
 bot.on(message('text'), async (ctx) => {
@@ -173,48 +173,10 @@ bot.on(message('voice'), async (ctx) => {
     } catch (error) {
         clearInterval();
         await ctx.reply(`Ops, something went wrong: \n${error}`);
+        if(error.response.isNaughty){
+            console.log('Ban word: ', error.response.phrase);
+        }
         console.log('Error: ', error.response);
         return;
     }
 });
-//////////////////////////
-// bot.on('/new', async (message) => {
-//     INITIAL_SESSION = {
-//         messages: [],
-//     }
-//     await ctx.reply(`Waiting for your voice or text message`);
-// });
-// bot.on('text', async (message) =>{
-//     const text = message.text;
-//     const chatId = message.chat.id;
-//     console.log(message.session, data, more);
-//     const from = {
-//         name: message.from.first_name,
-//         id: message.from.id
-//     }
-//     await bot.sendMessage(chatId, "I got your message");
-//     await bot.sendMessage(chatId, `${JSON.stringify(message)}`);
-// });
-
-// bot.on('voice', async (message) =>{
-//     try {
-//         const options = {
-//             parse_mode: 'markdown'
-//         };
-//         const chatId = message.chat.id;
-//         const userId = message.from.id;
-//         const link = await bot.getFileLink(message.voice.file_id);
-//         const voicePath = await createVoice(link, userId);
-//         const transcription = await OpenAi.transcription(voicePath);
-//         const messages = [{role: OpenAi.roles.USER, content: transcription}]
-//         const AIRes = await OpenAi.chat(messages);
-//         await bot.sendMessage(chatId, `I got your voice, it sounds like:`);
-//         await bot.sendMessage(chatId, `_${transcription}_`, options);
-//         await bot.sendMessage(chatId, `I want to say something:`);
-//         await bot.sendMessage(chatId, `*${AIRes.content}*`, options);
-//     } catch (error) {
-//         await bot.sendMessage(message.chat.id, `Ops, somthing went wrong`);
-//         console.log('Error: ', error);
-//         // await bot.sendMessage(chatId, `Ops, somthing went wrong}`);
-//     }
-// });
