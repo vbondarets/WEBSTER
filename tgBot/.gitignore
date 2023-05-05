@@ -135,9 +135,9 @@ dist
 #Node js modules 
 /node_modules
 .DS_Store
-/static/images/*.png
-/static/images/*.webp
-/static/images/*.jpeg
+*.png
+*.webp
+*.jpeg
 
-/static/voices/*.mp3
-/static/voices/*.ogg
+*.mp3
+*.ogg

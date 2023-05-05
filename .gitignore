@@ -134,3 +134,10 @@ dist
 
 #Node js modules 
 /node_modules
+.DS_Store
+*.png
+*.webp
+*.jpeg
+
+*.mp3
+*.ogg
