@@ -1,23 +1,32 @@
- class ApiError extends Error{
-    constructor(status, message){
+class ApiError extends Error {
+    constructor(status, message) {
         super();
-        this.status = status,
-        this.message = message
+        this.status = status;
+        this.message = message;
     }
-    static badRequest(message){
-        return new ApiError(404, message);
+
+    static badRequest(message = "Bad Request.") {
+        return new ApiError(400, message);
     }
-    static internal(message){
-        return new ApiError(500, message);
+
+    static notAuth(message = "Not authorized.") {
+        return new ApiError(401, message);
     }
-    static forbiden(message){
+
+    static forbidden(message = "No access.") {
         return new ApiError(403, message);
     }
-    static conflict(message){
+
+    static notFound(message = "Not Found.") {
+        return new ApiError(404, message);
+    }
+
+    static conflict(message = "Data conflict.") {
         return new ApiError(409, message);
     }
-    static unauthorized(message){
-        return new ApiError(401, message);
+
+    static internal(message = "Internal Server Error.") {
+        return new ApiError(500, message);
     }
 }
 

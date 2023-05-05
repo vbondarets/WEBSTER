@@ -50,14 +50,18 @@ services:
     container_name: postgres-server
     image: postgres:latest
     environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
       PG_DATA: /var/lib/postgresql/data
-      POSTGRES_DB: "webster"
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "root"
-      POSTGRES_HOST_AUTH_METHOD: "trust"
+      POSTGRES_DB: webster
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      APP_DB_USER: docker
+      APP_DB_PASS: docker
+      APP_DB_NAME: webster2
     ports: 
-      - 5433:5432
+      - 5432:5432
     volumes: 
+      - ./db:/docker-entrypoint-initdb.d/
       - pgdata:/var/lib/postgresql/data
     restart: always
   

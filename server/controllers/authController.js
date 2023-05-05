@@ -1,168 +1,105 @@
 const ApiError = require("../helpers/error/ApiError");
-const { UserModel } = require('../models/userModel');
+const { User } = require('../models/models');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-// const secureConfig = require('../secureConfig.json');
-// const mailingService = require('../services/PassworResetMailingService');
-const JwtGenerator = require('../helpers/jwtGenerators/jwtGenerator');
-// const resetJwtGenerator = require('../helpers/jwtGenerators/resetJwtGenerator');
+const { generate_tokens, clear_cookies, verify } = require("../helpers/jwtWorker/jwtController");
 
 class AuthController {
-
-    async registration(req, res, next) {
+    async register(req, res, next) {
         try {
-            let { login, password, email, role, fullName } = req.body;
-            console.log(login);
-            if (!login || !password || !email || !fullName) {
-                return next(ApiError.conflict('Missing Data'));
+            const { password, email, login, first_name, last_name } = req.body;
+            if (await User.findOne({ where: { email } })) {
+                return next(ApiError.conflict("Email already used."));
             }
-            else {
-                if (!role) {
-                    role = "USER";
-                }
-                const hashedPassword = await bcrypt.hash(password, 10);
-                await UserModel.create({ email: email, fullname: fullName, login: login, password: hashedPassword, role: role })
-                    .then(result => {
-                        return res.json({ message: "User created" });
-                    })
-                    .catch(err => {
-                        if (err.errors[0].type === "unique violation") {
-                            return next(ApiError.conflict(err.errors[0].path + " already in use"));
-                        }
-                        else {
-                            return next(ApiError.internal('Unknown error: ' + err));
-                        }
-
-                    });
+            if (await User.findOne({ where: { login } })) {
+                return next(ApiError.conflict("Login already used."));
             }
-        } catch (err) {
-            return next(ApiError.internal('Unknown error: ' + err));
+            const hashPassword = await bcrypt.hash(password, 5);
+            const user = await User.create({ password: hashPassword, email, login, first_name, last_name });
+            return res.json(generate_tokens(user.id, user.confirmed, user.role, req, res));
+        } catch (error) {
+            console.log(error);
+            return next(ApiError.internal());
         }
     }
+
     async login(req, res, next) {
         try {
-            let { login, password } = req.body;
-            if (!login || !password) {
-                return next(ApiError.conflict('Missing Data'));
+            const { login, password } = req.body;
+            const user = await User.findOne({ where: { login } });
+            if (!user) {
+                return next(ApiError.notFound("User does not exist."));
             }
-            else {
-                await UserModel.findAll({
-                    where: {
-                        login: login
-                    }
-                }).then(result => {
-                    if (result.length <= 0) {
-                        return next(ApiError.badRequest('user not found'));
-                    }
-                    else {
-                        if (bcrypt.compareSync(password, result[0].password)) {
-                            const token = JwtGenerator({
-                                userId: result[0].user_id, 
-                                login: result[0].login, 
-                                email: result[0].email, 
-                                fullName: result[0].fullname, 
-                                role: result[0].role
-                            });
-                            return res.json({
-                                token: token,
-                                userData: {
-                                    userId: result[0].user_id,
-                                    login: result[0].login,
-                                    email: result[0].email,
-                                    fullname: result[0].fullname,
-                                    role: result[0].role
-                                },
-                                message: "Succesfull"
-                            });
-                        }
-                        else {
-                            return next(ApiError.conflict('Incorrect password'));
-                        }
-                    }
-                })
-                    .catch(err => {
-                        return next(ApiError.internal('Unknown error: ' + err));
-                    })
+            if (!bcrypt.compareSync(password, user.password)) {
+                return next(ApiError.conflict("Wrong data."));
             }
-        } catch (err) {
-            return next(ApiError.internal('Unknown error: ' + err));
+            return res.json(generate_tokens(user.id, user.confirmed, user.role, req, res));
+        } catch (error) {
+            console.log(error);
+            return next(ApiError.internal());
         }
     }
+
     async logout(req, res, next) {
         try {
-            return res.json("Goodbye");
-        } catch (err) {
-            return next(ApiError.internal('Unknown error: ' + err));
+            const cookies = req.cookies;
+            if (cookies?.token) {
+                clear_cookies(req, res);
+            }
+            return res.json({ message: "Exit successed." });
+        } catch (error) {
+            console.log(error);
+            return next(ApiError.internal());
         }
-    };
-    // async resetPassword(req, res, next) {
-    //     try {
-    //         const { email } = req.body;
-    //         if (!email) {
-    //             return next(ApiError.conflict('Missing Data'));
-    //         }
-    //         else {
-    //             await UserModel.findAll({
-    //                 where: {
-    //                     email: email
-    //                 }
-    //             })
-    //                 .then(result => {
-    //                     if (result.length <= 0) {
-    //                         return next(ApiError.badRequest('email not found'));
-    //                     }
-    //                     else {
-    //                         const token = resetJwtGenerator(result[0].user_id, result[0].email)
-    //                         const message = mailingService(email, token);
-    //                         return res.json({message: "Succesfull"});//res.json(`http://localhost:5000/api/auth/password-reset/${token}`);
-    //                     }
-    //                 })
-    //                 .catch(err => {
-    //                     return next(ApiError.internal('Unknown error: ' + err));
-    //                 })
-    //         }
-    //     } catch (err) {
-    //         return next(ApiError.internal('Unknown error: ' + err));
-    //     }
-    // };
-    // async resetPasswordAuntification(req, res, next) {
-    //     try {
-    //         const { token } = req.params;
-    //         const { password } = req.body;
-	// 		if(password.length < 8)
-	// 		{
-	// 			return res.json({ message: "Password must be at least 8 characters long" });
-	// 		}
-    //         const decoded = jwt.verify(token, secureConfig.SECRET_KEY_FOR_EMAIL)
-    //         if (!decoded) {
-    //             return next(ApiError.forbidden('Token decoding error'));
-    //         }
-    //         else {
-    //             await UserModel.findAll({
-    //                 where: {
-    //                     email: decoded.email
-    //                 }
-    //             }).then(async (result) => {
-    //                 const hashedPassword = await bcrypt.hash(password, 10);
-    //                 await UserModel.update({
-    //                     password: hashedPassword,
-    //                 },
-    //                     {
-    //                         where: { user_id: result[0].user_id }
-    //                     }).then(result => {
-    //                         return res.json({ message: "Password changed" });
-    //                     }).catch(error => {
-    //                         return next(ApiError.internal('Unknown error: ' + error));
-    //                     });
-    //             }).catch(error => {
-    //                 return next(ApiError.badRequest('User\'s email not found: ' + decoded.email));
-    //             })
-    //         }
+    }
 
-    //     } catch (err) {
-    //         return next(ApiError.internal('Unknown error: ' + err));
-    //     }
-    // };
+    async email_activation(req, res, next) {
+        try {
+            const { id } = req.user;
+            const user = await User.findOne({ where: { id } });
+            if (!user) {
+                return next(ApiError.notFound("User does not exist!"));
+            }
+            req.user.hash = await bcrypt.hash(String(id), 5);
+            req.user.email = user.email;
+            next();
+        } catch (error) {
+            console.log(error);
+            return next(ApiError.internal());
+        }
+    }
+
+    async email_confirm(req, res, next) {
+        try {
+            const { id, role } = req.user;
+            const crypted_id = req.params.id;
+            if (!bcrypt.compareSync(String(id), decodeURIComponent(crypted_id))) {
+                return next(ApiError.badRequest("Ling belongs to other user!"));
+            }
+            await User.update({ confirmed: true }, { where: { id } });
+            generate_tokens(id, true, role);
+            return res.json({ message: "Email confirm complete!" }); //wefwfwef
+        } catch (error) {
+            console.log(error);
+            return next(ApiError.internal());
+        }
+    }
+
+    async handleRefreshToken(req, res, next) {
+        try {
+            const token = req.cookies.token;
+            if (!token) return next(ApiError.notAuth());
+            const { id, confirmed, role } = verify(token);
+            const user = await User.findOne({ where: { id } });
+            if (!user) {
+                return next(ApiError.notAuth("User does not exist!"));
+            }
+            return res.json(generate_tokens(id, confirmed, role, req, res));
+        } catch (error) {
+            console.log(error);
+            return next(ApiError.notAuth());
+        }
+    }
+
 }
 
 module.exports = new AuthController();

@@ -1,22 +1,22 @@
 const ApiError = require('../helpers/error/ApiError');
 const jwt = require('jsonwebtoken');
-const secureConfig = require('../secureConfig.json');
 
-module.exports = function (){
-    return function (req, res, next){
-        if(req.method === "OPTIONS"){
-            next();
+module.exports = function (req, res, next) {
+    if (req.method === "OPTIONS") {
+        next();
+    }
+    try {
+        const token = req.cookies.token;
+        if (!token || !req.headers.authorization) return next(ApiError.notAuth('Token missing'));
+        const access_token = req.headers.authorization.split(" ")[1];
+        if (!access_token) {
+            return next(ApiError.notAuth());
         }
-        try{
-            const token = req.headers.authorization.split(' ')[1];
-            if (!token){
-                return next(ApiError.unauthorized('Token missing'));
-            }
-            const decoded = jwt.verify(token, secureConfig.SECRET_KEY);
-            req.user = decoded;
-            next();
-        } catch(err){
-            return next(ApiError.unauthorized('Unauthorized'));
-        }
+        const decoded = jwt.verify(access_token, process.env.SECRET_KEY_ACCESS);
+        req.user = decoded;
+        next();
+    } catch (error) {
+        console.log(error)
+        return next(ApiError.notAuth());
     }
 }
