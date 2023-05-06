@@ -1,14 +1,12 @@
+import { BrowserRouter } from "react-router-dom";
+import AppRouter from "./components/AppRouter";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Stavki na sport.
-        </p>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+    return (
+        <BrowserRouter>
+            <AppRouter />
+        </BrowserRouter>
+    );
+};
 
 export default App;
