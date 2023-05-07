@@ -19,7 +19,6 @@ const AppRouter = () => {
             <Route path='*' element={<Navigate to={'/'} replace/>}/>
         </Routes>
     )
-
 }
 
 export default AppRouter

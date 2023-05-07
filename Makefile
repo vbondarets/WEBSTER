@@ -14,6 +14,8 @@ stop:
 	docker-compose down; docker container prune; docker image prune; docker image rm webster_server; docker image rm webster_client; docker image rm webster_bot; docker image rm postgres; docker volume prune; docker volume rm webster_pgdata
 server-logs: 
 	docker logs --follow node-server
+client-logs: 
+	docker logs --follow react-client
 bot-logs: 
 	docker logs --follow tgBot
 reload: 

@@ -141,3 +141,5 @@ dist
 
 *.mp3
 *.ogg
+
+!/src/assets/images/*

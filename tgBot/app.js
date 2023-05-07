@@ -1,4 +1,3 @@
-const TelegramApi = require('node-telegram-bot-api');
 const { Telegraf, session } = require('telegraf');
 const { message } = require('telegraf/filters');
 const { code } = require('telegraf/format');
@@ -10,6 +9,7 @@ const { TNL } = require('tnl-midjourney-api');
 const tnlRequests = require('./utils/tnlRequests');
 const fs = require('fs');
 const downloadImage = require('./utils/downloadImage');
+const removeFile = require('./utils/removeFile');
 
 // const bot2 = new TelegramApi(process.env.BOT_TOKEN, {polling: true});
 
@@ -76,6 +76,7 @@ bot.on(message('voice'), async (ctx) => {
         const voicePath = await createVoice(link, userId);
         const transcription = await OpenAi.transcription(voicePath);
         clearInterval(serverInterval);
+        removeFile(voicePath);
         await ctx.telegram.editMessageText(
             ctx.chat.id,
             botMessage.message_id,
@@ -112,56 +113,126 @@ bot.on(message('voice'), async (ctx) => {
             ctx.session.messages.push({ role: OpenAi.roles.ASSISTANT, content: AIRes.content });
             // console.log("res: ",AIRes.content.toLocaleLowerCase().split('prompt:').slice(-1))
             let prompts = AIRes.content.toLocaleLowerCase().split('prompt:').slice(-1)[0];
-            if (prompts.indexOf('.') >= 0) {
+            if (prompts.split('').reverse().join('').indexOf(".") === 0) {
                 prompts = prompts.slice(0, -1)
             }
             console.log(prompts);
-            const response = await tnlRequests.sendReq(prompts, {userId: userId, chatId: ctx.chat.id, prompts: prompts});
-            console.log(response);
-            if (response.success) {
-                botMessage = await ctx.reply(code(`Your image in progress ...`));
-                setTimeout(async () => {
-                    const tnl = new TNL(process.env.TNL_AUTH_TOKEN);
-                    const result = await tnl.getMessageAndProgress(response.messageId);
-                    let progress = result.progress;
-                    const progressMessage = await ctx.reply(code(`Progress ${progress}%`));
-                    const tnlInterval = setInterval(async () => {
-                        const result = await tnl.getMessageAndProgress(response.messageId);
-                        if(result.progress != progress){
-                            progress = result.progress;
-                            progressMessage.text = `Progress ${progress}%`
-                            await ctx.telegram.editMessageText(
-                                ctx.chat.id,
-                                progressMessage.message_id,
-                                0,
-                                code(progressMessage.text)
-                            );
-                        }
-                        if (result.progress === 100) {
-                            clearInterval(tnlInterval);
-                            ctx.deleteMessage(progressMessage.message_id);
-                            ctx.deleteMessage(botMessage.message_id);
-                            if (result.response.imageUrl) {
-                                await ctx.reply(`Your image:`);
-                                const imageFilePath = await downloadImage(result.response.imageUrl, userId);
-                                //const imageFile = fs.readFileSync(imageFilePath)
-                                const fileType = imageFilePath.split('.').pop();
-                                await ctx.telegram.sendPhoto(ctx.chat.id,{
-                                    source: imageFilePath,
-                                    filename: `${ctx.message.from.first_name}.${fileType}`
-                                });
-                                await ctx.telegram.sendDocument(ctx.chat.id, {
-                                    source: imageFilePath,
-                                    filename: `${ctx.message.from.first_name}.${fileType}`
-                                })
+            try {
+                const response = await tnlRequests.sendReq(prompts, { userId: userId, chatId: ctx.chat.id, prompts: prompts });
+                console.log(response);
+                if (response.success) {
+                    botMessage = await ctx.reply(code(`Your image in progress ...`));
+                    setTimeout(async () => {
+                        const tnl = new TNL(process.env.TNL_AUTH_TOKEN);
+                        try {
+                            const result = await tnl.getMessageAndProgress(response.messageId);
+                            let progress = result.progress;
+                            const progressMessage = await ctx.reply(code(`Progress ${progress}%`));
+                            const tnlInterval = setInterval(async () => {
+                                try {
+                                    const result = await tnl.getMessageAndProgress(response.messageId);
+                                    if (result.progress != progress) {
+                                        progress = result.progress;
+                                        progressMessage.text = `Progress ${progress}%`
+                                        await ctx.telegram.editMessageText(
+                                            ctx.chat.id,
+                                            progressMessage.message_id,
+                                            0,
+                                            code(progressMessage.text)
+                                        );
+                                    }
+                                    if (result.progress === 100) {
+                                        clearInterval(tnlInterval);
+                                        ctx.deleteMessage(progressMessage.message_id);
+                                        ctx.deleteMessage(botMessage.message_id);
+                                        if (result.response.imageUrl) {
+                                            await ctx.reply(`Your image:`);
+                                            const imageFilePath = await downloadImage(result.response.imageUrl, userId);
+                                            //const imageFile = fs.readFileSync(imageFilePath)
+                                            const fileType = imageFilePath.split('.').pop();
+                                            await ctx.telegram.sendPhoto(ctx.chat.id, {
+                                                source: imageFilePath,
+                                                filename: `${ctx.message.from.first_name}.${fileType}`
+                                            });
+                                            await ctx.telegram.sendDocument(ctx.chat.id, {
+                                                source: imageFilePath,
+                                                filename: `${ctx.message.from.first_name}.${fileType}`
+                                            });
+                                            removeFile(imageFilePath);
+                                        }
+                                        else {
+                                            if (result.hasOwnProperty('isNaughty')) {
+                                                console.log('Ban word: ', error.response.phrase);
+                                                return;
+                                            }
+                                            else if (result.hasOwnProperty(response)) {
+                                                await ctx.reply(`Ops, something went wrong: \n${error}`);
+                                                console.log('Error: ', error.response);
+                                                return;
+                                            }
+                                            else {
+                                                if(result.content === "Invalid parameter"){
+                                                    await ctx.reply(`Ops, something went wrong: \n${result.content}`);
+                                                    await ctx.reply(`Resend me a voice message, and I will try again`);
+                                                    console.log('Error: ', result);
+                                                    return;
+                                                }
+                                                await ctx.reply(`Ops, something went wrong: \n${result}`);
+                                                console.log('Error: ', result);
+                                                return;
+                                            }
+                                        }
+                                    }
+                                } catch (error) {
+                                    if (error.hasOwnProperty(response) && error.response.hasOwnProperty('isNaughty')) {
+                                        console.log('Ban word: ', error.response.phrase);
+                                        return;
+                                    }
+                                    else if (error.hasOwnProperty(response)) {
+                                        await ctx.reply(`Ops, something went wrong: \n${error}`);
+                                        console.log('Error: ', error.response);
+                                        return;
+                                    }
+                                    else {
+                                        await ctx.reply(`Ops, something went wrong: \n${error}`);
+                                        console.log('Error: ', error);
+                                        return;
+                                    }
+                                }
+                            }, 1500);
+                        } catch (error) {
+                            if (error.hasOwnProperty(response) && error.response.hasOwnProperty('isNaughty')) {
+                                console.log('Ban word: ', error.response.phrase);
+                                return;
+                            }
+                            else if (error.hasOwnProperty(response)) {
+                                await ctx.reply(`Ops, something went wrong: \n${error}`);
+                                console.log('Error: ', error.response);
+                                return;
                             }
                             else {
-                                await ctx.reply(`Ops, something went wrong: \n${result.response.content}`);
+                                await ctx.reply(`Ops, something went wrong: \n${error}`);
+                                console.log('Error: ', error);
                                 return;
                             }
                         }
-                    }, 1500);
-                }, 3000)
+                    }, 3000)
+                }
+            } catch (error) {
+                if (error.hasOwnProperty(response) && error.response.hasOwnProperty('isNaughty')) {
+                    console.log('Ban word: ', error.response.phrase);
+                    return;
+                }
+                else if (error.hasOwnProperty(response)) {
+                    await ctx.reply(`Ops, something went wrong: \n${error}`);
+                    console.log('Error: ', error.response);
+                    return;
+                }
+                else {
+                    await ctx.reply(`Ops, something went wrong: \n${error}`);
+                    console.log('Error: ', error);
+                    return;
+                }
             }
         }
         else {
@@ -171,15 +242,24 @@ bot.on(message('voice'), async (ctx) => {
                 null,
                 `Can't generate image by your request, please try again`
             );
+            await ctx.reply(`Bot says: \n${AIRes.content}`);
             return;
         }
     } catch (error) {
-        clearInterval();
-        await ctx.reply(`Ops, something went wrong: \n${error}`);
-        if(error.response.isNaughty){
+        // clearInterval();
+        if (error.hasOwnProperty(response) && error.response.hasOwnProperty('isNaughty')) {
             console.log('Ban word: ', error.response.phrase);
+            return;
         }
-        console.log('Error: ', error.response);
-        return;
+        else if (error.hasOwnProperty(response)) {
+            await ctx.reply(`Ops, something went wrong: \n${error}`);
+            console.log('Error: ', error.response);
+            return;
+        }
+        else {
+            await ctx.reply(`Ops, something went wrong: \n${error}`);
+            console.log('Error: ', error);
+            return;
+        }
     }
 });

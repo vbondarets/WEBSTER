@@ -10,10 +10,10 @@ const toMp3 = async(input, output) => {
         ffmpeg.setFfmpegPath(installer.path)
         return new Promise ((resolve, reject) => {
             ffmpeg(input)
-                .inputOption('-t 30')
+                .inputOption('-t 300')
                 .output(outputPath)
                 .on('end', () => {
-                    // removeFile(input)
+                    removeFile(input)
                     resolve(outputPath);
                 })
                 .on('error', (error) => {
