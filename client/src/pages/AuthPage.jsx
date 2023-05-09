@@ -9,9 +9,9 @@ import PersonIcon from "@mui/icons-material/Person";
 const AuthPage = () => {
     let [page, setPage] = useState(false);
     return (
-        <div className="flex flex-col h-full justify-center items-center gap-5 m-5 text-amber-200">
+        <div className="flex flex-col h-full justify-center items-center gap-5 m-5 text-mainFontColor">
             <h6 className="flex gap-8 select-none">
-                <span>Log In</span>
+                <span >Log In</span>
                 <span>Sign Up</span>
             </h6>
 
@@ -37,7 +37,7 @@ const AuthPage = () => {
                     <div className="card-front w-full h-full absolute rounded-md preserve-3d">
                         <div className="center-wrap block absolute top-1/2 left-0 w-full px-9">
                             <div className="text-center block relative">
-                                <h4 className="font-semibold pb-4 select-none">
+                                <h4 className="text-mainColor font-bold pb-4 select-none text-3xl bg-slate-100 w-fit mx-auto mb-2 pb-1 p-1 rounded">
                                     Log In
                                 </h4>
                                 <div className="block relative">
@@ -70,7 +70,7 @@ const AuthPage = () => {
                     <div className="card-back w-full h-full absolute rounded-md preserve-3d rotate-y-180">
                         <div className="center-wrap block absolute top-1/2 left-0 w-full px-9">
                             <div className="text-center block relative">
-                                <h4 className="font-semibold pb-4 select-none">
+                                <h4 className="text-mainColor font-bold pb-4 select-none text-3xl bg-slate-100 w-fit mx-auto mb-2 pb-1 p-1 rounded">
                                     Sign Up
                                 </h4>
                                 <div className="block relative">

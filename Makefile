@@ -1,11 +1,16 @@
 build-server: 
 	docker build ./server -t node-server:1.0.0
 build-client: 
-	docker build ./client -t node-client:1.0.0 
+	docker build ./client -t react-client:1.0.0 
 build-tgBot: 
-	docker build ./tgBot -t node-tgbot:1.0.0 
+	docker build ./tgBot -t tgbot:1.0.0 
 npm:
 	cd server/; npm install; cd ..; cd client/; npm install; cd ..; cd tgBot/; npm install; cd ..;
+run-client:
+	docker container run -it --rm --name react-client -p  3000:3000 -d -v /app/node_modules -v $(shell pwd)/client:/app react-client:1.0.0 
+run-server:
+	docker container run -it --rm --name node-server -p  5000:5000 -d -v /app/node_modules -v $(shell pwd)/server:/app node-server:1.0.0 
+run-bot:
 run: 
 	docker-compose up -d
 down: 
