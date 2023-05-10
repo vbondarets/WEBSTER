@@ -29,7 +29,7 @@ const AuthPage = () => {
                     <NorthWestIcon />
                 </div>
             </label>
-            <div className="card-3d-wrap mt-4 w-[440px] h-[400px] block">
+            <div className="card-3d-wrap mt-4 w-[440px] h-[480px] block">
                 <div className="card-3d-wrapper w-full h-full preserve-3d bg-authF bg-[#2c2c2c] rounded-lg shadow-neon">
                     <AuthForm />
                     <RegisterForm />

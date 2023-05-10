@@ -13,7 +13,7 @@ const baseQuery = fetchBaseQuery({
     }
 })
 
-export default async (args, api, extraOptions) => {
+const QueryWithReauth = async (args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions);
 
     if (result?.error?.status === 401) {
@@ -28,3 +28,4 @@ export default async (args, api, extraOptions) => {
     }
     return result;
 }
+export default QueryWithReauth;
