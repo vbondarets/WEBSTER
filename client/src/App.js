@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import AppRouter from "./components/AppRouter";
-import Navbar from "./components/Navbar";
 import { userAPI } from "./services/UserService";
 import { setCredentials } from "./store/reducers/UserSlice";
 
@@ -17,7 +16,6 @@ const App = () => {
 
     return (
         <BrowserRouter>
-            <Navbar />
             <AppRouter />
         </BrowserRouter>
     );
