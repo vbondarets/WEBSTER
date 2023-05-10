@@ -8,8 +8,7 @@ const User = sequelize.define('user', {
     confirmed: { type: DataTypes.BOOLEAN, defaultValue: false },
     login: { type: DataTypes.STRING, unique: true, allowNull: false },
     password: { type: DataTypes.STRING, allowNull: false },
-    first_name: { type: DataTypes.STRING, allowNull: false },
-    last_name: { type: DataTypes.STRING, allowNull: false },
+    full_name: { type: DataTypes.STRING, allowNull: false },
     role: { type: DataTypes.ENUM('USER', 'ADMIN'), defaultValue: "USER" },
 });
 
