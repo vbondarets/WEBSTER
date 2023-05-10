@@ -7,7 +7,7 @@ import Container from '../pages/Container';
 export const publicRoutes = [
     { path: "/", component: <Container component={<MainPage/>}/>},
     { path: "/auth", component: <AuthPage /> },
-    { path: "/test", component: <Test /> },
+    { path: "/test", component: <Container component={<Test/>}/>},
 ];
 
 export const authRoutes = [

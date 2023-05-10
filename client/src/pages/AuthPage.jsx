@@ -2,11 +2,18 @@ import React, { useState } from "react";
 import NorthWestIcon from "@mui/icons-material/NorthWest";
 import AuthForm from "../components/AuthForm";
 import RegisterForm from "../components/RegisterForm";
+import { Link } from "react-router-dom";
 
 const AuthPage = () => {
     let [page, setPage] = useState(false);
     return (
         <div className="flex flex-col h-full justify-center items-center gap-5 m-5 text-mainFontColor">
+            <Link
+                to={"/"}
+                className="md:block hidden hover:text-amber-200 transition-all absolute top-0 left-0 ml-8 mt-4 text-2xl font-semibold whitespace-nowrap"
+            >
+                WEBSTER
+            </Link>
             <h6 className="flex gap-8 text-amber-200 font-bold text-xl select-none">
                 <span>Log In</span>
                 <span>Sign Up</span>
@@ -29,7 +36,7 @@ const AuthPage = () => {
                     <NorthWestIcon />
                 </div>
             </label>
-            <div className="card-3d-wrap mt-4 w-[440px] h-[480px] block">
+            <div className="card-3d-wrap mt-4 lg:w-[440px] h-[480px] md:w-80 w-64 block">
                 <div className="card-3d-wrapper w-full h-full preserve-3d bg-authF bg-[#2c2c2c] rounded-lg shadow-neon">
                     <AuthForm />
                     <RegisterForm />
