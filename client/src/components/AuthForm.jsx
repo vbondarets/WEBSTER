@@ -23,7 +23,7 @@ const AuthForm = () => {
                     <div className="block relative">
                         <input
                             type="email"
-                            className="w-full h-12 px-5 py-3 pl-14 outline-none bg-main border-none transition-all ease-linear duration-200 font-medium rounded-md shadow-md text-sm tracking-wide placeholder:select-none"
+                            className="w-full h-12 px-5 py-3 pl-14 outline-none bg-main border-none transition-all ease-linear duration-200 font-medium rounded-md focus:shadow-stroke text-sm tracking-wide placeholder:select-none"
                             placeholder="Email"
                         />
                         <AlternateEmailIcon className="absolute left-5 top-1/2 -translate-y-1/2 transition-all ease-linear duration-200 text-2xl" />
@@ -31,7 +31,7 @@ const AuthForm = () => {
                     <div className="block relative mt-2">
                         <input
                             type="password"
-                            className="w-full h-12 px-5 py-3 pl-14 outline-none bg-main border-none transition-all ease-linear duration-200 font-medium rounded-md shadow-md text-sm tracking-wide placeholder:select-none"
+                            className="w-full h-12 px-5 py-3 pl-14 outline-none bg-main border-none transition-all ease-linear duration-200 font-medium rounded-md focus:shadow-stroke text-sm tracking-wide placeholder:select-none"
                             placeholder="Password"
                         />
                         <LockIcon className="absolute left-5 top-1/2 -translate-y-1/2 transition-all ease-linear duration-200 text-2xl" />
