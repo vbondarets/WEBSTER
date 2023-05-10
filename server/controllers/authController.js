@@ -6,7 +6,7 @@ const { generate_tokens, clear_cookies, verify } = require("../helpers/jwtWorker
 class AuthController {
     async register(req, res, next) {
         try {
-            const { password, email, login, first_name, last_name } = req.body;
+            const { password, email, login, full_name } = req.body;
             if (await User.findOne({ where: { email } })) {
                 return next(ApiError.conflict("Email already used."));
             }
@@ -14,7 +14,7 @@ class AuthController {
                 return next(ApiError.conflict("Login already used."));
             }
             const hashPassword = await bcrypt.hash(password, 5);
-            const user = await User.create({ password: hashPassword, email, login, first_name, last_name });
+            const user = await User.create({ password: hashPassword, email, login, full_name});
             return res.json(generate_tokens(user.id, user.confirmed, user.role, req, res));
         } catch (error) {
             console.log(error);

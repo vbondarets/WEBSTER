@@ -8,9 +8,9 @@ const mailController = require('../controllers/mailController');
 
 router.get('/validation', authMiddleware, authController.email_activation, mailController.sendActivationMail);
 router.get('/validation/:id', authMiddleware, authController.email_confirm);
+router.get('/refresh', authController.handleRefreshToken);
 router.post('/register', validation(joiUserRegisterSchema), authController.register);
 router.post('/login', validation(joiUserLoginSchema), authController.login);
 router.post('/logout', authController.logout);
-
 
 module.exports = router;

@@ -1,48 +1,73 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import LockIcon from "@mui/icons-material/Lock";
+import PersonIcon from "@mui/icons-material/Person";
+import { userAPI } from "../services/UserService";
+import { useDispatch, useSelector } from "react-redux";
+import { setCredentials } from "../store/reducers/UserSlice";
+import { Navigate } from "react-router-dom";
 
 const AuthForm = () => {
-    const handler = (e) => {
+    const dispatch = useDispatch();
+    const { isAuth } = useSelector((state) => state.userReducer);
+    const [login, { error }] = userAPI.useLoginMutation();
+    if (isAuth) {
+        return <Navigate to={"/"} />;
+    }
+
+    const handler = async (e) => {
         e.preventDefault();
-        console.log(e.target);
+        const res = await login(new FormData(e.target));
+        if (!res.error) dispatch(setCredentials(res));
+        console.log(res);
     };
 
     return (
         <form
-            className="flex flex-col gap-4 bg-auth shadow-md rounded px-8 pt-6 pb-8"
+            className="card-front w-full h-full absolute rounded-md preserve-3d text-amber-200"
             method="POST"
             onSubmit={handler}
         >
-            <span className="text-xl text-center text-amber-200 select-none">
-                Log In
-            </span>
-            <input
-                className="appearance-none bg-main rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none"
-                name="login"
-                type="text"
-                placeholder="login"
-                required
-            />
-            <input
-                className="appearance-none bg-main border border-red-500 rounded w-full py-2 px-3 text-gray-400 leading-tight focus:outline-none"
-                name="password"
-                type="password"
-                placeholder="********"
-                required
-            />
-            <p className="text-red-500 text-xs italic">Please choose a password.</p>
-            <div className="flex flex-col gap-3 items-center justify-between">
-                <button
-                    className="bg-amber-200 hover:bg-amber-400 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    type="submit"
-                >
-                    Sign In
-                </button>
-                {/* <a
-                    className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-                    href="#"
-                >
-                    Forgot Password?
-                </a> */}
+            <div className="center-wrap block absolute top-1/2 left-0 w-full px-9">
+                <div className="text-center block relative">
+                    <h4 className="font-bold select-none text-3xl w-fit mx-auto mb-2 pb-4 p-1 rounded">
+                        Log In
+                    </h4>
+                    <div className="block relative mt-4">
+                        <input
+                            type="text"
+                            name="login"
+                            className="w-full h-12 px-5 py-3 pl-14 outline-none bg-main border-none transition-all ease-linear duration-200 font-medium rounded-md focus:shadow-stroke text-sm tracking-wide placeholder:select-none"
+                            placeholder="Login"
+                        />
+                        <PersonIcon className="absolute left-5 top-1/2 -translate-y-1/2 transition-all ease-linear duration-200 text-2xl" />
+                    </div>
+                    <div className="block relative mt-2">
+                        <input
+                            type="password"
+                            name="password"
+                            className="w-full h-12 px-5 py-3 pl-14 outline-none bg-main border-none transition-all ease-linear duration-200 font-medium rounded-md focus:shadow-stroke text-sm tracking-wide placeholder:select-none"
+                            placeholder="Password"
+                        />
+                        <LockIcon className="absolute left-5 top-1/2 -translate-y-1/2 transition-all ease-linear duration-200 text-2xl" />
+                    </div>
+                    {error && (
+                        <p className="text-red-500 mt-3 text-sm font-semibold italic">
+                            {error.data?.message}
+                        </p>
+                    )}
+                    <button className="inline-flex items-center mt-8 rounded-md bg-amber-200 h-11 px-8 text-sm font-bold uppercase transition-all ease-linear duration-200 tracking-wider select-none text-black hover:bg-black hover:text-amber-200">
+                        Login
+                    </button>
+                    <p className="mt-8 text-center">
+                        <Link
+                            to={"#"}
+                            className="hover:text-amber-400 transition-all ease-linear"
+                        >
+                            Forgot your password?
+                        </Link>
+                    </p>
+                </div>
             </div>
         </form>
     );
