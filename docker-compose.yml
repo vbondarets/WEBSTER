@@ -36,6 +36,8 @@ services:
     stdin_open: true #test
     tty: true #test
     container_name: react-client
+    env_file: 
+      - ./client/.env
     environment:
       - CHOKIDAR_USEPOLLING=true
     build:
@@ -56,13 +58,10 @@ services:
       POSTGRES_DB: webster
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      APP_DB_USER: docker
-      APP_DB_PASS: docker
-      APP_DB_NAME: webster2
     ports: 
       - 5432:5432
     volumes: 
-      - ./db:/docker-entrypoint-initdb.d/
+      # - ./db:/docker-entrypoint-initdb.d/
       - pgdata:/var/lib/postgresql/data
     restart: always
   
