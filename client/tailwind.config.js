@@ -3,6 +3,9 @@ module.exports = {
     content: ["./src/**/*.{html,js,jsx}"],
     theme: {
         extend: {
+            height: {
+                '128': '46rem',
+            },
             textColor: {
                 hover: "rgb(240 185 11)",
             },
