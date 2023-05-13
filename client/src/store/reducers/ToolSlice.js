@@ -5,7 +5,6 @@ const toolSlice = createSlice({
     name: 'tool',
     initialState: { 
         tools: ['cut', 'filters', 'colors', 'draw', 'rotate', 'text', 'resize', 'image'], 
-        curTool: 'cut',
         downTools: [{
             name: 'cut',
             curFormat: 'custom',
@@ -82,11 +81,10 @@ const toolSlice = createSlice({
         {
             name: 'image',
             curOpt: 'add',
-            options: 'add', 'generate'
+            options: ['add', 'generate']
         }], 
-        currTool: null, 
-        currDownTool: null, 
-        role: null 
+        curTool: null,
+        curDownTool: null, 
     },
     reducers: {
         // setTool: (state, action) => {
