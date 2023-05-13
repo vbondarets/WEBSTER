@@ -16,6 +16,7 @@ module.exports = {
                 mainColor: "#1f2029",
                 mainFontColor: "rgb(112, 160, 203)",
                 formFontColor: "rgb(196, 195, 202)",
+                toolBg: "#333042",
             },
             backgroundImage: {
                 authForm:
