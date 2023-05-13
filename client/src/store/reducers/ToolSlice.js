@@ -99,4 +99,4 @@ const toolSlice = createSlice({
 })
 export const { setCredentials, logOut } = toolSlice.actions;
 
-export default userSlice.reducer;
+export default toolSlice.reducer;
