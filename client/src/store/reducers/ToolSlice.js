@@ -95,6 +95,7 @@ const toolSlice = createSlice({
         },
         setValues: (state, action) => {
             state.downTools[action.payload.toolIndex] = action.payload.values;
+            console.log(state.downTools[2].curSetting)
         },
         setFilter: (state, action) => {
             state.downTools[1].curFilter = action.payload.filter;

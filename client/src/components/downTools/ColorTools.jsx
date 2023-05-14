@@ -19,7 +19,7 @@ const ColorTools = () => {
         dispatch(setValues({
             toolIndex: 2,
             values: {
-                curSetting: curDownTool,
+                curSetting: e.target.innerText,
                 name: "colors",
                 filters: downTools[2].filters
             }
@@ -54,14 +54,14 @@ const ColorTools = () => {
         }
     };
     useEffect(() => {
-        if(curDownTool){
+        if(downTools[2].curSetting){
             downTools[2].filters.forEach(filter => {
-                if(filter.name === curDownTool){
+                if(filter.name === downTools[2].curSetting){
                     setValue(filter.value)
                 }
             })
             colorsBar.current.childNodes.forEach(filter => {
-                if(filter.innerText === curDownTool){
+                if(filter.innerText === downTools[2].curSetting){
                     filter.classList = ['colors p-2 h-fit text-amber-200 rounded-2xl cursor-pointer']
                 }
             })
