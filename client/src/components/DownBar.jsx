@@ -1,6 +1,7 @@
 import React from 'react'
 import ColorTools from './downTools/ColorTools'
 import { useSelector } from 'react-redux';
+import FilterTools from './downTools/FilterTools';
 
 const DownBar = () => {
   const { curTool } = useSelector((state) => state.toolReducer);
@@ -10,7 +11,7 @@ const DownBar = () => {
       {
         {
           'Cut': <p>cut</p>,
-          'Filters':<p>filters</p>,
+          'Filters':<FilterTools/>,
           'Colors': <ColorTools/>,
           'Draw': <p>draw</p>,
           'Rotate':<p>rotate</p>,

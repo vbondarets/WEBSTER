@@ -95,9 +95,12 @@ const toolSlice = createSlice({
         },
         setValues: (state, action) => {
             state.downTools[action.payload.toolIndex] = action.payload.values;
+        },
+        setFilter: (state, action) => {
+            state.downTools[1].curFilter = action.payload.filter;
         }
     }
 })
-export const { setTool, setDownTool, setValues } = toolSlice.actions;
+export const { setTool, setDownTool, setValues, setFilter } = toolSlice.actions;
 
 export default toolSlice.reducer;

@@ -11,7 +11,7 @@ const ColorTools = () => {
     const [value, setValue] = useState(100);
 
     const setActive = (e, filterValue) => {
-        console.log(filterValue);
+        // console.log(filterValue);
         setValue(filterValue);
         e.target.parentNode.childNodes.forEach(el => el.classList = ['colors p-2 h-fit hover:text-amber-200 hover:bg-[#333042] rounded-2xl cursor-pointer'])
         e.target.classList = ['colors p-2 h-fit text-amber-200 rounded-2xl cursor-pointer'];

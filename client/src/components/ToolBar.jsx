@@ -13,33 +13,11 @@ import { setTool} from "../store/reducers/ToolSlice";
 
 const ToolBar = () => {
   const dispatch = useDispatch();
-  const getElement = (e) => {
-    if(e.target.classList[0] === 'MuiSvgIcon-root'){
-      const element = e.target.parentNode;
-      return element
-    }
-    else if(!e.target.classList[0]){
-      if(e.target.parentNode.classList[0] === 'MuiSvgIcon-root'){
-        const element = e.target.parentNode.parentNode;
-        return element
-      }
-      else {
-        const element = e.target.parentNode;
-        return element
-      }
-    }
-    else {
-      const element = e.target;
-      return element
-    }
-  }
 
   const setActiveTool = (e) => {
-    const element = getElement(e);
-    console.log(element.classList[0])
-    dispatch(setTool({curTool: element.classList[0]}))
-    element.parentNode.childNodes.forEach(el => el.classList = [`${el.classList[0]} mx-auto mt-2 rounded-2xl hover:text-amber-200 hover:bg-toolBg cursor-pointer h-fit w-fit p-2 flex flex-col justify-center`])
-    element.classList = [`${element.classList[0]} mx-auto mt-2 rounded-2xl text-amber-200 cursor-pointer h-fit w-fit p-2 flex flex-col justify-center`]
+    dispatch(setTool({curTool: e.currentTarget.classList[0]}))
+    e.currentTarget.parentNode.childNodes.forEach(el => el.classList = [`${el.classList[0]} mx-auto mt-2 rounded-2xl hover:text-amber-200 hover:bg-toolBg cursor-pointer h-fit w-fit p-2 flex flex-col justify-center`])
+    e.currentTarget.classList = [`${e.currentTarget.classList[0]} mx-auto mt-2 rounded-2xl text-amber-200 cursor-pointer h-fit w-fit p-2 flex flex-col justify-center`]
   }
 
   return (
