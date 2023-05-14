@@ -1,9 +1,10 @@
 import { Slider } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setDownTool, setValues } from "../../store/reducers/ToolSlice";
 
 const ColorTools = () => {
+    const colorsBar = useRef();
     const dispatch = useDispatch();
     const { downTools } = useSelector((state) => state.toolReducer);
     const { curDownTool } = useSelector((state) => state.toolReducer);
@@ -52,6 +53,20 @@ const ColorTools = () => {
             }));
         }
     };
+    useEffect(() => {
+        if(curDownTool){
+            downTools[2].filters.forEach(filter => {
+                if(filter.name === curDownTool){
+                    setValue(filter.value)
+                }
+            })
+            colorsBar.current.childNodes.forEach(filter => {
+                if(filter.innerText === curDownTool){
+                    filter.classList = ['colors p-2 h-fit text-amber-200 rounded-2xl cursor-pointer']
+                }
+            })
+        }
+    }, [])
 
     return (
         <div className='colorTool'>
@@ -69,7 +84,7 @@ const ColorTools = () => {
                     />
                 }
             </div>
-            <div className='colorsBar w-fit mt-1 mx-auto font-sans flex space-x-24'>
+            <div ref={colorsBar} className='colorsBar w-fit mt-1 mx-auto font-sans flex space-x-24'>
                 {downTools[2].filters.map(filter => {
                     return <p
                         key={filter.name}

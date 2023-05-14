@@ -8,19 +8,78 @@ import RotateLeftRoundedIcon from '@mui/icons-material/RotateLeftRounded';
 import AspectRatioRoundedIcon from '@mui/icons-material/AspectRatioRounded';
 import AddToPhotosRoundedIcon from '@mui/icons-material/AddToPhotosRounded';
 import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
+import { useDispatch } from 'react-redux';
+import { setTool} from "../store/reducers/ToolSlice";
 
 const ToolBar = () => {
+  const dispatch = useDispatch();
+  const getElement = (e) => {
+    if(e.target.classList[0] === 'MuiSvgIcon-root'){
+      const element = e.target.parentNode;
+      return element
+    }
+    else if(!e.target.classList[0]){
+      if(e.target.parentNode.classList[0] === 'MuiSvgIcon-root'){
+        const element = e.target.parentNode.parentNode;
+        return element
+      }
+      else {
+        const element = e.target.parentNode;
+        return element
+      }
+    }
+    else {
+      const element = e.target;
+      return element
+    }
+  }
+
+  const setActiveTool = (e) => {
+    const element = getElement(e);
+    console.log(element.classList[0])
+    dispatch(setTool({curTool: element.classList[0]}))
+    element.parentNode.childNodes.forEach(el => el.classList = [`${el.classList[0]} mx-auto mt-2 rounded-2xl hover:text-amber-200 hover:bg-toolBg cursor-pointer h-fit w-fit p-2 flex flex-col justify-center`])
+    element.classList = [`${element.classList[0]} mx-auto mt-2 rounded-2xl text-amber-200 cursor-pointer h-fit w-fit p-2 flex flex-col justify-center`]
+  }
+
   return (
-    <div className='ToolBar h-128 w-10 bg-[#131314] grid grid-cols-1 border-r-2 border-slate-700'>
-        <CropIcon className=' ml-1 mt-2 rounded-2xl hover:text-amber-200 hover:bg-toolBg cursor-pointer'/>
-        <TuneIcon className='ml-1 rounded-2xl hover:text-amber-200 hover:bg-toolBg cursor-pointer'/>
-        <PaletteRoundedIcon className='ml-1 rounded-2xl hover:text-amber-200 hover:bg-toolBg cursor-pointer'/>
-        <BrushIcon className='ml-1 rounded-2xl hover:text-amber-200 hover:bg-toolBg cursor-pointer'/>
-        <RotateLeftRoundedIcon className='ml-1 rounded-2xl hover:text-amber-200 hover:bg-toolBg cursor-pointer'/>
-        <FormatColorTextRoundedIcon className='ml-1 rounded-2xl hover:text-amber-200 hover:bg-toolBg cursor-pointer'/>
-        <AspectRatioRoundedIcon className='ml-1 rounded-2xl hover:text-amber-200 hover:bg-toolBg cursor-pointer'/>
-        <AddToPhotosRoundedIcon className='ml-1 rounded-2xl hover:text-amber-200 hover:bg-toolBg cursor-pointer'/>
-        <DownloadRoundedIcon className='ml-1 rounded-2xl hover:text-amber-200 hover:bg-toolBg cursor-pointer'/>
+    <div className='ToolBar h-128 w-fit px-2 bg-[#131314] grid grid-cols-1 border-r-2 border-slate-700 mr-auto'>
+      <div className='Cut mx-auto mt-2 rounded-2xl hover:text-amber-200 hover:bg-toolBg cursor-pointer h-fit w-fit p-2 flex flex-col justify-center' onClick={setActiveTool}>
+        <CropIcon className='mx-auto'/>
+        <p>Cut</p>
+      </div>
+      <div className='Filters mx-auto mt-2 rounded-2xl hover:text-amber-200 hover:bg-toolBg cursor-pointer h-fit w-fit p-2 flex flex-col justify-center' onClick={setActiveTool}>
+        <TuneIcon className='mx-auto'/>
+        <p>Filters</p>
+      </div>
+      <div className='Colors mx-auto mt-2 rounded-2xl hover:text-amber-200 hover:bg-toolBg cursor-pointer h-fit w-fit p-2 flex flex-col justify-center' onClick={setActiveTool}>
+        <PaletteRoundedIcon className='mx-auto'/>
+        <p>Colors</p>
+      </div>
+      <div className='Draw mx-auto mt-2 rounded-2xl hover:text-amber-200 hover:bg-toolBg cursor-pointer h-fit w-fit p-2 flex flex-col justify-center' onClick={setActiveTool}>
+        <BrushIcon className='mx-auto'/>
+        <p>Draw</p>
+      </div>
+      <div className='Rotate mx-auto mt-2 rounded-2xl hover:text-amber-200 hover:bg-toolBg cursor-pointer h-fit w-fit p-2 flex flex-col justify-center' onClick={setActiveTool}>
+        <RotateLeftRoundedIcon className='mx-auto'/>
+        <p>Rotate</p>
+      </div>
+      <div className='Text mx-auto mt-2 rounded-2xl hover:text-amber-200 hover:bg-toolBg cursor-pointer h-fit w-fit p-2 flex flex-col justify-center' onClick={setActiveTool}>
+        <FormatColorTextRoundedIcon className='mx-auto'/>
+        <p>Text</p>
+      </div>
+      <div className='Resize mx-auto mt-2 rounded-2xl hover:text-amber-200 hover:bg-toolBg cursor-pointer h-fit w-fit p-2 flex flex-col justify-center' onClick={setActiveTool}>
+        <AspectRatioRoundedIcon className='mx-auto'/>
+        <p>Resize</p>
+      </div>
+      <div className='Image mx-auto mt-2 rounded-2xl hover:text-amber-200 hover:bg-toolBg cursor-pointer h-fit w-fit p-2 flex flex-col justify-center' onClick={setActiveTool}>
+        <AddToPhotosRoundedIcon className='mx-auto'/>
+        <p>Image</p>
+      </div>
+      <div className='Download mx-auto mt-2 rounded-2xl hover:text-amber-200 hover:bg-toolBg cursor-pointer h-fit w-fit p-2 flex flex-col justify-center' onClick={() => console.log("download")}>
+        <DownloadRoundedIcon className='mx-auto'/>
+        <p className='hidden'>Download</p>
+      </div>
     </div>
   )
 }

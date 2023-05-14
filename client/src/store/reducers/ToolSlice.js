@@ -3,22 +3,22 @@ import { createSlice } from '@reduxjs/toolkit';
 const toolSlice = createSlice({
     name: 'tool',
     initialState: { 
-        tools: ['cut', 'filters', 'colors', 'draw', 'rotate', 'text', 'resize', 'image'], 
+        tools: ['Cut', 'Filters', 'Colors', 'Draw', 'Rotate', 'Text', 'Resize', 'Image'], 
         downTools: [
         {
-            name: 'cut',
-            curFormat: 'custom',
+            name: 'Cut',
+            curFormat: 'Custom',
             position: '',
-            formats: ['custom', '1:1', '3:2', '4:3', '5:4', '7:5', '16:9']
+            formats: ['Custom', '1:1', '3:2', '4:3', '5:4', '7:5', '16:9']
         }, 
         {
-            name: 'filters',
-            curFilter: 'default',
-            filters: ['default', 'chrome', 'fade', 'cold', 'warm', 'mono', 'stark', 'sepia', 'rust']
+            name: 'Filters',
+            curFilter: 'Default',
+            filters: ['Default', 'Chrome', 'Fade', 'Cold', 'Warm', 'Mono', 'Stark', 'Sepia', 'Rust']
 
         }, 
         {
-            name: 'colors',
+            name: 'Colors',
             curSetting: null,
             filters: [
                 {
@@ -55,17 +55,17 @@ const toolSlice = createSlice({
                 }]
         }, 
         {
-            name: 'draw',
+            name: 'Draw',
             curTool: 'free',
             curColor: 'rgba(0,0,0,0,0)',
             tools: ['free', 'straight', 'arrow', 'triangle', 'rectangle', 'circle']
         }, 
         {
-            name: 'rotate',
+            name: 'Rotate',
             value: 180,
         }, 
         {
-            name: 'text',
+            name: 'Text',
             curFont: 'arial',
             curPosition: 'left',
             curColor: 'rgba(0,0,0,0,0)',
@@ -74,12 +74,12 @@ const toolSlice = createSlice({
             position: ['left', 'center', 'right'],
         }, 
         {
-            name: 'resize',
+            name: 'Resize',
             height: 1080,
             width: 1920
         }, 
         {
-            name: 'image',
+            name: 'Image',
             curOpt: 'add',
             options: ['add', 'generate']
         }], 

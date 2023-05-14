@@ -1,7 +1,7 @@
 import React from 'react'
 import ToolBar from '../components/ToolBar'
 import Canvas from '../components/Canvas'
-import DownBar from '../components/ColorDownBar'
+import DownBar from '../components/DownBar'
 
 const Studio = () => {
   return (
