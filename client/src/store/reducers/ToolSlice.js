@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import jwt_decode from "jwt-decode";
 
 const toolSlice = createSlice({
     name: 'tool',
     initialState: { 
         tools: ['cut', 'filters', 'colors', 'draw', 'rotate', 'text', 'resize', 'image'], 
-        downTools: [{
+        downTools: [
+        {
             name: 'cut',
             curFormat: 'custom',
             position: '',
@@ -19,39 +19,39 @@ const toolSlice = createSlice({
         }, 
         {
             name: 'colors',
-            curSetting: 'brightness',
+            curSetting: null,
             filters: [
                 {
-                    name:'brightness',
+                    name:'Brightness',
                     value: 100
                 }, 
                 {
-                    name:'contrast',
+                    name:'Contrast',
                     value: 100
                 }, 
                 {
-                    name:'saturation',
+                    name:'Saturation',
                     value: 100
                 }, 
                 {
-                    name:'exposure',
-                    value: 100
+                    name:'Grayscale',
+                    value: 0
                 }, 
                 {
-                    name:'temperature',
-                    value: 100
+                    name:'Blur',
+                    value: 0
                 }, 
                 {
-                    name:'gamma',
-                    value: 100
+                    name:'Sepia',
+                    value: 0
                 }, 
                 {
-                    name:'clarity',
-                    value: 100
+                    name:'Invert',
+                    value: 0
                 }, 
                 {
-                    name:'vingette',
-                    value: 100
+                    name:'Hue-rotate',
+                    value: 0
                 }]
         }, 
         {
@@ -87,16 +87,17 @@ const toolSlice = createSlice({
         curDownTool: null, 
     },
     reducers: {
-        // setTool: (state, action) => {
-        //     state.curTool = jwt_token;
-        //     state.currDownTool = true;
-        //     state.id = id;
-        //     state.confirmed = confirmed;
-        //     console.log("data refreshed")
-        //     state.role = role;
-        // }
+        setTool: (state, action) => {
+            state.curTool = action.payload.curTool;
+        },
+        setDownTool: (state, action) => {
+            state.curDownTool = action.payload.curDownTool;
+        },
+        setValues: (state, action) => {
+            state.downTools[action.payload.toolIndex] = action.payload.values;
+        }
     }
 })
-export const { setCredentials, logOut } = toolSlice.actions;
+export const { setTool, setDownTool, setValues } = toolSlice.actions;
 
 export default toolSlice.reducer;

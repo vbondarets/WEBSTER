@@ -13,7 +13,7 @@ const Navbar = () => {
 
     return (
         <div>
-            <nav class ="dark:bg-indigo-900 w-full z-20 top-0 left-0 border-b border-yellow-400 dark:border-yellow-400">
+            <nav className ="dark:bg-indigo-900 w-full z-20 top-0 left-0 border-b border-yellow-400 dark:border-yellow-400">
                 <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                     <Link
                         to={"/"}
