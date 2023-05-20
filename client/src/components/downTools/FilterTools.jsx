@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, {useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import ImageRoundedIcon from '@mui/icons-material/ImageRounded';
 import { setFilter } from "../../store/reducers/ToolSlice";
@@ -12,27 +12,33 @@ const FilterTools = () => {
         e.currentTarget.classList = [`${filter} filters h-5/6 w-20 text-amber-200  border border-mainFontColor rounded-2xl cursor-pointer flex flex-col justify-center items-center content-center`]
         dispatch(setFilter({filter}))
     }
-    useEffect(() => {
-        // console.log(filtersBar.current.childNodes)
-        filtersBar.current.childNodes.forEach((filter) => {
-            if(filter.classList[0] === downTools[1].curFilter){
-                filter.classList = [`${filter.classList[0]} filters h-5/6 w-20 text-amber-200  border border-mainFontColor rounded-2xl cursor-pointer flex flex-col justify-center items-center content-center`]
-            }
-        })
-    }, [])
     return (
         <div ref={filtersBar} className='filterTool w-fit h-full mt-1 font-sans flex flex-row space-x-6 mx-auto'>
-            {downTools[1].filters.map(filter => {
-                return <div
-                    key={filter}
-                    className={`${filter} filters h-5/6 w-20 hover:text-amber-200 hover:bg-[#333042] rounded-2xl cursor-pointer flex flex-col justify-center items-center content-center`}
-                    onClick={(e) => {chooseHandler(e, filter)}}
-                >
-                    <div className='imageContainer w-fit h-2/3 mt-1'>
-                        <ImageRoundedIcon/>
-                    </div>
-                    <p className='mb-1'>{filter}</p>
-                </div>
+            {downTools[1].filters.map((filter, index) => {
+                if(downTools[1].filters[index] === downTools[1].curFilter){
+                    return <div
+                        key={filter}
+                        className={`${filter} filters h-5/6 w-20 text-amber-200  border border-mainFontColor rounded-2xl cursor-pointer flex flex-col justify-center items-center content-center`}
+                        onClick={(e) => {chooseHandler(e, filter)}}
+                    >
+                        <div className='imageContainer w-fit h-2/3 mt-1'>
+                            <ImageRoundedIcon/>
+                        </div>
+                        <p className='mb-1'>{filter}</p>
+                    </div> 
+                }
+                else {
+                    return <div
+                        key={filter}
+                        className={`${filter} filters h-5/6 w-20 hover:text-amber-200 hover:bg-[#333042] rounded-2xl cursor-pointer flex flex-col justify-center items-center content-center`}
+                        onClick={(e) => {chooseHandler(e, filter)}}
+                    >
+                        <div className='imageContainer w-fit h-2/3 mt-1'>
+                            <ImageRoundedIcon/>
+                        </div>
+                        <p className='mb-1'>{filter}</p>
+                    </div> 
+                }
             })}
         </div>
     )
