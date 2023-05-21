@@ -57,7 +57,7 @@ const toolSlice = createSlice({
         {
             name: 'Draw',
             curTool: 'free',
-            curColor: 'rgba(0,0,0,0,0)',
+            curColor: {rgb: {r: 0, g: 0, b: 0,a: 1}},
             tools: ['free', 'straight', 'arrow', 'triangle', 'rectangle', 'circle']
         }, 
         {
@@ -68,7 +68,7 @@ const toolSlice = createSlice({
             name: 'Text',
             curFont: 'arial',
             curPosition: 'left',
-            curColor: 'rgba(0,0,0,0,0)',
+            curColor: {rgb: {r: 0, g: 0, b: 0,a: 1}},
             size: 20,
             fonts: ['arial', 'helvetica', 'tnr', 'futura', 'rockwell'],
             position: ['left', 'center', 'right'],
@@ -104,8 +104,11 @@ const toolSlice = createSlice({
         setFilter: (state, action) => {
             state.downTools[1].curFilter = action.payload.filter;
         },
+        setDrawColor: (state, action) => {
+            state.downTools[3].curColor = action.payload.color;
+        },
     }
 })
-export const { setTool, setDownTool, setValues, setFilter, setFormat } = toolSlice.actions;
+export const { setTool, setDownTool, setValues, setFilter, setFormat, setDrawColor } = toolSlice.actions;
 
 export default toolSlice.reducer;
