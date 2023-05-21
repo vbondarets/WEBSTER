@@ -1,5 +1,5 @@
 import { Slider } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setDownTool, setValues } from "../../store/reducers/ToolSlice";
 
@@ -9,33 +9,22 @@ const ColorTools = () => {
     const { downTools, curDownTool } = useSelector(
         (state) => state.toolReducer
     );
-    const [value, setValue] = useState(100);
 
     const setActive = (e, filter) => {
         dispatch(setDownTool({ curDownTool: filter.name }));
-        dispatch(
-            setValues({
-                toolIndex: 2,
-                values: {
-                    curSetting: filter.name,
-                    name: "colors",
-                    filters: downTools[2].filters,
-                },
-            })
-        );
-        setValue(filter.value);
+        setFilterValues(filter.name);
     };
 
-    const handleChange = async (e, newValue) => {
-        setValue(newValue);
+    const setFilterValues = (curFilter, newValue) => {
+        console.log(curFilter, curDownTool, newValue);
         dispatch(
             setValues({
                 toolIndex: 2,
                 values: {
-                    curSetting: curDownTool,
+                    curSetting: curFilter,
                     name: "colors",
                     filters: downTools[2].filters.map((filter) =>
-                        filter.name === curDownTool
+                        newValue !== undefined && filter.name === curDownTool
                             ? { ...filter, value: newValue }
                             : filter
                     ),
@@ -43,15 +32,6 @@ const ColorTools = () => {
             })
         );
     };
-    useEffect(() => {
-        if (downTools[2].curSetting) {
-            downTools[2].filters.forEach((filter) => {
-                if (filter.name === downTools[2].curSetting) {
-                    setValue(filter.value);
-                }
-            });
-        }
-    }, [downTools]);
 
     return (
         <div className="colorTool">
@@ -59,13 +39,19 @@ const ColorTools = () => {
                 {curDownTool != null && (
                     <Slider
                         aria-label="discrete-slider"
-                        value={value}
+                        value={
+                            downTools[2].filters.find(
+                                (x) => x.name === downTools[2].curSetting
+                            )?.value
+                        }
                         valueLabelDisplay="auto"
                         step={5}
                         marks={true}
                         min={0}
                         max={200}
-                        onChange={handleChange}
+                        onChange={(e, newValue) => {
+                            setFilterValues(curDownTool, newValue);
+                        }}
                     />
                 )}
             </div>
