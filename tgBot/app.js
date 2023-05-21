@@ -177,61 +177,63 @@ const midjourney_request = async (userId, ctx, prompt) => {
     try {
         const tnl = new TNL(process.env.TNL_AUTH_TOKEN);
 
-        let botMessage_1 = await ctx.reply(code(`Your image in progress ...`));
-        const my_interval_1 = points_change(botMessage_1, ctx);
+        var botMessage_1 = await ctx.reply(code(`Your image in progress ...`));
+        var my_interval_1 = points_change(botMessage_1, ctx);
 
         const tnl_request = await tnl.imagine(prompt, { userId, chatId: ctx.chat.id, prompt }, 'https://webster.pp.ua/api/images');
-        console.log(tnl_request);
 
         await new Promise((resolve) => {
             setTimeout(resolve, 3000);
         });
 
-        let botMessage_2 = await ctx.reply(code(`Progress 0%`));
+        var botMessage_2 = await ctx.reply(code(`Progress 0%`));
         let back_progress = 0;
-        const my_interval_2 = setInterval(async () => {
-            try {
-                const { progress, response } = await tnl.getMessageAndProgress(tnl_request.messageId);
-                if (back_progress != progress) {
-                    botMessage_2.text = `Progress ${progress}%`;
-                    await edit(ctx, botMessage_2, true);
-                }
-                back_progress = progress;
-                if (progress === 100) {
-                    clearInterval(my_interval_1);
-                    clearInterval(my_interval_2);
-
-                    await ctx.deleteMessage(botMessage_2.message_id);
-
-                    if (response.imageUrl) {
-                        botMessage_1.text = `Your image:`;
-                        await edit(ctx, botMessage_1);
-
-                        const imageFilePath = await downloadImage(response.imageUrl, userId);
-
-                        const fileType = imageFilePath.split('.').pop();
-                        await ctx.telegram.sendPhoto(ctx.chat.id, {
-                            source: imageFilePath,
-                            filename: `${ctx.message.from.first_name}.${fileType}`
-                        });
-
-                        await ctx.telegram.sendDocument(ctx.chat.id, {
-                            source: imageFilePath,
-                            filename: `${ctx.message.from.first_name}.${fileType}`
-                        });
-                        removeFile(imageFilePath);
-                    }
-                }
-            } catch (error) {
-                console.log(error);
+        var my_interval_2 = setInterval(async () => {
+            const { progress, response } = await tnl.getMessageAndProgress(tnl_request.messageId, 3);
+            if (back_progress != progress) {
+                botMessage_2.text = `Progress ${progress}%`;
+                await edit(ctx, botMessage_2, true);
+            }
+            back_progress = progress;
+            if (progress === 'incomplete')
+                throw response;
+            if (progress === 100) {
                 clearInterval(my_interval_1);
                 clearInterval(my_interval_2);
+
                 await ctx.deleteMessage(botMessage_2.message_id);
-                botMessage_1.text = error.response.data;
-                await edit(ctx, botMessage_1);
+
+                if (response.imageUrl) {
+                    botMessage_1.text = `Your image:`;
+                    await edit(ctx, botMessage_1);
+
+                    const imageFilePath = await downloadImage(response.imageUrl, userId);
+
+                    const fileType = imageFilePath.split('.').pop();
+                    await ctx.telegram.sendPhoto(ctx.chat.id, {
+                        source: imageFilePath,
+                        filename: `${ctx.message.from.first_name}.${fileType}`
+                    });
+
+                    await ctx.telegram.sendDocument(ctx.chat.id, {
+                        source: imageFilePath,
+                        filename: `${ctx.message.from.first_name}.${fileType}`
+                    });
+                    removeFile(imageFilePath);
+                }
             }
         }, 1500);
     } catch (error) {
-        console.log(error);
+        clearInterval(my_interval_1);
+        clearInterval(my_interval_2);
+        if (botMessage_2) {
+            await ctx.deleteMessage(botMessage_2.message_id);
+        }
+        if (error.response.hasOwnProperty('data')) {
+            botMessage_1.text = `Ban word: ${error.response.data.phrase}`;
+            await edit(ctx, botMessage_1);
+        } else {
+            console.log(error)
+        }
     }
 }
