@@ -34,7 +34,7 @@ const ColorTools = () => {
     };
 
     return (
-        <div className="colorTool">
+        <>
             <div className="w-3/6 mx-auto">
                 {curDownTool != null && (
                     <Slider
@@ -57,7 +57,7 @@ const ColorTools = () => {
             </div>
             <div
                 ref={colorsBar}
-                className="colorsBar w-fit mt-1 mx-auto font-sans flex space-x-24"
+                className="flex gap-3 justify-center mt-1 font-sans"
             >
                 {downTools[2].filters.map((filter) => {
                     return (
@@ -66,7 +66,7 @@ const ColorTools = () => {
                             className={`${
                                 filter.name === downTools[2].curSetting &&
                                 "text-amber-200 border border-mainFontColor"
-                            } colors p-2 h-fit hover:text-amber-200 hover:bg-[#333042] rounded-2xl cursor-pointer`}
+                            } flex items-center justify-center px-4 h-10 select-none hover:text-amber-200 hover:bg-[#333042] rounded-2xl cursor-pointer`}
                             onClick={(e) => {
                                 setActive(e, filter);
                             }}
@@ -76,7 +76,7 @@ const ColorTools = () => {
                     );
                 })}
             </div>
-        </div>
+        </>
     );
 };
 

@@ -11,7 +11,7 @@ const DownBar = () => {
   const { curTool } = useSelector((state) => state.toolReducer);
   
   return (
-    <div className='h-24 w-full bg-[#131314] border-t-2 border-slate-700 flex flex-col'>
+    <div className='flex flex-col items-center justify-center h-24 w-full z-20 bg-[#131314] border-t-2 border-slate-700'>
       {
         {
           'Cut': <CutTools/>,

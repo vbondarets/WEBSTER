@@ -24,10 +24,11 @@ const Canvas = () => {
     }, [applyFilter]);
 
     return (
-        <div className="Canvas w-full bg-[#131314]">
+        <div className="flex justify-center items-center w-full bg-[#131314]">
             {previewImg && (
                 <img
                     src={previewImg}
+                    className="z-0 m-5"
                     alt="preview"
                     ref={previewImgRef}
                     onLoad={applyFilter}
