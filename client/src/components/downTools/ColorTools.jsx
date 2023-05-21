@@ -67,7 +67,7 @@ const ColorTools = () => {
             })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [downTools])
 
     return (
         <div className='colorTool'>
