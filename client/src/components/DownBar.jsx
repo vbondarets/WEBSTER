@@ -5,6 +5,7 @@ import FilterTools from './downTools/FilterTools';
 import CutTools from './downTools/CutTools';
 import DrawTool from './downTools/DrawTools';
 import TextTools from './downTools/TextTools';
+import RotateTools from './downTools/RotateTools';
 
 const DownBar = () => {
   const { curTool } = useSelector((state) => state.toolReducer);
@@ -17,7 +18,7 @@ const DownBar = () => {
           'Filters':<FilterTools/>,
           'Colors': <ColorTools/>,
           'Draw': <DrawTool/>,
-          'Rotate':<p>rotate</p>,
+          'Rotate':<RotateTools/>,
           'Text': <TextTools/>,
           'Resize': <p>resize</p>,
           'Image':<p>image</p>,
