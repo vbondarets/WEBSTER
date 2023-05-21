@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { HuePicker, AlphaPicker } from 'react-color'
 import { useSelector } from 'react-redux';
 import { TbArrowWaveRightUp } from "react-icons/tb";
@@ -25,7 +25,7 @@ const DrawTool = () => {
   <BsSquareFill />,
   <BsFillCircleFill />
   ]
-  
+
   const { downTools } = useSelector((state) => state.toolReducer);
   const dispatch = useDispatch();
 
@@ -33,10 +33,8 @@ const DrawTool = () => {
     dispatch(setDrawColor({ color }))
   }
 
-
   return (
     <div className='drawTools flex flex-row w-fit h-full mt-1 font-sans mx-auto space-x-6'>
-      {console.log(color)}
       {downTools[3].tools.map((tool, index) => {
         return <div
           key={tool}
