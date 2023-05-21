@@ -106,6 +106,10 @@ const toolSlice = createSlice({
             state.downTools[0].curFormat = action.payload.format;
             console.log(state.downTools[0].curFormat)
         },
+        setRotate: (state, action) => {
+            state.downTools[4].value = action.payload.value;
+            console.log(state.downTools[4].value);
+        },
         setFilter: (state, action) => {
             state.downTools[1].curFilter = action.payload.filter;
         },
@@ -114,6 +118,6 @@ const toolSlice = createSlice({
         },
     }
 })
-export const { setTool, setDownTool, setValues, setFilter, setFormat, setDrawColor, setPreviewImg } = toolSlice.actions;
+export const { setTool, setDownTool, setValues, setFilter, setFormat, setDrawColor, setPreviewImg, setRotate } = toolSlice.actions;
 
 export default toolSlice.reducer;
