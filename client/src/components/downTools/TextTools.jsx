@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -18,7 +18,7 @@ const TextTools = () => {
     const { downTools } = useSelector((state) => state.toolReducer);
     const dispatch = useDispatch();
     const positionArr =[<FormatAlignLeftIcon/>, <FormatAlignCenterIcon/>, <FormatAlignRightIcon/>]
-    const [num, setNum] = useState(20);
+    // const [num, setNum] = useState(20);
 
     return (
         <div className='textTools flex flex-row w-fit h-full mt-1 font-sans mx-auto space-x-6'>

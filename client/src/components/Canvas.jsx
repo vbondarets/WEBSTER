@@ -1,8 +1,17 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import ReactCrop from "react-image-crop";
+import { FileUploader } from "react-drag-drop-files";
 import "react-image-crop/dist/ReactCrop.css";
-import { setPosition } from "../store/reducers/ToolSlice";
+import {
+    setImage,
+    setPosition,
+    setPreviewImg,
+} from "../store/reducers/ToolSlice";
+
+const fileTypes = ["JPG", "PNG"];
+
 const Canvas = () => {
     const { downTools, image, previewImg, curTool } = useSelector(
         (state) => state.toolReducer
@@ -27,10 +36,15 @@ const Canvas = () => {
             applyFilter();
         }
     }, [applyFilter]);
-    
+
+    const loadImage = (file) => {
+        dispatch(setPreviewImg({ previewImg: URL.createObjectURL(file) }));
+        dispatch(setImage({ image: URL.createObjectURL(file) }));
+    };
+
     return (
         <div className="flex justify-center items-center p-5 w-full bg-[#131314]">
-            {previewImg && image && (
+            {previewImg && image ? (
                 <>
                     {curTool === "Cut" ? (
                         <ReactCrop
@@ -57,6 +71,29 @@ const Canvas = () => {
                         />
                     )}
                 </>
+            ) : (
+                <div class="flex items-center justify-center w-full">
+                    <FileUploader
+                        handleChange={loadImage}
+                        name="file"
+                        types={fileTypes}
+                        children={
+                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                <CloudUploadOutlinedIcon fontSize="large" />
+                                <p class="mb-2 text-sm">
+                                    <span class="font-semibold">
+                                        Click to upload
+                                    </span>
+                                    <span> or drag and drop</span>
+                                </p>
+                                <p class="text-xs">
+                                    SVG, PNG, JPG or GIF (MAX. 800x400px)
+                                </p>
+                            </div>
+                        }
+                        classes="flex flex-col items-center justify-center w-1/2 xl:w-1/3 min-w-[250px] h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer hover:bg-gray-100/10"
+                    />
+                </div>
             )}
         </div>
     );

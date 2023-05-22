@@ -10,6 +10,7 @@ import AddToPhotosRoundedIcon from "@mui/icons-material/AddToPhotosRounded";
 import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 import { useDispatch, useSelector } from "react-redux";
 import { setImage, setPreviewImg, setTool } from "../store/reducers/ToolSlice";
+import saveImage from "../services/utils/saveImage";
 
 const buttons = [
     { name: "Cut", icon: <CropIcon className="mx-auto" /> },
@@ -37,46 +38,7 @@ const ToolBar = () => {
         if (!file) return;
         dispatch(setPreviewImg({ previewImg: URL.createObjectURL(file) }));
         dispatch(setImage({ image: URL.createObjectURL(file) }));
-        console.log("tet");
         // resetFilter();
-    };
-
-    const saveImage = () => {
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-        const image = new Image();
-        image.onload = () => {
-            canvas.width = image.naturalWidth;
-            canvas.height = image.naturalHeight;
-
-            ctx.filter = `${downTools[2].filters[0].name}(${downTools[2].filters[0].value}%) 
-                ${downTools[2].filters[1].name}(${downTools[2].filters[1].value}%) 
-                ${downTools[2].filters[2].name}(${downTools[2].filters[2].value}%)
-                ${downTools[2].filters[3].name}(${downTools[2].filters[3].value}%)
-                ${downTools[2].filters[4].name}(${downTools[2].filters[4].value}px)
-                ${downTools[2].filters[5].name}(${downTools[2].filters[5].value}%)
-                ${downTools[2].filters[6].name}(${downTools[2].filters[6].value}%)
-                ${downTools[2].filters[7].name}(${downTools[2].filters[7].value}deg)`;
-            ctx.translate(canvas.width / 2, canvas.height / 2);
-            if (downTools[4].value !== 0) {
-                ctx.rotate((downTools[4].value * Math.PI) / 180);
-            }
-            // ctx.scale(flipHorizontal, flipVertical);
-            ctx.drawImage(
-                image,
-                -canvas.width / 2,
-                -canvas.height / 2,
-                canvas.width,
-                canvas.height
-            );
-
-            const link = document.createElement("a");
-            link.download = "image.jpg";
-            link.href = canvas.toDataURL();
-            link.click();
-        };
-
-        image.src = previewImg;
     };
 
     return (
@@ -113,7 +75,9 @@ const ToolBar = () => {
             </div>
             <div
                 className="flex flex-col items-center justify-center h-16 w-16 rounded-2xl hover:text-amber-200 hover:bg-toolBg/90 cursor-pointer"
-                onClick={saveImage}
+                onClick={() => {
+                    saveImage(previewImg, downTools);
+                }}
             >
                 <DownloadRoundedIcon className="mx-auto" />
                 <p className="hidden">Download</p>
