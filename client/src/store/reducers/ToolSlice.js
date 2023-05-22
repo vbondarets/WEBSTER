@@ -130,6 +130,6 @@ const toolSlice = createSlice({
         },
     }
 })
-export const { setTool, setDownTool, setValues, setFilter, setFormat, setDrawColor, setImage, setRotate, setPosition, setDrawTool } = toolSlice.actions;
+export const { setTool, setDownTool, setValues, setFilter, setFormat, setDrawColor, setImage, setRotate, setPosition, setPreviewImg, setDrawTool } = toolSlice.actions;
 
 export default toolSlice.reducer;
