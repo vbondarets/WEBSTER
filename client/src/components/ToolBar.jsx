@@ -9,7 +9,7 @@ import AspectRatioRoundedIcon from "@mui/icons-material/AspectRatioRounded";
 import AddToPhotosRoundedIcon from "@mui/icons-material/AddToPhotosRounded";
 import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 import { useDispatch, useSelector } from "react-redux";
-import { setPreviewImg, setTool } from "../store/reducers/ToolSlice";
+import { setImage, setPreviewImg, setTool } from "../store/reducers/ToolSlice";
 
 const buttons = [
     { name: "Cut", icon: <CropIcon className="mx-auto" /> },
@@ -33,10 +33,10 @@ const ToolBar = () => {
     };
 
     const loadImage = (e) => {
-        console.log("tet");
         const file = e.target.files[0];
         if (!file) return;
         dispatch(setPreviewImg({ previewImg: URL.createObjectURL(file) }));
+        dispatch(setImage({ image: URL.createObjectURL(file) }));
         console.log("tet");
         // resetFilter();
     };

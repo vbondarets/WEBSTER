@@ -38,7 +38,7 @@ const DrawTool = () => {
       {downTools[3].tools.map((tool, index) => {
         return <div
           key={tool}
-          className={`${tool} ${tool === downTools[3].curTool && "text-amber-200 border border-mainFontColor"}tools h-5/6 w-20 rounded-2xl cursor-pointer flex flex-col justify-center items-center hover:text-amber-200 hover:bg-[#333042] content-center`}
+          className={`${tool} ${tool === downTools[3].curTool && "text-amber-200 border border-mainFontColor"} h-5/6 w-20 rounded-2xl cursor-pointer flex flex-col justify-center items-center hover:text-amber-200 hover:bg-[#333042] content-center`}
           onClick={(e) => { dispatch(setDrawTool({tool}))}}
         >
           {iconsArr[index]}
