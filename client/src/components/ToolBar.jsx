@@ -9,7 +9,7 @@ import AspectRatioRoundedIcon from "@mui/icons-material/AspectRatioRounded";
 import AddToPhotosRoundedIcon from "@mui/icons-material/AddToPhotosRounded";
 import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 import { useDispatch, useSelector } from "react-redux";
-import { setPreviewImg, setTool } from "../store/reducers/ToolSlice";
+import { setImage, setPreviewImg, setTool } from "../store/reducers/ToolSlice";
 
 const buttons = [
     { name: "Cut", icon: <CropIcon className="mx-auto" /> },
@@ -36,6 +36,7 @@ const ToolBar = () => {
         const file = e.target.files[0];
         if (!file) return;
         dispatch(setPreviewImg({ previewImg: URL.createObjectURL(file) }));
+        dispatch(setImage({ image: URL.createObjectURL(file) }));
         console.log("tet");
         // resetFilter();
     };
@@ -82,6 +83,7 @@ const ToolBar = () => {
         <div className="flex flex-col gap-1 items-center p-1 text-sm z-20 bg-[#131314] border-r-2 border-slate-700">
             {buttons.map((value) => (
                 <div
+                    key={value.name}
                     className={`${
                         curTool === value.name && "bg-toolBg text-amber-200"
                     } flex flex-col items-center justify-center h-16 w-16 rounded-2xl hover:text-amber-200 hover:bg-toolBg/90 cursor-pointer`}

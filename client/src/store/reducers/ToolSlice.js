@@ -5,11 +5,12 @@ const toolSlice = createSlice({
     initialState: { 
         tools: ['Cut', 'Filters', 'Colors', 'Draw', 'Rotate', 'Text', 'Resize', 'Image'], 
         previewImg: null,
+        image: null,
         downTools: [
         {
             name: 'Cut',
             curFormat: 'Custom',
-            position: '',
+            position: {x: 0, y: 0, width: 0, height: 0, unit: 'px'},
             formats: ['Custom', '1:1', '3:2', '4:3', '5:4', '7:5', '16:9']
         }, 
         {
@@ -96,7 +97,14 @@ const toolSlice = createSlice({
         },
         setPreviewImg: (state, action) => {
             state.previewImg = action.payload.previewImg;
-            console.log(state.previewImg)
+            // console.log(action.payload)
+        },
+        setImage: (state, action) => {
+            state.image = action.payload.image;
+            console.log(state.image)
+        },
+        setPosition: (state, action) => {
+            state.downTools[0].position = action.payload;
         },
         setValues: (state, action) => {
             state.downTools[action.payload.toolIndex] = action.payload.values;
@@ -118,6 +126,6 @@ const toolSlice = createSlice({
         },
     }
 })
-export const { setTool, setDownTool, setValues, setFilter, setFormat, setDrawColor, setPreviewImg, setRotate } = toolSlice.actions;
+export const { setTool, setDownTool, setValues, setFilter, setFormat, setDrawColor, setPreviewImg, setImage, setRotate, setPosition } = toolSlice.actions;
 
 export default toolSlice.reducer;
