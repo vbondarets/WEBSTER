@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -12,15 +12,17 @@ import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
 import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
 import FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';
 import { setFontPosition } from '../../store/reducers/ToolSlice';
+import { setFontSize } from '../../store/reducers/ToolSlice';
 
 const TextTools = () => {
     const { downTools } = useSelector((state) => state.toolReducer);
     const dispatch = useDispatch();
     const positionArr =[<FormatAlignLeftIcon/>, <FormatAlignCenterIcon/>, <FormatAlignRightIcon/>]
+    const [num, setNum] = useState(20);
 
     return (
         <div className='textTools flex flex-row w-fit h-full mt-1 font-sans mx-auto space-x-6'>
-            <div className='fontChange'>
+            <div className='fontChange my-auto'>
                 <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
                     <InputLabel style={{ color: "rgb(112, 160, 203)" }} className=' text-mainFontColor '>Font</InputLabel>
                     <Select
@@ -41,6 +43,25 @@ const TextTools = () => {
                     </Select>
                 </FormControl>
             </div>
+            <input 
+                type="number" 
+                className='bg-transparent w-16 p-2 h-fit border rounded-xl border-mainFontColor my-auto'
+                placeholder="Size"
+                value={downTools[5].size}
+                min={1}
+                max={99}
+                onChange={(event) => {
+                    if(event.target.value > 99){
+                        dispatch(setFontSize({size: 99}))
+                    }
+                    else if(event.target.value < 1){
+                        dispatch(setFontSize({size: 1}))
+                    }
+                    else {
+                        dispatch(setFontSize({size: event.target.value}))
+                    }
+                }}
+            />
             {downTools[5].positions.map((position, index) => {
                 return <div
                         key={position}

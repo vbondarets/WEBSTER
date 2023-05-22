@@ -136,9 +136,12 @@ const toolSlice = createSlice({
         setFontPosition: (state, action) => {
             state.downTools[5].curPosition = action.payload.position;
         },
+        setFontSize: (state, action) => {
+            state.downTools[5].size = action.payload.size;
+        },
     }
 })
 
-export const { setTool, setDownTool, setValues, setFilter, setFormat, setDrawColor, setPreviewImg, setRotate, setDrawTool, setFont, setFontColor, setFontPosition, setImage, setPosition } = toolSlice.actions;
+export const { setTool, setDownTool, setValues, setFilter, setFormat, setDrawColor, setPreviewImg, setRotate, setDrawTool, setFont, setFontColor, setFontPosition, setImage, setPosition, setFontSize } = toolSlice.actions;
 
 export default toolSlice.reducer;
