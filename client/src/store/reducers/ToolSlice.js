@@ -67,12 +67,12 @@ const toolSlice = createSlice({
         }, 
         {
             name: 'Text',
-            curFont: 'arial',
+            curFont: 'Arial',
             curPosition: 'left',
             curColor: {rgb: {r: 0, g: 0, b: 0,a: 1}},
             size: 20,
-            fonts: ['arial', 'helvetica', 'tnr', 'futura', 'rockwell'],
-            position: ['left', 'center', 'right'],
+            fonts: ['Arial', 'Helvetica', 'TNR', 'Futura', 'Rockwell'],
+            positions: ['left', 'center', 'right'],
         }, 
         {
             name: 'Resize',
@@ -118,10 +118,18 @@ const toolSlice = createSlice({
         },
         setDrawTool: (state, action) => {
             state.downTools[3].curTool = action.payload.tool;
-            console.log(state.downTools[3].curTool);
+        },
+        setFont: (state, action) => {
+            state.downTools[5].curFont = action.payload.font;
+        },
+        setFontColor: (state, action) => {
+            state.downTools[5].curColor = action.payload.color;
+        },
+        setFontPosition: (state, action) => {
+            state.downTools[5].curPosition = action.payload.position;
         },
     }
 })
-export const { setTool, setDownTool, setValues, setFilter, setFormat, setDrawColor, setPreviewImg, setRotate, setDrawTool } = toolSlice.actions;
+export const { setTool, setDownTool, setValues, setFilter, setFormat, setDrawColor, setPreviewImg, setRotate, setDrawTool, setFont, setFontColor, setFontPosition } = toolSlice.actions;
 
 export default toolSlice.reducer;
