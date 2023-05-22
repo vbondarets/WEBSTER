@@ -33,6 +33,7 @@ const ToolBar = () => {
     };
 
     const loadImage = (e) => {
+        console.log("tet");
         const file = e.target.files[0];
         if (!file) return;
         dispatch(setPreviewImg({ previewImg: URL.createObjectURL(file) }));
@@ -82,6 +83,7 @@ const ToolBar = () => {
         <div className="flex flex-col gap-1 items-center p-1 text-sm z-20 bg-[#131314] border-r-2 border-slate-700">
             {buttons.map((value) => (
                 <div
+                    key={value.name}
                     className={`${
                         curTool === value.name && "bg-toolBg text-amber-200"
                     } flex flex-col items-center justify-center h-16 w-16 rounded-2xl hover:text-amber-200 hover:bg-toolBg/90 cursor-pointer`}

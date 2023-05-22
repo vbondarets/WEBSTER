@@ -116,8 +116,12 @@ const toolSlice = createSlice({
         setDrawColor: (state, action) => {
             state.downTools[3].curColor = action.payload.color;
         },
+        setDrawTool: (state, action) => {
+            state.downTools[3].curTool = action.payload.tool;
+            console.log(state.downTools[3].curTool);
+        },
     }
 })
-export const { setTool, setDownTool, setValues, setFilter, setFormat, setDrawColor, setPreviewImg, setRotate } = toolSlice.actions;
+export const { setTool, setDownTool, setValues, setFilter, setFormat, setDrawColor, setPreviewImg, setRotate, setDrawTool } = toolSlice.actions;
 
 export default toolSlice.reducer;

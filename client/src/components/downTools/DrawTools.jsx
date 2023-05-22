@@ -9,7 +9,7 @@ import { BsSquareFill } from "react-icons/bs";
 import { BsFillCircleFill } from "react-icons/bs";
 import { useDispatch } from 'react-redux';
 import { setDrawColor } from "../../store/reducers/ToolSlice";
-
+import { setDrawTool } from "../../store/reducers/ToolSlice";
 
 const DrawTool = () => {
   const iconsArr = [<TbArrowWaveRightUp
@@ -38,8 +38,8 @@ const DrawTool = () => {
       {downTools[3].tools.map((tool, index) => {
         return <div
           key={tool}
-          className={`${tool} tools h-5/6 w-20 text-amber-200  border border-mainFontColor rounded-2xl cursor-pointer flex flex-col justify-center items-center content-center`}
-          onClick={(e) => { }}
+          className={`${tool} ${tool === downTools[3].curTool && "text-amber-200 border border-mainFontColor"}tools h-5/6 w-20 rounded-2xl cursor-pointer flex flex-col justify-center items-center hover:text-amber-200 hover:bg-[#333042] content-center`}
+          onClick={(e) => { dispatch(setDrawTool({tool}))}}
         >
           {iconsArr[index]}
         </div>
