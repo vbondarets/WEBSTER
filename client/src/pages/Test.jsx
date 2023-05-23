@@ -1,20 +1,22 @@
 import React from "react";
-import { userAPI } from "../services/UserService";
-import { useDispatch } from "react-redux";
-import { logOut } from "../store/reducers/UserSlice";
+import { FabricJSCanvas, useFabricJSEditor } from 'fabricjs-react'
 
 const Test = () => {
-    const dispatch = useDispatch();
-    const [logout] = userAPI.useLogoutMutation();
+    const { editor, onReady } = useFabricJSEditor()
+    const onAddCircle = () => {
+        editor?.addCircle()
+    }
+    const onAddRectangle = () => {
+        editor?.addRectangle()
+    }
+    const addText = () => {
+        editor?.addText("text")
+    }
     return (
-        <div
-            onClick={() => {
-                dispatch(logOut());
-                logout();
-            }}
-            className="bg-gray-300 rounded-md px-3 py-2"
-        >
-            logout
+        <div>
+            <button onClick={onAddCircle}>Add circle</button>
+            <button onClick={onAddRectangle}>Add Rectangle</button>
+            <FabricJSCanvas className="sample-canvas" onReady={onReady} />
         </div>
     );
 };

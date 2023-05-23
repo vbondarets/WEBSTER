@@ -12,6 +12,7 @@ const ResizeTool = () => {
         if (isLock) {
             setProportions(valueW / valueH)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLock]);
 
     useEffect(() => {
@@ -27,6 +28,7 @@ const ResizeTool = () => {
         if (valueW < 0) {
             setValueW(0)
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [valueH, valueW]);
 
     return (

@@ -16,6 +16,7 @@
     "@types/react-redux": "^7.1.25",
     "axios": "^1.4.0",
     "dotenv": "^16.0.3",
+    "fabricjs-react": "^1.2.0",
     "jwt-decode": "^3.1.2",
     "material-ui": "^0.20.2",
     "react": "^18.2.0",
