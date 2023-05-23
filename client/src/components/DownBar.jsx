@@ -6,6 +6,7 @@ import CutTools from './downTools/CutTools';
 import DrawTool from './downTools/DrawTools';
 import TextTools from './downTools/TextTools';
 import RotateTools from './downTools/RotateTools';
+import ResizeTool from './downTools/ResizeTool';
 
 const DownBar = () => {
   const { curTool } = useSelector((state) => state.toolReducer);
@@ -20,7 +21,7 @@ const DownBar = () => {
           'Draw': <DrawTool/>,
           'Rotate':<RotateTools/>,
           'Text': <TextTools/>,
-          'Resize': <p>resize</p>,
+          'Resize': <ResizeTool/>,
           'Image':<p>image</p>,
         }[curTool]
       }
