@@ -13,9 +13,10 @@ const Test = () => {
         editor?.addText("text")
     }
     return (
-        <div>
+        <div className="">
             <button onClick={onAddCircle}>Add circle</button>
             <button onClick={onAddRectangle}>Add Rectangle</button>
+            <button onClick={addText}>Add text</button>
             <FabricJSCanvas className="sample-canvas" onReady={onReady} />
         </div>
     );
