@@ -26,7 +26,7 @@ const ToolBar = () => {
     const dispatch = useDispatch();
     const fileInputRef = useRef(null);
     const { downTools, previewImg, curTool } = useSelector(
-        (state) => state.toolReducer
+        (state) => state.toolReducer.states[state.toolReducer.curState]
     );
 
     const setActiveTool = (value) => {

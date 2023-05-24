@@ -26,7 +26,7 @@ const DrawTool = () => {
   <BsFillCircleFill />
   ]
 
-  const { downTools } = useSelector((state) => state.toolReducer);
+  const { downTools } = useSelector((state) => state.toolReducer.states[state.toolReducer.curState]);
   const dispatch = useDispatch();
 
   const colorHandler = (color) => {

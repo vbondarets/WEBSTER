@@ -4,7 +4,7 @@ import ImageRoundedIcon from '@mui/icons-material/ImageRounded';
 import { setFilter } from "../../store/reducers/ToolSlice";
 
 const FilterTools = () => {
-    const { downTools } = useSelector((state) => state.toolReducer);
+    const { downTools } = useSelector((state) => state.toolReducer.states[state.toolReducer.curState]);
     const filtersBar = useRef();
     const dispatch = useDispatch();
     return (

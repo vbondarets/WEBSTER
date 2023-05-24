@@ -9,7 +9,7 @@ import RotateTools from './downTools/RotateTools';
 import ResizeTool from './downTools/ResizeTool';
 
 const DownBar = () => {
-  const { curTool } = useSelector((state) => state.toolReducer);
+  const { curTool } = useSelector((state) => state.toolReducer.states[state.toolReducer.curState]);
   
   return (
     <div className='flex flex-col items-center justify-center h-28 w-full z-20 bg-[#131314] border-t-2 border-slate-700'>

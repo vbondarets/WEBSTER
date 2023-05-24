@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Slider } from "@mui/material";
 
 const RotateTools = () => {
-    const { downTools } = useSelector((state) => state.toolReducer);
+    const { downTools } = useSelector((state) => state.toolReducer.states[state.toolReducer.curState]);
     const dispatch = useDispatch();
     return (
         <div className="w-3/6 mx-auto">

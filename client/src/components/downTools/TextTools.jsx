@@ -15,7 +15,7 @@ import { setFontPosition } from '../../store/reducers/ToolSlice';
 import { setFontSize } from '../../store/reducers/ToolSlice';
 
 const TextTools = () => {
-    const { downTools } = useSelector((state) => state.toolReducer);
+    const { downTools } = useSelector((state) => state.toolReducer.states[state.toolReducer.curState]);
     const dispatch = useDispatch();
     const positionArr =[<FormatAlignLeftIcon/>, <FormatAlignCenterIcon/>, <FormatAlignRightIcon/>]
 

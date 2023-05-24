@@ -7,9 +7,8 @@ const ColorTools = () => {
     const colorsBar = useRef();
     const dispatch = useDispatch();
     const { downTools, curDownTool } = useSelector(
-        (state) => state.toolReducer
+        (state) => state.toolReducer.states[state.toolReducer.curState]
     );
-
     const setActive = (e, filter) => {
         dispatch(setDownTool({ curDownTool: filter.name }));
         setFilterValues(filter.name);

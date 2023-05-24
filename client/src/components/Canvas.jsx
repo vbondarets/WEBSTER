@@ -3,18 +3,22 @@ import { useDispatch, useSelector } from "react-redux";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import ReactCrop from "react-image-crop";
 import { FileUploader } from "react-drag-drop-files";
+import RestoreRoundedIcon from "@mui/icons-material/RestoreRounded";
+import UndoRoundedIcon from "@mui/icons-material/UndoRounded";
+import RedoRoundedIcon from "@mui/icons-material/RedoRounded";
 import "react-image-crop/dist/ReactCrop.css";
 import {
     setImage,
     setPosition,
     setPreviewImg,
+    resetState,
+    undoState,
+    redoState,
 } from "../store/reducers/ToolSlice";
-
-const fileTypes = ["JPG", "PNG"];
 
 const Canvas = () => {
     const { downTools, image, previewImg, curTool } = useSelector(
-        (state) => state.toolReducer
+        (state) => state.toolReducer.states[state.toolReducer.curState]
     );
     const dispatch = useDispatch();
     const previewImgRef = useRef(null);
@@ -43,7 +47,33 @@ const Canvas = () => {
     };
 
     return (
-        <div className="flex justify-center items-center p-5 w-full bg-[#131314]">
+        <div className="flex justify-center items-center p-5 pt-12 w-full bg-[#131314] relative">
+            <div className="absolute top-0 left-0 flex p-1 z-20 text-slate-100">
+                <div
+                    className="hover:bg-gray-200/40 p-2 rounded-lg cursor-pointer"
+                    onClick={() => {
+                        dispatch(resetState());
+                    }}
+                >
+                    <RestoreRoundedIcon />
+                </div>
+                <div
+                    className="hover:bg-gray-200/40 p-2 rounded-lg cursor-pointer"
+                    onClick={() => {
+                        dispatch(undoState());
+                    }}
+                >
+                    <UndoRoundedIcon />
+                </div>
+                <div
+                    className="hover:bg-gray-200/40 p-2 rounded-lg cursor-pointer"
+                    onClick={() => {
+                        dispatch(redoState());
+                    }}
+                >
+                    <RedoRoundedIcon />
+                </div>
+            </div>
             {previewImg && image ? (
                 <>
                     {curTool === "Cut" ? (
@@ -72,22 +102,23 @@ const Canvas = () => {
                     )}
                 </>
             ) : (
-                <div class="flex items-center justify-center w-full">
+                <div className="flex items-center justify-center w-full">
                     <FileUploader
                         handleChange={loadImage}
                         name="file"
-                        types={fileTypes}
+                        types={["JPG", "PNG", "WEBP", "JPEG"]}
+                        maxSize={6}
                         children={
-                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                 <CloudUploadOutlinedIcon fontSize="large" />
-                                <p class="mb-2 text-sm">
-                                    <span class="font-semibold">
+                                <p className="mb-2 text-sm">
+                                    <span className="font-semibold">
                                         Click to upload
                                     </span>
                                     <span> or drag and drop</span>
                                 </p>
-                                <p class="text-xs">
-                                    SVG, PNG, JPG or GIF (MAX. 800x400px)
+                                <p className="text-xs">
+                                    PNG, JPG (MAX. 800x400px)
                                 </p>
                             </div>
                         }

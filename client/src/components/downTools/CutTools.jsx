@@ -7,7 +7,11 @@ import "react-image-crop/dist/ReactCrop.css";
 
 const CutTools = () => {
     const cutBar = useRef();
-    const { downTools, image } = useSelector((state) => state.toolReducer);
+    const state = useSelector((state) => state.toolReducer.states[0]);
+    console.log(state);
+    const { downTools, image } = useSelector(
+        (state) => state.toolReducer.states[state.toolReducer.curState]
+    );
     const dispatch = useDispatch();
 
     const cropImage = () => {
