@@ -26,10 +26,10 @@ const AboutPage = () => {
                 <div className="mr-6 w-1/3 h-52 bg-mainFontColor p-10 rounded-xl">
                     <h2 className="text-xl font-bold text-white mb-4 border-b">Our Team</h2>
                     <div className="flex mb-3">
-                        <img className="w-20 h-20 rounded-full mr-10" src="https://lms.khpi.ucode-connect.study/media/profile_photo/ybobrov.png" alt="Photo"></img>
-                        <img className="w-20 h-20 rounded-full mr-10" src="https://lms.khpi.ucode-connect.study/media/profile_photo/dkorotysh.png" alt="Photo"></img>
-                        <img className="w-20 h-20 rounded-full mr-10" src="https://avatars.githubusercontent.com/u/90688082?v=4" alt="Photo"></img>
-                        <img className="w-20 h-20 rounded-full" src="https://lms.khpi.ucode-connect.study/media/profile_photo/idashchenk.png" alt="Photo"></img>
+                        <img className="w-20 h-20 rounded-full mr-10" src="https://lms.khpi.ucode-connect.study/media/profile_photo/ybobrov.png" alt="profile_photo"></img>
+                        <img className="w-20 h-20 rounded-full mr-10" src="https://lms.khpi.ucode-connect.study/media/profile_photo/dkorotysh.png" alt="profile_photo"></img>
+                        <img className="w-20 h-20 rounded-full mr-10" src="https://avatars.githubusercontent.com/u/90688082?v=4" alt="profile_photo"></img>
+                        <img className="w-20 h-20 rounded-full" src="https://lms.khpi.ucode-connect.study/media/profile_photo/idashchenk.png" alt="profile_photo"></img>
                     </div>
                 </div>
                 <div className="bg-mainFontColor h-52 p-10 rounded-xl w-1/3">
