@@ -5,6 +5,7 @@ import Test from '../pages/Test';
 import Container from '../pages/Container';
 import Studio from "../pages/Studio";
 import AboutPage from "../pages/AboutPage";
+import SupportPage from "../pages/SupportPage";
 
 export const publicRoutes = [
     { path: "/", component: <Container component={<MainPage/>}/>},
@@ -12,6 +13,7 @@ export const publicRoutes = [
     { path: "/test", component: <Container component={<Test/>}/>},
     { path: "/studio", component: <Container component={<Studio/>}/>},
     { path: "/about", component: <Container component={<AboutPage/>}/>},
+    { path: "/support", component: <Container component={<SupportPage/>}/>},
 ];
 
 export const authRoutes = [

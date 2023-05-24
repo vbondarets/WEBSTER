@@ -29,7 +29,7 @@ const Navbar = () => {
                             <Link  to={"/about"} className="block py-2 pl-3 pr-4 cursor-pointer rounded hover:text-amber-200 md:p-0">About</Link>
                         </li>
                         <li>
-                            <Link  to={"#"} className="block py-2 pl-3 pr-4 cursor-pointer rounded hover:text-amber-200 md:p-0">Support</Link>
+                            <Link  to={"/support"} className="block py-2 pl-3 pr-4 cursor-pointer rounded hover:text-amber-200 md:p-0">Support</Link>
                         </li>
                     </ul>
                 </div>
