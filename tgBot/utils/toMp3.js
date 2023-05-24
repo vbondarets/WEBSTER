@@ -3,12 +3,12 @@ const installer = require('@ffmpeg-installer/ffmpeg')
 const path = require('path');
 const removeFile = require('./removeFile');
 
-const toMp3 = async(input, output) => {
+const toMp3 = async (input, output) => {
     try {
         const outputPath = path.resolve(__dirname, '../static/voices', `${output}.mp3`);
         // console.log(outputPath);
         ffmpeg.setFfmpegPath(installer.path)
-        return new Promise ((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             ffmpeg(input)
                 .inputOption('-t 300')
                 .output(outputPath)

@@ -1,14 +1,15 @@
-const {Configuration, OpenAIApi} = require('openai');
-const {createReadStream} = require('fs');
+const { Configuration, OpenAIApi } = require('openai');
+const { createReadStream } = require('fs');
+const edit = require('./edit');
 
 class OpenAi {
-    roles ={
+    roles = {
         ASSISTANT: 'assistant',
         USER: 'user',
         SYSTEM: 'system',
         // ROOT: 'super-user'
     }
-    constructor(){
+    constructor() {
 
         const configuration = new Configuration({
             apiKey: process.env.OPENAI_API_KEY,
@@ -16,26 +17,27 @@ class OpenAi {
         this.openai = new OpenAIApi(configuration)
     }
 
-    async chat(messages){
+    async chat(messages, ctx) {
         try {
             // const instructions = await this.openai.createChatCompletion({
             //     model: 'gpt-3.5-turbo',
             //     messages: [{role: 'user', content: process.env.PROMPT_INSTRUCTION}]
             // });
             // console.log(instructions.data.choices[0].message)
-            const {data} = await this.openai.createChatCompletion({
+            const { data } = await this.openai.createChatCompletion({
                 model: 'gpt-3.5-turbo',
                 messages
             });
             console.log(data.choices[0].message);
             return data.choices[0].message
         } catch (error) {
-            console.log("Error: ", error.response.data)
+            console.log(error)
+            await edit(ctx, error);
         }
     }
-    async transcription(filePath){
+    async transcription(filePath) {
         try {
-            const {data} = await this.openai.createTranscription(
+            const { data } = await this.openai.createTranscription(
                 createReadStream(filePath),
                 'whisper-1'
             )

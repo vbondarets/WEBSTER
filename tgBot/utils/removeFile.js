@@ -1,4 +1,4 @@
-const {unlink} = require('fs/promises')
+const { unlink } = require('fs/promises')
 
 const removeFile = async (path) => {
     try {
