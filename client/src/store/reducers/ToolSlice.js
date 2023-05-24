@@ -94,7 +94,7 @@ let initialState = {
             name: "Text",
             curFont: "Arial",
             curPosition: "left",
-            curColor: { rgb: { r: 0, g: 0, b: 0, a: 1 } },
+            curColor: { rgb: { r: 0, g: 0, b: 255, a: 1 } },
             size: 20,
             fonts: ["Arial", "Helvetica", "TNR", "Futura", "Rockwell"],
             positions: ["left", "center", "right"],

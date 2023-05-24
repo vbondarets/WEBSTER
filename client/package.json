@@ -16,6 +16,7 @@
     "@types/react-redux": "^7.1.25",
     "axios": "^1.4.0",
     "dotenv": "^16.0.3",
+    "fabric": "^5.3.0",
     "fabricjs-react": "^1.2.0",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
@@ -54,8 +55,13 @@
     ]
   },
   "devDependencies": {
+    "@types/fabric": "^5.3.2",
+    "@types/node": "^20.2.3",
+    "@types/react": "^18.2.6",
+    "@types/react-dom": "^18.2.4",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.23",
-    "tailwindcss": "^3.3.2"
+    "tailwindcss": "^3.3.2",
+    "typescript": "^5.0.4"
   }
 }
