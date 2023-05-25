@@ -25,43 +25,55 @@ const AboutPage = () => {
             <div className="flex items-center justify-center mt-4">
                 <div className="mr-6 w-1/3 h-52 bg-mainFontColor p-10 rounded-xl">
                     <h2 className="text-xl font-bold text-white mb-4 border-b">Our Team</h2>
-                    <div className="flex mb-3">
-                        <img className="w-20 h-20 rounded-full mr-10" src="https://lms.khpi.ucode-connect.study/media/profile_photo/ybobrov.png" alt="profile_photo"></img>
-                        <img className="w-20 h-20 rounded-full mr-10" src="https://lms.khpi.ucode-connect.study/media/profile_photo/dkorotysh.png" alt="profile_photo"></img>
-                        <img className="w-20 h-20 rounded-full mr-10" src="https://avatars.githubusercontent.com/u/90688082?v=4" alt="profile_photo"></img>
-                        <img className="w-20 h-20 rounded-full" src="https://lms.khpi.ucode-connect.study/media/profile_photo/idashchenk.png" alt="profile_photo"></img>
+                    <div className="flex mb-3 justify-between">
+                        <div className="flex flex-col items-center">
+                            <img className="w-20 h-20 rounded-full" src="https://lms.khpi.ucode-connect.study/media/profile_photo/ybobrov.png" alt="profile_photo"></img>
+                            <p className="text-white">YBOBROV</p>
+                        </div>
+                        <div className="flex flex-col items-center">
+                            <img className="w-20 h-20 rounded-full" src="https://lms.khpi.ucode-connect.study/media/profile_photo/dkorotysh.png" alt="profile_photo"></img>
+                            <p className="text-white">DKOROTYSH</p>
+                        </div>
+                        <div className="flex flex-col items-center">
+                            <img className="w-20 h-20 rounded-full" src="https://avatars.githubusercontent.com/u/90688082?v=4" alt="profile_photo"></img>
+                            <p className="text-white">VBONDARETS</p>
+                        </div>
+                        <div className="flex flex-col items-center">
+                            <img className="w-20 h-20 rounded-full" src="https://lms.khpi.ucode-connect.study/media/profile_photo/idashchenk.png" alt="profile_photo"></img>
+                            <p className="text-white">IDASHCHENK</p>
+                        </div>
                     </div>
                 </div>
                 <div className="bg-mainFontColor h-52 p-10 rounded-xl w-1/3">
-                    <h2 className="text-white font-bold text-2xl border-b mb-4">Stack Of Technologies</h2>
-                    <div className="flex items-center">
+                    <h2 className="text-white font-bold text-2xl border-b mb-10">Stack Of Technologies</h2>
+                    <div className="flex items-center justify-between ">
                         <img 
-                            className="w-10 h-10 mr-4"
+                            className="w-10 h-10"
                             src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png" 
                             alt="React" 
                         />
                         <img 
-                            className="w-10 h-10 mr-4"
+                            className="w-10 h-10"
                             src="https://raw.githubusercontent.com/reduxjs/redux/master/logo/logo.png   " 
                             alt="RTK" 
                         />
                         <img 
-                            className="w-10 h-10 mr-4"
+                            className="w-10 h-10"
                             src="https://camo.qiitausercontent.com/44049127109ccf907500dba6026b174154388cb0/68747470733a2f2f71696974612d696d6167652d73746f72652e73332e616d617a6f6e6177732e636f6d2f302f37353633332f38323938633065652d636430302d653634362d303465372d6338393264323165653566642e706e67" 
                             alt="JOI" 
                         />
                         <img 
-                            className="w-10 h-10 mr-4"
+                            className="w-10 h-10"
                             src="https://mui.com/static/logo.png" 
                             alt="MUI" 
                         />
                         <img 
-                            className="w-20 h-10 mr-4"
+                            className="w-20 h-10"
                             src="https://ies.solutions/wordpress/wp-content/uploads/jwt.png" 
                             alt="JWT" 
                         />
                         <img 
-                            className="w-10 h-10 mr-4"
+                            className="w-10 h-10"
                             src="https://mmg-gitlab.fjfi.cvut.cz/gitlab/uploads/-/system/project/avatar/6/tnl_logo_circle.png" 
                             alt="TNL" 
                         />
