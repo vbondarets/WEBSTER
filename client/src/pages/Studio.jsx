@@ -5,8 +5,8 @@ import DownBar from '../components/DownBar'
 
 const Studio = () => {
   return (
-    <div className='flex flex-col w-full h-full'>
-        <div className='flex flex-row w-full h-fit overflow-hidden'>
+    <div className='flex flex-col w-full h-screen'>
+        <div className='flex flex-row w-full min-h-full overflow-hidden'>
             <ToolBar/>
             <Canvas/>
         </div>
