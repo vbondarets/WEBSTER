@@ -16,8 +16,6 @@ import {
     redoState,
 } from "../store/reducers/ToolSlice";
 
-import { FabricJSCanvas } from '../components/FabricReact/lib'
-
 const Canvas = () => {
     const { downTools, image, previewImg, curTool } = useSelector(
         (state) => state.toolReducer.states[state.toolReducer.curState]

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 let initialState = {
+    canvas: undefined,
     tools: [
         "Cut",
         "Filters",
@@ -128,6 +129,10 @@ const toolSlice = createSlice({
     name: "tool",
     initialState: { curState: 0, states: [initialState] },
     reducers: {
+        setCanvas: (state, action) => {
+            state.states[state.curState].canvas = action.payload.canvas
+            console.log(state.states[state.curState].canvas)
+        },
         setTool: (state, action) => {
             addValue(state, action, "curTool");
             // console.log(newValue)
@@ -189,6 +194,14 @@ const toolSlice = createSlice({
             state.states[state.curState].downTools[5].size =
                 action.payload.size;
         },
+        setHight: (state, action) => {
+            state.states[state.curState].downTools[6].height =
+                action.payload.height;
+        },
+        setWidth: (state, action) => {
+            state.states[state.curState].downTools[6].width =
+                action.payload.width;
+        },
         resetState: (state) => {
             state.curState = 0;
             state.states = state.states.slice(0, 1);
@@ -221,6 +234,9 @@ export const {
     resetState,
     undoState,
     redoState,
+    setCanvas,
+    setHight,
+    setWidth,
 } = toolSlice.actions;
 
 export default toolSlice.reducer;
