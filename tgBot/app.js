@@ -14,7 +14,7 @@ const actionQueue = [];
 let isProcessingQueue = false;
 
 bot.launch();
-bot.use(session({ defaultSession: () => ({ link_img: undefined }) }));
+bot.use(session({ defaultSession: () => ({ link_img: undefined, request_process: false }) }));
 
 
 bot.command('new', async (ctx) => {
@@ -29,10 +29,16 @@ bot.command('start', async (ctx) => {
 
 bot.action(/^([a-zA-Z0-9]+)+(-[a-zA-Z0-9]+)$/, async (ctx) => {
     try {
+        if (ctx.session.request_process) {
+            ctx.answerCbQuery('Please, wait. Your image in progress.');
+            return;
+        }
         const arr = ctx.match[0].split('-');
+        console.log('work')
         actionQueue.push(async () => {
-            await midjourney_button(ctx, arr[1], arr[0], tnl);
+            return { nextAction: await midjourney_button(ctx, arr[1], arr[0], tnl), ctx }
         });
+        ctx.session.request_process = true;
         processActionQueue();
         return;
     } catch (error) {
@@ -45,9 +51,11 @@ const processActionQueue = async () => {
     isProcessingQueue = true;
 
     while (actionQueue.length > 0) {
-        const nextAction = actionQueue.shift();
-        if (nextAction) {
+        const func = actionQueue.shift();
+        if (func) {
+            const { nextAction, ctx } = await func();
             await nextAction();
+            ctx.session.request_process = false;
         }
     }
 

@@ -19,20 +19,15 @@ class OpenAi {
 
     async chat(messages, ctx) {
         try {
-            // const instructions = await this.openai.createChatCompletion({
-            //     model: 'gpt-3.5-turbo',
-            //     messages: [{role: 'user', content: process.env.PROMPT_INSTRUCTION}]
-            // });
-            // console.log(instructions.data.choices[0].message)
             const { data } = await this.openai.createChatCompletion({
                 model: 'gpt-3.5-turbo',
-                messages
+                messages,
             });
             console.log(data.choices[0].message);
             return data.choices[0].message
         } catch (error) {
             console.log(error)
-            await edit(ctx, error);
+            await edit(ctx, JSON.stringify(error.data));
         }
     }
     async transcription(filePath) {

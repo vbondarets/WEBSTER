@@ -27,7 +27,8 @@ const progress_interval = async (ctx, tnl_request, tnl) => {
                     if (progress === 100) {
                         clearInterval(my_interval_2);
 
-                        await ctx.deleteMessage(botMessage_2.message_id);
+                        if (botMessage_2)
+                            await ctx.deleteMessage(botMessage_2.message_id);
 
                         console.log(response)
                         resolve(response);
@@ -36,7 +37,8 @@ const progress_interval = async (ctx, tnl_request, tnl) => {
                 } catch (error) {
                     console.log(error)
                     clearInterval(my_interval_2);
-                    await ctx.deleteMessage(botMessage_2.message_id);
+                    if (botMessage_2)
+                        await ctx.deleteMessage(botMessage_2.message_id);
                     if (error.response.hasOwnProperty('data')) {
                         await ctx.reply(JSON.stringify(error.response.data));
                     }
@@ -88,7 +90,7 @@ const photo_reply = async (ctx, response, keyboard = []) => {
 
 const midjourney_imagine = async (ctx, prompt, tnl) => {
     try {
-
+        
         var botMessage_1 = await ctx.reply(code(`Your image in progress ...`));
         var my_interval_1 = points_change(botMessage_1, ctx);
 
@@ -124,7 +126,7 @@ const midjourney_imagine = async (ctx, prompt, tnl) => {
 
 const midjourney_button = async (ctx, button_type, buttonMessageId, tnl) => {
     try {
-
+        console.log('work', button_type, buttonMessageId)
         var botMessage_1 = await ctx.reply(code(`Your image in progress ...`));
         var my_interval_1 = points_change(botMessage_1, ctx);
 
