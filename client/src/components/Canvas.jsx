@@ -16,6 +16,8 @@ import {
     redoState,
 } from "../store/reducers/ToolSlice";
 
+import { FabricJSCanvas } from '../components/FabricReact/lib'
+
 const Canvas = () => {
     const { downTools, image, previewImg, curTool } = useSelector(
         (state) => state.toolReducer.states[state.toolReducer.curState]
@@ -92,13 +94,15 @@ const Canvas = () => {
                             />
                         </ReactCrop>
                     ) : (
-                        <img
-                            src={previewImg}
-                            className="z-0 select-none"
-                            alt="preview"
-                            ref={previewImgRef}
-                            onLoad={applyFilter}
-                        />
+                        <>
+                            <img
+                                src={previewImg}
+                                className="z-0 select-none"
+                                alt="preview"
+                                ref={previewImgRef}
+                                onLoad={applyFilter}
+                            />
+                        </>
                     )}
                 </>
             ) : (

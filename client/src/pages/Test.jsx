@@ -18,38 +18,11 @@ import FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';
 
 const Test = () => {
     const positionArr =[<FormatAlignLeftIcon/>, <FormatAlignCenterIcon/>, <FormatAlignRightIcon/>]
-    // const { editor, onReady } = useFabricJSEditor()
-    // const onAddCircle = () => {
-    //     editor?.addCircle()
-    // }
-    // const onAddRectangle = () => {
-    //     editor?.addRectangle()
-    // }
-    // const addText = () => {
-    //     editor?.addText("text")
-    // }
-    // const aboba = () => {
-    //     editor?.setFillColor('#FFFFFF')
-    // }
-    // const aboba2 = () => {
-    //     editor?.updateText("aboab")
-    // }
-    // return (
-    //     <div className="">
-    //         <button onClick={onAddCircle}>Add circle</button>
-    //         <button onClick={onAddRectangle}>Add Rectangle</button>
-    //         <button onClick={addText}>Add text</button>
-    //         <button onClick={aboba}>color</button>
-    //         <button onClick={aboba2}>edit</button>
-    //         <FabricJSCanvas className="sample-canvas" onReady={onReady} />
-    //     </div>
-    // );
+
     const { selectedObjects, editor, onReady } = useFabricJSEditor({
         defaultStrokeColor: 'red'
     })
     const [text] = useState('Your text')
-    // const [strokeColor, setStrokeColor] = useState('')
-    // const [fillColor, setFillColor] = useState('')
 
     const onUpdateAlign = (align) => {
         if (selectedObjects?.length) {
@@ -75,58 +48,21 @@ const Test = () => {
     const onSetFillColor = () => {
         editor?.setFillColor(`rgba(${downTools[5].curColor.rgb.r}, ${downTools[5].curColor.rgb.g}, ${downTools[5].curColor.rgb.b}, ${downTools[5].curColor.rgb.a})`)
     }
-    // const onSetStrokeColor = () => {
-    //     editor?.setStrokeColor(strokeColor)
-    // }
-    // const onSetFillColor = () => {
-    //     editor?.setFillColor(fillColor)
-    // }
-    // const onDeleteAll = () => {
-    //     editor?.deleteAll()
-    // }
-    // const onDeleteSelected = () => {
-    //     editor?.deleteSelected()
-    // }
+    
     const { downTools } = useSelector((state) => state.toolReducer.states[state.toolReducer.curState]);
     const dispatch = useDispatch();
     const [onColor, setOnColor] = useState(false)
     return (
-        <>
+        <div>
             {editor ? (
                 <div>
-                    
-
-                    {/* <button onClick={onAddLine}>Add Line</button>
-                    <button onClick={onDeleteAll}>Delete All</button>
-                    <button onClick={onDeleteSelected}>Delete Selected</button> */}
-                    {/* <input
-                        type='text'
-                        value={text}
-                        onChange={(e) => setText(e.target.value)}
-                    /> */}
                     <button onClick={onAddText}>Add Text</button>
-                    {/* <input
-                        type='text'
-                        value={strokeColor || editor.strokeColor}
-                        onChange={(e) => setStrokeColor(e.target.value)}
-                    />
-                    <button onClick={onSetStrokeColor}>Set Stroke Color</button> */}
-                    {/* <input
-                        type='text'
-                        value={fillColor || editor.fillColor}
-                        onChange={(e) => setFillColor(e.target.value)}
-                    />
-                    <button onClick={onSetFillColor}>Set Fill Color</button> */}
-
-                    {/* <pre>
-                        fillColor: {editor.fillColor}, strokeColor: {editor.strokeColor}
-                    </pre>
-                    <pre>{JSON.stringify(selectedObjects)}</pre> */}
                 </div>
             ) : (
                 <>Loading...</>
             )}
-            <FabricJSCanvas className='sample-canvas' onReady={onReady} />
+            <FabricJSCanvas onReady={onReady} />
+            {/* /////////////////// */}
             <div className='fontChange my-auto'>
                 <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
                     <InputLabel style={{ color: "rgb(112, 160, 203)" }} className=' text-mainFontColor '>Font</InputLabel>
@@ -208,7 +144,7 @@ const Test = () => {
                     />
                 }
             </div>
-        </>
+        </div>
     )
     ///////////////////////////////////////////////////////////////////////
 
