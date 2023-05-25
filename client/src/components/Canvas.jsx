@@ -92,13 +92,15 @@ const Canvas = () => {
                             />
                         </ReactCrop>
                     ) : (
-                        <img
-                            src={previewImg}
-                            className="z-0 select-none"
-                            alt="preview"
-                            ref={previewImgRef}
-                            onLoad={applyFilter}
-                        />
+                        <>
+                            <img
+                                src={previewImg}
+                                className="z-0 select-none"
+                                alt="preview"
+                                ref={previewImgRef}
+                                onLoad={applyFilter}
+                            />
+                        </>
                     )}
                 </>
             ) : (

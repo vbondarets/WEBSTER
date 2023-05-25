@@ -13,6 +13,6 @@ export const setupStore = () => {
     return configureStore({
         reducer: rootReducer,
         middleware: (getDefaultMiddleware) =>
-            getDefaultMiddleware().concat(baseAPI.middleware),
+            getDefaultMiddleware({serializableCheck: false}).concat(baseAPI.middleware),
     });
 };
