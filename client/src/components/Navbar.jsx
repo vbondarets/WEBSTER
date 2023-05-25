@@ -35,10 +35,10 @@ const Navbar = () => {
                 </div>
                 {isAuth ? (
                     <div className="flex justify-between mr-2 text-amber-200 items-center">
-                    <span className="flex justify-between items-center mr-2 bg-indigo-500 py-2 pl-3 pr-4 rounded-md hover:text-amber-200">
+                    <Link to="/profile" className="flex justify-between items-center mr-2 bg-indigo-500 py-2 pl-3 pr-4 rounded-md hover:text-amber-200">
                         Profile 
                         <PersonIcon className=" text-2xl" />    
-                    </span>
+                    </Link>
                     <button 
                         onClick={() => {
                             dispatch(logOut());
