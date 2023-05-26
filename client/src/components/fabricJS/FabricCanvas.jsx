@@ -9,13 +9,14 @@ function getMouse(options, canvas) {
     const pointer = canvas.getPointer(options.e);
     const posX = pointer.x;
     const posY = pointer.y;
-    return { posX, posY }
+    return { posX, posY };
 }
 
 const FabricCanvas = () => {
     const canvasRef = useRef(null);
     const canvasWrapperRef = useRef(null)
     const dispatch = useDispatch();
+    let active_obj = useRef([]);
     const { downTools, previewImg, curTool, canvas } = useSelector(
         (state) => state.toolReducer.states[state.toolReducer.curState]
     );
@@ -54,14 +55,19 @@ const FabricCanvas = () => {
 
     useEffect(() => {
         if (curTool === "Text" && canvas) {
-            canvas.on('mouse:down', function (options) {
-                // console.log(options)
-                console.log(canvas.getActiveObjects())
-                if (canvas.getActiveObjects().length > 0) {
+            canvas.on('selection:created', function (options) {
+                active_obj.current = canvas.getActiveObjects();
+            });
+
+            canvas.on('mouse:up', function (options) {
+                console.log(active_obj.current)
+                if (active_obj.current[0] || options.target != null) {
+                    active_obj.current = canvas.getActiveObjects();
                     return;
                 }
                 const cords = getMouse(options, canvas);
                 canvas.setActiveObject(addText(canvas, downTools, cords));
+                active_obj.current = canvas.getActiveObjects();
             });
         }
 

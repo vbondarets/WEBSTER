@@ -131,8 +131,9 @@ const toolSlice = createSlice({
     initialState: { curState: 0, states: [initialState] },
     reducers: {
         setCanvas: (state, action) => {
-            state.states[state.curState].canvas = action.payload.canvas
-            console.log(state.states[state.curState].canvas)
+            addValue(state, action, "canvas");
+            // state.states[state.curState].canvas = action.payload.canvas
+            // console.log(state.states[state.curState].canvas)
         },
         setCanvasElenment: (state, action) => {
             state.states[state.curState].canvasElement = action.payload.canvas
