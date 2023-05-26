@@ -2,12 +2,12 @@ import { Slider } from "@mui/material";
 import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setDownTool, setValues } from "../../store/reducers/ToolSlice";
-import setFilters from "../fabricJS/setFilters";
+// import setFilters from "../fabricJS/setFilters";
 
 const ColorTools = () => {
     const colorsBar = useRef();
     const dispatch = useDispatch();
-    const { downTools, curDownTool, canvas } = useSelector(
+    const { downTools, curDownTool } = useSelector(
         (state) => state.toolReducer.states[state.toolReducer.curState]
     );
     const setActive = (e, filter) => {
@@ -31,7 +31,7 @@ const ColorTools = () => {
                 },
             })
         );
-        setFilters(canvas, downTools, curFilter, newValue);
+        // setFilters(canvas, downTools, curFilter, newValue);
     };
 
     return (

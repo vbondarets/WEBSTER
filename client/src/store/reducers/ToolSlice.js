@@ -331,12 +331,10 @@ const toolSlice = createSlice({
             if (state.curState < state.states.length - 1) state.curState += 1;
         },
         applyFilters:  (state, action) => {
-            const incomeFilters = state.states[state.curState].downTools[2];
-            const curFilters = state.states[state.curState].downTools[3];
-            console.log(incomeFilters,curFilters )
-            // state.states[state.curState].downTools[3].filters.forEach((filter, index) => {
+             state.states[state.curState].downTools[2].filters = action.payload.filters
             //     console.log(incomeFilters[index], filter)
             // })
+            
         },
     },
 });

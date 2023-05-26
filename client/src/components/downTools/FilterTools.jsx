@@ -8,6 +8,29 @@ const FilterTools = () => {
     const filtersBar = useRef();
     // const filter = useRef();
     const dispatch = useDispatch();
+
+    const applyNewFilters = (curFilters, newFilters) => {
+
+        let filterArr = curFilters.map((filter, index) => {
+            return {
+                name: filter.name,
+                value: newFilters[filter.name === "Hue-rotate" ? "hueRotate" :filter.name.toLowerCase()]
+            }
+        });
+        dispatch(applyFilters({filters: filterArr}))
+        // dispatch(
+        //     setValues({
+        //         toolIndex: 2,
+        //         values: {
+        //             curSetting: downTools[2].curFilter,
+        //             name: "colors",
+        //             filters: filterArr,
+        //         },
+        //     })
+        // );
+        
+    }
+
     return (
         <div ref={filtersBar} className='filterTool w-fit h-full mt-1 font-sans flex flex-row space-x-6 mx-auto'>
             {downTools[1].filters.map((filter, index) => {
@@ -31,7 +54,8 @@ const FilterTools = () => {
                     className={`${filter} ${downTools[1].filters[index] === downTools[1].curFilter && "text-amber-200  border border-mainFontColor"} filters h-20 w-20 hover:text-amber-200 hover:bg-[#333042] rounded-2xl cursor-pointer flex flex-col justify-center items-center content-center`}
                     onClick={() => {
                         dispatch(setFilter({filter}))
-                        dispatch(applyFilters({filter: index}))
+                        applyNewFilters(downTools[2].filters, downTools[1].filtersValues[index])
+                        // dispatch(applyFilters({filterIndex: index}))
                     }}
                 >
                     <div 
