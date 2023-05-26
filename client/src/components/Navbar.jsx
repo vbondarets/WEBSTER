@@ -23,7 +23,7 @@ const Navbar = () => {
                 <div className='items-center justify-between hidden w-full md:flex md:w-auto text-mainFontColor'>
                     <ul className='flex flex-col p-4 md:p-0 mt-4 font-medium md:flex-row md:space-x-12 md:mt-0 md:border-0'>
                         <li>
-                            <Link  to={"#"} className="block py-2 pl-3 pr-4 cursor-pointer rounded hover:text-amber-200 md:p-0">Home</Link>
+                            <Link  to={"/studio"} className="block py-2 pl-3 pr-4 cursor-pointer rounded hover:text-amber-200 md:p-0">Studio</Link>
                         </li>
                         <li>
                             <Link  to={"/about"} className="block py-2 pl-3 pr-4 cursor-pointer rounded hover:text-amber-200 md:p-0">About</Link>
