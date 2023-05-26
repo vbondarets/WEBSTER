@@ -48,7 +48,7 @@ const Canvas = () => {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-full p-5 pt-12 w-full bg-[#131314] relative">
+        <div className="flex justify-center min-h-full p-5 pt-12 w-full bg-[#131314] relative">
             <div className="absolute top-0 left-0 flex p-1 z-20 text-slate-100">
                 <div
                     className="hover:bg-gray-200/40 p-2 rounded-lg cursor-pointer"
@@ -80,7 +80,8 @@ const Canvas = () => {
                     {curTool === "Cut" ? (
                         <ReactCrop
                             crop={downTools[0].position}
-                            onChange={(c) => {
+                            onChange={(c, percentCrop) => {
+                                console.log(c, percentCrop);
                                 dispatch(setPosition(c));
                             }}
                         >
@@ -93,16 +94,7 @@ const Canvas = () => {
                             />
                         </ReactCrop>
                     ) : (
-                        <>
-                            <FabricCanvas/>
-                            {/* <img
-                                src={previewImg}
-                                className="z-0 select-none"
-                                alt="preview"
-                                ref={previewImgRef}
-                                onLoad={applyFilter}
-                            /> */}
-                        </>
+                        <FabricCanvas />
                     )}
                 </>
             ) : (
