@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+// import addImage from "../../components/fabricJS/addImage";
+import resizeCanvas from "../../components/fabricJS/resizeCanvas";
+
 
 let initialState = {
+    maxHeight: 0,
+    maxWidth: 0,
     canvas: undefined,
     canvasElement: undefined,
     tools: [
@@ -203,10 +208,24 @@ const toolSlice = createSlice({
         setHight: (state, action) => {
             state.states[state.curState].downTools[6].height =
                 action.payload.height;
+            if (state.states[state.curState].canvas) {
+                resizeCanvas(state.states[state.curState].previewImg, state.states[state.curState].canvas, action.payload.height, state.states[state.curState].downTools[6].width)
+            }
         },
         setWidth: (state, action) => {
             state.states[state.curState].downTools[6].width =
+            action.payload.width;
+            if (state.states[state.curState].canvas) {
+                resizeCanvas(state.states[state.curState].previewImg, state.states[state.curState].canvas, state.states[state.curState].downTools[6].height, action.payload.width)
+            }
+        },
+        setMaxWidth: (state, action) => {
+            state.states[state.curState].maxWidth =
                 action.payload.width;
+        },
+        setMaxHight: (state, action) => {
+            state.states[state.curState].maxHeight =
+                action.payload.height;
         },
         resetState: (state) => {
             state.curState = 0;
@@ -244,6 +263,8 @@ export const {
     setHight,
     setWidth,
     setCanvasElenment,
+    setMaxWidth,
+    setMaxHight,
 } = toolSlice.actions;
 
 export default toolSlice.reducer;

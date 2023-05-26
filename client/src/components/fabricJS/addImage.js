@@ -14,8 +14,6 @@ const addImage = (downTools, previewImg, canvas, height, width) => {
             rWidth = width / baseImg.width;
             rFinal = rWidth > rHeight ? rHeight : rWidth;
         }
-
-
         console.log(`canvas heigth: ${height}, width: ${width}\n image heigth: ${baseImg.height}, width: ${baseImg.width}`)
         canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
             scaleX: rFinal,

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import { fabric } from 'fabric'
-import { setCanvas, setCanvasElenment, setHight, setWidth } from '../../store/reducers/ToolSlice';
+import { setCanvas, setCanvasElenment, setHight, setMaxHight, setMaxWidth, setWidth } from '../../store/reducers/ToolSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import addImage from './addImage';
 import addText from './addText';
@@ -46,10 +46,11 @@ const FabricCanvas = () => {
         canvas.setWidth(canvasWrapperRef.current?.clientWidth || 0);
         dispatch(setHight({ height: canvasWrapperRef.current?.clientHeight }));
         dispatch(setWidth({ width: canvasWrapperRef.current?.clientWidth }));
+        dispatch(setMaxHight({ height: canvasWrapperRef.current?.clientHeight }));
+        dispatch(setMaxWidth({ width: canvasWrapperRef.current?.clientWidth }));
         dispatch(setCanvas({ canvas: canvas }));
         dispatch(setCanvasElenment({ canvas: canvasRef.current }))
         addImage(downTools, previewImg, canvas, canvasWrapperRef.current?.clientHeight, canvasWrapperRef.current?.clientWidth);
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

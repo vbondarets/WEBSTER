@@ -1,50 +1,55 @@
 import React, { useEffect, useState } from 'react';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+import { useSelector } from 'react-redux';
+import { setHight, setWidth } from '../../store/reducers/ToolSlice';
+import { useDispatch } from 'react-redux';
 
 const ResizeTool = () => {
-    const [valueH, setValueH] = useState(1080);
-    const [valueW, setValueW] = useState(1920);
     const [isLock, setIsLock] = useState(true);
-    const [proportions, setProportions] = useState()
+    const dispatch = useDispatch();
+    const [proportions, setProportions] = useState();
+    const { downTools , maxHeight, maxWidth} = useSelector((state) => state.toolReducer.states[state.toolReducer.curState]);
 
     useEffect(() => {
         if (isLock) {
-            setProportions(valueW / valueH)
+            setProportions(downTools[6].width / downTools[6].height)
         }
+        console.log(downTools[6].width / downTools[6].height);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLock]);
 
     useEffect(() => {
-        if (valueH > 9999) {
-            setValueH(parseInt(valueH.toString().slice(0,-1)))
+        if (downTools[6].height > maxHeight) {
+            dispatch(setHight({ height: maxHeight}))
         }
-        if (valueW > 9999) {
-            setValueW(parseInt(valueW.toString().slice(0,-1)))
+        if (downTools[6].width > maxWidth) {
+            dispatch(setWidth({ width: maxWidth}))
         }
-        if (valueH < 0) {
-            setValueH(0)
+        if (downTools[6].height < 0) {
+            dispatch(setHight({ height: 0}))
         }
-        if (valueW < 0) {
-            setValueW(0)
+        if (downTools[6].width < 0) {
+            dispatch(setWidth({ width: 0}))
         }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [valueH, valueW]);
+    }, [downTools[6].width, downTools[6].height]);
 
     return (
         <div className='resizeTools flex flex-row w-fit h-full mt-1 font-sans mx-auto space-x-6'>
+            {console.log(maxHeight, maxWidth)}
             <input
                 className='h-fit w-16 bg-transparent border border-mainFontColor pl-1 rounded'
-                value={valueW}
+                value={downTools[6].width}
                 type="number"
                 min={0}
-                max={9999}
+                max={maxWidth + 1}
                 onChange={event => {
                     if (isLock) {
-                        setValueH(event.target.value / proportions)
-                        // console.log(`h(${valueH}) = w(${event.target.value}) / prop(${proportions})`)
+                        dispatch(setHight({ height: Math.round(parseFloat(event.target.value / proportions))}))
                     }
-                    setValueW(event.target.value)
+                    dispatch(setWidth({ width: event.target.value}))
                 }}
             />
             {isLock
@@ -59,16 +64,16 @@ const ResizeTool = () => {
             }
             <input
                 className='h-fit w-16 bg-transparent border border-mainFontColor pl-1 rounded'
-                value={valueH}
+                // value={downTools[6].height}
+                value={downTools[6].height}
                 type="number"
                 min={0}
-                max={9999}
+                max={maxHeight + 1}
                 onChange={event => {
                     if (isLock) {
-                        setValueW(event.target.value * proportions)
-                        
+                        dispatch(setWidth({ width: Math.round(parseFloat(event.target.value * proportions))}))
                     }
-                    setValueH(event.target.value)
+                    dispatch(setHight({ height: event.target.value}))
                 }}
             />
         </div>
