@@ -4,12 +4,32 @@ import ContentCutRoundedIcon from "@mui/icons-material/ContentCutRounded";
 import { setFormat, setPreviewImg } from "../../store/reducers/ToolSlice";
 import CheckBoxOutlineBlankRoundedIcon from "@mui/icons-material/CheckBoxOutlineBlankRounded";
 import "react-image-crop/dist/ReactCrop.css";
+import MuiAlert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
 const CutTools = () => {
     const cutBar = useRef();
     const { downTools, image } = useSelector(
         (state) => state.toolReducer.states[state.toolReducer.curState]
+
     );
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+      });
+    const [open, setOpen] = React.useState(false);
+
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
     const dispatch = useDispatch();
 
     const cropImage = () => {
@@ -62,19 +82,24 @@ const CutTools = () => {
                 <button
                     onClick={() => {
                         cropImage();
+                        handleClick();
                     }}
                 >
-                    apply
+                    Apply
                 </button>
             )}
+            <Snackbar open={open} autoHideDuration={1500} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                    Success!
+                </Alert>
+            </Snackbar>
             {downTools[0].formats.map((format) => {
                 return (
                     <div
                         key={format}
-                        className={`${format} ${
-                            format === downTools[0].curFormat &&
+                        className={`${format} ${format === downTools[0].curFormat &&
                             "text-amber-200 border border-mainFontColor"
-                        } format h-5/6 w-20 hover:text-amber-200 hover:bg-[#333042] rounded-2xl cursor-pointer flex flex-col justify-center items-center content-center`}
+                            } format h-5/6 w-20 hover:text-amber-200 hover:bg-[#333042] rounded-2xl cursor-pointer flex flex-col justify-center items-center content-center`}
                         onClick={(e) => {
                             dispatch(setFormat({ format }));
                         }}
