@@ -59,9 +59,7 @@ const FabricCanvas = () => {
             canvas.on('selection:created', function (options) {
                 active_obj.current = canvas.getActiveObjects();
             });
-
             canvas.on('mouse:up', function (options) {
-                console.log(active_obj.current)
                 if (active_obj.current[0] || options.target != null) {
                     active_obj.current = canvas.getActiveObjects();
                     return;
@@ -71,9 +69,13 @@ const FabricCanvas = () => {
                 active_obj.current = canvas.getActiveObjects();
             });
         }
-
+        else {
+            if(canvas){
+                canvas.__eventListeners = undefined
+            }
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [curTool, canvas])
+    }, [curTool])
 
     return (
         <div
