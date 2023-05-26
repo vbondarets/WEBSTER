@@ -13,10 +13,11 @@ import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
 import FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';
 import { setFontPosition } from '../../store/reducers/ToolSlice';
 import { setFontSize } from '../../store/reducers/ToolSlice';
+import{ editFont, editAlign, editColor, editSize} from '../fabricJS/editText'
 
 
 const TextTools = () => {
-    const { downTools } = useSelector((state) => state.toolReducer.states[state.toolReducer.curState]);
+    const { downTools, canvas } = useSelector((state) => state.toolReducer.states[state.toolReducer.curState]);
     const dispatch = useDispatch();
     const positionArr = [<FormatAlignLeftIcon />, <FormatAlignCenterIcon />, <FormatAlignRightIcon />];
     const [onColor, setOnColor] = useState(false);
@@ -33,7 +34,10 @@ const TextTools = () => {
                         style={{ color: "rgb(112, 160, 203)" }}
                         autoWidth
                         value={downTools[5].curFont}
-                        onChange={event => dispatch(setFont({ font: event.target.value }))}
+                        onChange={event => {
+                            dispatch(setFont({ font: event.target.value }))
+                            editFont(event.target.value, canvas)
+                        }}
                         label="Font"
                     >
                         {downTools[5].fonts.map(font => {
@@ -57,12 +61,15 @@ const TextTools = () => {
                 onChange={(event) => {
                     if (event.target.value > 99) {
                         dispatch(setFontSize({ size: 99 }))
+                        editSize(event.target.value, canvas)
                     }
                     else if (event.target.value < 0) {
                         dispatch(setFontSize({ size: 0 }))
+                        editSize(event.target.value, canvas)
                     }
                     else {
                         dispatch(setFontSize({ size: event.target.value }))
+                        editSize(event.target.value, canvas)
                     }
                 }}
             />
@@ -70,7 +77,10 @@ const TextTools = () => {
                 return <div
                     key={position}
                     className={`${position} ${position === downTools[5].curPosition && "text-amber-200 border border-mainFontColor"}tools h-5/6 w-20 rounded-2xl cursor-pointer flex flex-col justify-center items-center hover:text-amber-200 hover:bg-[#333042] content-center`}
-                    onClick={() => { dispatch(setFontPosition({ position })) }}
+                    onClick={() => { 
+                        dispatch(setFontPosition({ position })) 
+                        editAlign(position, canvas);
+                    }}
                 >
                     {positionArr[index]}
                     <p>{position}</p>
@@ -91,8 +101,11 @@ const TextTools = () => {
                         className='absolute bottom-0 left-16'
                         color={downTools[5].curColor.rgb}
                         onChange={color => {
+                            // editor?.setFillColor()
+
                             // onSetFillColor();
                             // setOnColor(false)
+                            editColor(`rgba(${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}, ${color.rgb.a})`, canvas)
                             dispatch(setFontColor({ color: { rgb: color.rgb } }))
                         }}
                     />
