@@ -30,6 +30,7 @@ const FabricCanvas = () => {
             ${downTools[2].filters[5].name}(${downTools[2].filters[5].value}%)
             ${downTools[2].filters[6].name}(${downTools[2].filters[6].value}%)
             ${downTools[2].filters[7].name}(${downTools[2].filters[7].value}deg)`;
+        console.log(canvasRef.current.style.filter)
         canvasRef.current.style.transform = `rotate(${downTools[4].value}deg)`;
     }, [canvasRef, downTools]);
 
@@ -44,13 +45,11 @@ const FabricCanvas = () => {
         canvas.allowTouchScrolling = true;
         canvas.setHeight(canvasWrapperRef.current?.clientHeight || 0);
         canvas.setWidth(canvasWrapperRef.current?.clientWidth || 0);
-        dispatch(setHight({ height: canvasWrapperRef.current?.clientHeight }));
-        dispatch(setWidth({ width: canvasWrapperRef.current?.clientWidth }));
         dispatch(setMaxHight({ height: canvasWrapperRef.current?.clientHeight }));
         dispatch(setMaxWidth({ width: canvasWrapperRef.current?.clientWidth }));
         dispatch(setCanvas({ canvas: canvas }));
         dispatch(setCanvasElenment({ canvas: canvasRef.current }))
-        addImage(downTools, previewImg, canvas, canvasWrapperRef.current?.clientHeight, canvasWrapperRef.current?.clientWidth);
+        addImage(previewImg, canvas, canvasWrapperRef.current?.clientHeight, canvasWrapperRef.current?.clientWidth, dispatch, setHight, setWidth);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

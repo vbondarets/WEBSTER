@@ -1,7 +1,7 @@
 import { fabric } from 'fabric';
 
 
-const addImage = (downTools, previewImg, canvas, height, width) => {
+const addImage = (previewImg, canvas, height, width, dispatch, setHight, setWidth) => {
     const baseImg = new Image();
     baseImg.src = previewImg;
 
@@ -14,7 +14,6 @@ const addImage = (downTools, previewImg, canvas, height, width) => {
             rWidth = width / baseImg.width;
             rFinal = rWidth > rHeight ? rHeight : rWidth;
         }
-        console.log(`canvas heigth: ${height}, width: ${width}\n image heigth: ${baseImg.height}, width: ${baseImg.width}`)
         canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
             scaleX: rFinal,
             scaleY: rFinal,
@@ -24,6 +23,9 @@ const addImage = (downTools, previewImg, canvas, height, width) => {
             height: baseImg.height * rFinal
         });
         canvas.renderAll()
+        dispatch(setHight({ height: baseImg.height * rFinal }));
+        dispatch(setWidth({ width: baseImg.width * rFinal }));
+        console.log(`canvas heigth: ${height}, width: ${width}\n image heigth: ${baseImg.height}, width: ${baseImg.width}, new image heigth: ${ baseImg.height * rFinal}, width: ${baseImg.width * rFinal}`)
     });
 
 }

@@ -41,6 +41,99 @@ let initialState = {
                 "Sepia",
                 "Rust",
             ],
+            filtersValues: [
+                {
+                    brightness: 100,
+                    contrast: 100,
+                    saturate: 100,
+                    grayscale: 0,
+                    blur: 0,
+                    sepia: 0,
+                    hueRotate: 0,
+                    invert: 0,
+                },
+                {
+                    brightness: 100,
+                    contrast: 120,
+                    saturate: 125,
+                    grayscale: 0,
+                    blur: 0,
+                    sepia: 0,
+                    hueRotate: 0,
+                    invert: 0,
+
+                },
+                {
+                    brightness: 120,
+                    contrast: 90,
+                    saturate: 85,
+                    grayscale: 0,
+                    blur: 0,
+                    sepia: 0,
+                    hueRotate: 20,
+                    invert: 0,
+                },
+                {
+                    brightness: 103,
+                    contrast: 117,
+                    saturate: 65,
+                    grayscale: 0,
+                    blur: 0,
+                    sepia: 0,
+                    hueRotate: 0,
+                    invert: 0,
+                },
+                {
+                    brightness: 90,
+                    contrast: 100,
+                    saturate: 115,
+                    grayscale: 0,
+                    blur: 0,
+                    sepia: 35,
+                    hueRotate: 0,
+                    invert: 0,
+                },
+                {
+                    brightness: 100,
+                    contrast: 100,
+                    saturate: 100,
+                    grayscale: 100,
+                    blur: 0,
+                    sepia: 0,
+                    hueRotate: 0,
+                    invert: 0,
+                },
+                {
+                    brightness: 110,
+                    contrast: 120,
+                    saturate: 110,
+                    grayscale: 100,
+                    blur: 0,
+                    sepia: 0,
+                    hueRotate: 0,
+                    invert: 0,
+                },
+                {
+                    brightness: 100,
+                    contrast: 100,
+                    saturate: 100,
+                    grayscale: 0,
+                    blur: 0,
+                    sepia: 100,
+                    hueRotate: 0,
+                    invert: 0,
+                },
+                {
+                    brightness: 100,
+                    contrast: 100,
+                    saturate: 60,
+                    grayscale: 0,
+                    blur: 0,
+                    sepia: 100,
+                    invert: 0,
+                    hueRotate: 0,
+                },
+            ]
         },
         {
             name: "Colors",
@@ -237,6 +330,14 @@ const toolSlice = createSlice({
         redoState: (state) => {
             if (state.curState < state.states.length - 1) state.curState += 1;
         },
+        applyFilters:  (state, action) => {
+            const incomeFilters = state.states[state.curState].downTools[2];
+            const curFilters = state.states[state.curState].downTools[3];
+            console.log(incomeFilters,curFilters )
+            // state.states[state.curState].downTools[3].filters.forEach((filter, index) => {
+            //     console.log(incomeFilters[index], filter)
+            // })
+        },
     },
 });
 
@@ -265,6 +366,7 @@ export const {
     setCanvasElenment,
     setMaxWidth,
     setMaxHight,
+    applyFilters
 } = toolSlice.actions;
 
 export default toolSlice.reducer;
