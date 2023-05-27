@@ -1,3 +1,4 @@
+const { code } = require('telegraf/format');
 const createVoice = require('./downloadVoice');
 const edit = require('./edit');
 const OpenAi = require('./OpenAi');
@@ -19,8 +20,9 @@ const voice_transcription = async (ctx, userId) => {
 
         return { transcription, voicePath };
     } catch (error) {
+        ctx.session.request_process = false;
         console.log(error);
     }
 }
 
-exports.exports = voice_transcription;
+module.exports = voice_transcription;

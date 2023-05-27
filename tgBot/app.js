@@ -2,7 +2,7 @@ const { Telegraf, session } = require('telegraf');
 const { message } = require('telegraf/filters');
 const TNL = require('./utils/midjourney_api');
 const AIrequest = require('./utils/AIrequest');
-const { midjourney_imagine, midjourney_button, midjourney_img2img } = require('./utils/midjourney_requests');
+const { midjourney_imagine, midjourney_button } = require('./utils/midjourney_requests');
 require('dotenv').config();
 
 const removeFile = require('./utils/removeFile');
@@ -11,10 +11,20 @@ const voice_transcription = require('./utils/voice_transcription');
 const bot = new Telegraf(process.env.BOT_TOKEN);
 const tnl = new TNL(process.env.TNL_AUTH_TOKEN);
 const actionQueue = [];
-let isProcessingQueue = false;
 
 bot.launch();
 bot.use(session({ defaultSession: () => ({ link_img: undefined, request_process: false }) }));
+
+setInterval(async () => {
+    if (actionQueue.length > 0) {
+        const func = actionQueue.shift();
+        if (func) {
+            const ctx = await func();
+            ctx.session.request_process = false;
+            ctx.session.link_img = undefined;
+        }
+    }
+}, 1200);
 
 
 bot.command('new', async (ctx) => {
@@ -33,47 +43,40 @@ bot.action(/^([a-zA-Z0-9]+)+(-[a-zA-Z0-9]+)$/, async (ctx) => {
             ctx.answerCbQuery('Please, wait. Your image in progress.');
             return;
         }
-        const arr = ctx.match[0].split('-');
-        console.log('work')
-        actionQueue.push(async () => {
-            return { nextAction: await midjourney_button(ctx, arr[1], arr[0], tnl), ctx }
-        });
         ctx.session.request_process = true;
-        processActionQueue();
+        (async () => {
+            const arr = ctx.match[0].split('-');
+            console.log('work')
+            actionQueue.push(async () => {
+                await midjourney_button(ctx, arr[1], arr[0], tnl);
+                return ctx;
+            });
+        })()
         return;
     } catch (error) {
         console.log(error);
     }
 });
 
-const processActionQueue = async () => {
-    if (isProcessingQueue) return;
-    isProcessingQueue = true;
-
-    while (actionQueue.length > 0) {
-        const func = actionQueue.shift();
-        if (func) {
-            const { nextAction, ctx } = await func();
-            await nextAction();
-            ctx.session.request_process = false;
-        }
-    }
-
-    isProcessingQueue = false;
-};
-
 bot.on(message('text'), async (ctx) => {
     try {
-
-        await ctx.reply(`Your message looks like: \n${ctx.message.text}`);
-
-        const prompts = await AIrequest(ctx, ctx.message.text);
-        if (!prompts)
+        if (ctx.session.request_process) {
+            ctx.reply('Please, wait. Your image in progress.');
             return;
+        }
+        ctx.session.request_process = true;
+        (async () => {
+            console.log('wokr')
+            await ctx.reply(`Your message looks like: \n${ctx.message.text}`);
 
-        ctx.session.link_img ? await midjourney_img2img(ctx, prompts, ctx.session.link_img, tnl)
-            : await midjourney_imagine(ctx, prompts, tnl);
-        ctx.session.link_img = undefined;
+            const prompts = await AIrequest(ctx, ctx.message.text);
+            if (!prompts)
+                return;
+            actionQueue.push(async () => {
+                await midjourney_imagine(ctx, prompts, tnl, ctx.session.link_img);
+                return ctx;
+            });
+        })()
         return;
 
     } catch (error) {
@@ -86,19 +89,27 @@ bot.on(message('text'), async (ctx) => {
 
 bot.on(message('voice'), async (ctx) => {
     try {
-        const userId = ctx.message.from.id;
-
-        const { transcription, voicePath } = await voice_transcription(ctx, userId);
-
-        const prompts = await AIrequest(ctx, transcription);
-        if (!prompts)
+        if (ctx.session.request_process) {
+            ctx.reply('Please, wait. Your image in progress.');
             return;
+        }
+        ctx.session.request_process = true;
+        (async () => {
+            const userId = ctx.message.from.id;
 
-        removeFile(voicePath);
+            const { transcription, voicePath } = await voice_transcription(ctx, userId);
 
-        ctx.session.link_img ? await midjourney_img2img(ctx, prompts, ctx.session.link_img, tnl)
-            : await midjourney_imagine(ctx, prompts, tnl);
-        ctx.session.link_img = undefined;
+            const prompts = await AIrequest(ctx, transcription);
+            if (!prompts)
+                return;
+
+            removeFile(voicePath);
+
+            actionQueue.push(async () => {
+                await midjourney_imagine(ctx, prompts, tnl, ctx.session.link_img);
+                return ctx;
+            });
+        })()
         return;
 
     } catch (error) {
@@ -108,12 +119,16 @@ bot.on(message('voice'), async (ctx) => {
 
 bot.on(message('photo'), async (ctx) => {
     try {
-        console.log(ctx.message.photo[3])
-        const link = await ctx.telegram.getFileLink(ctx.message.photo[3].file_id);
-        ctx.session.link_img = link.href;
-        console.log(link);
+        if (ctx.session.request_process) {
+            ctx.reply('Please, wait. Your image in progress.');
+            return;
+        }
+        (async () => {
+            const link = await ctx.telegram.getFileLink(ctx.message.photo[ctx.message.photo.length - 1].file_id);
+            ctx.session.link_img = link.href;
 
-        ctx.reply('Send me text or voice message with theme for generate img.');
+            await ctx.reply('Send me text or voice message with theme for generate img.');
+        })()
 
         return;
 

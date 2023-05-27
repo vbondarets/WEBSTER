@@ -31,12 +31,14 @@ const AIrequest = async (ctx, text) => {
             botMessage.text = `Can't generate image by your request, please try again.`;
             await edit(ctx, botMessage);
             await ctx.reply(`Bot says: \n${answer.content || JSON.stringify(error.data)}`);
+            ctx.session.request_process = false;
         }
 
         return prompts;
     } catch (error) {
-        console.log(error);
-        await edit(ctx, error.message);
+        console.log(error.data);
+        await edit(ctx, JSON.stringify(error.data));
+        ctx.session.request_process = false;
     }
 }
 

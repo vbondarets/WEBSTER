@@ -8,6 +8,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const router = require('./routes/index');
 const errorHandler = require('./middleware/ErrorHandler');
+const downloadImageURL = require('./helpers/downloadImgURL');
 
 const PORT = process.env.PORT ? process.env.PORT : 5000;
 const HOST = process.env.HOST ? process.env.HOST : 'localhost';
@@ -17,7 +18,7 @@ const app = express();
 app.use(cors({ origin: { origin: '*' }, credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.resolve(__dirname, "static")));
+app.use('/api', express.static(path.resolve(__dirname, "static")));
 app.use(fileUpload({}));
 app.use(cookieParser());
 app.get("/", (req, res) => {
@@ -34,6 +35,10 @@ app.get('/api', (req, res) => {
 app.post('/api', (req, res) => {
     console.log(req)
     return res.send("aboba");
+});
+
+app.post('/api/upload-img-url', async (req, res) => {
+    return res.json(await downloadImageURL(req.body.imgUrl));
 });
 
 const start = async () => {

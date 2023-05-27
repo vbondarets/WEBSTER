@@ -1,3 +1,4 @@
+const { default: axios } = require("axios");
 const { Markup } = require("telegraf");
 const { code } = require("telegraf/format");
 const downloadImage = require("./downloadImage");
@@ -45,12 +46,13 @@ const progress_interval = async (ctx, tnl_request, tnl) => {
                     if (error.hasOwnProperty('progress')) {
                         await ctx.reply((error.progress));
                     }
-                    resolve(error?.response)
+                    resolve(error)
                 }
             }, 1500);
         });
     } catch (error) {
         console.log(error);
+        ctx.session.request_process = false;
     }
 }
 
@@ -85,17 +87,21 @@ const photo_reply = async (ctx, response, keyboard = []) => {
         }
     } catch (error) {
         console.log(error);
+        ctx.session.request_process = false;
     }
 }
 
-const midjourney_imagine = async (ctx, prompt, tnl) => {
+const midjourney_imagine = async (ctx, prompt, tnl, imgUrl) => {
     try {
-        
+
         var botMessage_1 = await ctx.reply(code(`Your image in progress ...`));
         var my_interval_1 = points_change(botMessage_1, ctx);
 
-        // const tnl_request = await tnl.imagine(prompt, { userId, chatId: ctx.chat.id, prompt }, 'https://webster.pp.ua/api/images');
-        const tnl_request = await tnl.imagine(prompt);
+        if (imgUrl) {
+            const { data } = await axios.post('https://webster.pp.ua/api/upload-img-url', { imgUrl });
+            imgUrl = data;
+        }
+        const tnl_request = await tnl.imagine(prompt, imgUrl);
 
 
         await new Promise((resolve) => {
@@ -121,6 +127,7 @@ const midjourney_imagine = async (ctx, prompt, tnl) => {
         if (error.response.hasOwnProperty('data')) {
             await ctx.reply(JSON.stringify(error.response.data));
         }
+        ctx.session.request_process = false;
     }
 }
 
@@ -160,43 +167,8 @@ const midjourney_button = async (ctx, button_type, buttonMessageId, tnl) => {
         if (error.response.hasOwnProperty('data')) {
             await ctx.reply(JSON.stringify(error.response.data));
         }
+        ctx.session.request_process = false;
     }
 }
 
-const midjourney_img2img = async (ctx, prompt, imgUrl, tnl) => {
-    try {
-        var botMessage_1 = await ctx.reply(code(`Your image in progress ...`));
-        var my_interval_1 = points_change(botMessage_1, ctx);
-        console.log(imgUrl)
-
-        // const tnl_request = await tnl.button(button_type, buttonMessageId, { userId, chatId: ctx.chat.id, prompt }, 'https://webster.pp.ua/api/images');
-        const tnl_request = await tnl.img2img(prompt, imgUrl);
-
-
-        await new Promise((resolve) => {
-            setTimeout(resolve, 3000);
-        });
-
-        const response = await progress_interval(ctx, tnl_request, tnl);
-
-        clearInterval(my_interval_1);
-
-        await ctx.deleteMessage(botMessage_1.message_id);
-
-        const keyboard = response.buttons.map((element) => {
-            return { text: element, data: `${response.buttonMessageId}-${element}`, hide: false };
-        })
-
-        await photo_reply(ctx, response, keyboard);
-
-    } catch (error) {
-        console.log(error)
-        clearInterval(my_interval_1);
-        await ctx.deleteMessage(botMessage_1.message_id);
-        if (error.response.hasOwnProperty('data')) {
-            await ctx.reply(JSON.stringify(error.response.data));
-        }
-    }
-}
-
-module.exports = { midjourney_imagine, midjourney_button, midjourney_img2img };
+module.exports = { midjourney_imagine, midjourney_button };

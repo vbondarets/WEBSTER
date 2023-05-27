@@ -12,9 +12,12 @@ class TNL {
         }
     }
 
-    imagine = async (msg, ref = '', webhookOverride = '') => {
+    imagine = async (msg, imgURL, ref = '', webhookOverride = '') => {
+        let msg_send = msg;
+        if (imgURL)
+            msg_send = `${imgURL} ${msg}`
         const request = {
-            msg: msg,
+            msg: msg_send,
             ref: ref,
             webhookOverride: webhookOverride,
         };
@@ -30,16 +33,6 @@ class TNL {
             webhookOverride: webhookOverride,
         }
         const { data } = await axios.post('https://api.thenextleg.io/v2/button', request, this.header);
-        return data;
-    }
-
-    img2img = async (msg, imgUrl, ref = '', webhookOverride = '') => {
-        const request = {
-            msg: `${imgUrl} ${msg}`,
-            ref: ref,
-            webhookOverride: webhookOverride,
-        }
-        const { data } = await axios.post('https://api.thenextleg.io/v2/imagine', request, this.header);
         return data;
     }
 
