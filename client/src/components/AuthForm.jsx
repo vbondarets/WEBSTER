@@ -13,6 +13,7 @@ const AuthForm = () => {
     const dispatch = useDispatch();
     const { isAuth } = useSelector((state) => state.userReducer);
     const [login, { error }] = userAPI.useLoginMutation();
+    const [telegram_login, { telegram_error }] = userAPI.useLoginByTelegramMutation();
     
     if (isAuth) {
         return <Navigate to={"/"} />;
@@ -25,8 +26,11 @@ const AuthForm = () => {
         console.log(res);
     };
     
-    const onTelegramAuth = (user) => {
+    const onTelegramAuth = async (user) => {
         console.log(user);
+        const res = await telegram_login(user);
+        if (!res.error) dispatch(setCredentials(res));
+        console.log(res);
     }
 
     return (
@@ -58,9 +62,9 @@ const AuthForm = () => {
                         />
                         <LockIcon className="absolute left-5 top-1/2 -translate-y-1/2 transition-all ease-linear duration-200 text-2xl" />
                     </div>
-                    {error && (
+                    {(error || telegram_error) && (
                         <p className="text-red-500 mt-3 text-sm font-semibold italic">
-                            {error.data?.message}
+                            {error.data?.message || telegram_error.data?.message}
                         </p>
                     )}
                     <button className="inline-flex items-center mt-8 rounded-md bg-amber-200 h-11 px-8 text-sm font-bold uppercase transition-all ease-linear duration-200 tracking-wider select-none text-black hover:bg-black hover:text-amber-200">

@@ -14,7 +14,7 @@ class AuthController {
                 return next(ApiError.conflict("Login already used."));
             }
             const hashPassword = await bcrypt.hash(password, 5);
-            const user = await User.create({ password: hashPassword, email, login, full_name});
+            const user = await User.create({ password: hashPassword, email, login, full_name });
             return res.json(generate_tokens(user.id, user.confirmed, user.role, req, res));
         } catch (error) {
             console.log(error);
@@ -23,6 +23,23 @@ class AuthController {
     }
 
     async login(req, res, next) {
+        try {
+            const { login, password } = req.body;
+            const user = await User.findOne({ where: { login } });
+            if (!user) {
+                return next(ApiError.notFound("User does not exist."));
+            }
+            if (!bcrypt.compareSync(password, user.password)) {
+                return next(ApiError.conflict("Wrong data."));
+            }
+            return res.json(generate_tokens(user.id, user.confirmed, user.role, req, res));
+        } catch (error) {
+            console.log(error);
+            return next(ApiError.internal());
+        }
+    }
+
+    async telegram_login(req, res, next) {
         try {
             const { login, password } = req.body;
             const user = await User.findOne({ where: { login } });

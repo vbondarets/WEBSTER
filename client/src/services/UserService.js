@@ -17,6 +17,14 @@ export const userAPI = baseAPI.injectEndpoints({
             }),
             invalidatesTags: ["User"],
         }),
+        loginByTelegram: build.mutation({
+            query: (data) => ({
+                url: "/auth/telegram-login",
+                method: "POST",
+                body: data,
+            }),
+            invalidatesTags: ["User"],
+        }),
         logout: build.mutation({
             query: () => ({
                 url: "/auth/logout",
