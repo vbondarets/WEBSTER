@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import LockIcon from "@mui/icons-material/Lock";
 import PersonIcon from "@mui/icons-material/Person";
@@ -6,30 +6,28 @@ import { userAPI } from "../services/UserService";
 import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "../store/reducers/UserSlice";
 import { Navigate } from "react-router-dom";
-// import useTgAuth from "./useTgAuth";
-import { Helmet } from "react-helmet";
+import TelegramLoginButton from 'react-telegram-login';
 
 
 const AuthForm = () => {
     const dispatch = useDispatch();
     const { isAuth } = useSelector((state) => state.userReducer);
     const [login, { error }] = userAPI.useLoginMutation();
-    const tgWidget = useRef(null);
-    // useTgAuth("https://telegram.org/js/telegram-widget.js?22", tgWidget.current)
-
-
-
+    
     if (isAuth) {
         return <Navigate to={"/"} />;
     }
-
+    
     const handler = async (e) => {
         e.preventDefault();
         const res = await login(new FormData(e.target));
         if (!res.error) dispatch(setCredentials(res));
         console.log(res);
     };
-
+    
+    const onTelegramAuth = (user) => {
+        console.log(user);
+    }
 
     return (
         <form
@@ -68,7 +66,8 @@ const AuthForm = () => {
                     <button className="inline-flex items-center mt-8 rounded-md bg-amber-200 h-11 px-8 text-sm font-bold uppercase transition-all ease-linear duration-200 tracking-wider select-none text-black hover:bg-black hover:text-amber-200">
                         Login
                     </button>
-                    <p className="mt-8 text-center">
+                    <TelegramLoginButton className="flex justify-center mt-5" dataOnauth={onTelegramAuth} botName="WEBSTER_assistant_bot" usePic={false} />
+                    <p className="mt-5 text-center">
                         <Link
                             to={"#"}
                             className="hover:text-amber-400 transition-all ease-linear"
@@ -76,14 +75,6 @@ const AuthForm = () => {
                             Forgot your password?
                         </Link>
                     </p>
-                </div>
-                <div 
-                    className="aboba"
-                    ref={tgWidget}
-                >
-                    <Helmet>
-                        <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="WEBSTER_assistant_bot" data-size="medium" data-radius="14" data-auth-url="webster.pp.ua" data-request-access="write"></script>
-                    </Helmet>
                 </div>
             </div>
         </form>

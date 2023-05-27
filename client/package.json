@@ -29,9 +29,7 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.11.1",
     "react-scripts": "^5.0.1",
-    "react-telegram-auth": "^1.0.4",
     "react-telegram-login": "^1.1.2",
-    "telegram-login-button": "^0.0.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
