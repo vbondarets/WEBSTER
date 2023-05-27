@@ -6,6 +6,7 @@ import { FileUploader } from "react-drag-drop-files";
 import RestoreRoundedIcon from "@mui/icons-material/RestoreRounded";
 import UndoRoundedIcon from "@mui/icons-material/UndoRounded";
 import RedoRoundedIcon from "@mui/icons-material/RedoRounded";
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import "react-image-crop/dist/ReactCrop.css";
 import {
     setImage,
@@ -18,7 +19,7 @@ import {
 import FabricCanvas from "./fabricJS/FabricCanvas";
 
 const Canvas = () => {
-    const { downTools, image, previewImg, curTool } = useSelector(
+    const { downTools, image, previewImg, curTool, canvas } = useSelector(
         (state) => state.toolReducer.states[state.toolReducer.curState]
     );
     const dispatch = useDispatch();
@@ -73,6 +74,18 @@ const Canvas = () => {
                     }}
                 >
                     <RedoRoundedIcon />
+                </div>
+                <div
+                    className="hover:bg-gray-200/40 p-2 rounded-lg cursor-pointer"
+                    onClick={() => {
+                        if (canvas) {
+                            canvas.getActiveObjects().forEach(object => canvas.remove(object))
+                            canvas.discardActiveObject()
+                            canvas.renderAll()
+                        }
+                    }}
+                >
+                    <DeleteOutlineIcon />
                 </div>
             </div>
             {previewImg && image ? (
