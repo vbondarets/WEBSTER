@@ -18,17 +18,6 @@ const FilterTools = () => {
             }
         });
         dispatch(applyFilters({filters: filterArr}))
-        // dispatch(
-        //     setValues({
-        //         toolIndex: 2,
-        //         values: {
-        //             curSetting: downTools[2].curFilter,
-        //             name: "colors",
-        //             filters: filterArr,
-        //         },
-        //     })
-        // );
-        
     }
 
     return (

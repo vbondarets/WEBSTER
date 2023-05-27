@@ -23,11 +23,15 @@
     "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
     "react-drag-drop-files": "^2.3.10",
+    "react-helmet": "^6.1.0",
     "react-icons": "^4.8.0",
     "react-image-crop": "^10.0.11",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.11.1",
     "react-scripts": "^5.0.1",
+    "react-telegram-auth": "^1.0.4",
+    "react-telegram-login": "^1.1.2",
+    "telegram-login-button": "^0.0.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

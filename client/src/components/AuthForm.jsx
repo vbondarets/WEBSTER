@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Link } from "react-router-dom";
 import LockIcon from "@mui/icons-material/Lock";
 import PersonIcon from "@mui/icons-material/Person";
@@ -6,11 +6,19 @@ import { userAPI } from "../services/UserService";
 import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "../store/reducers/UserSlice";
 import { Navigate } from "react-router-dom";
+// import useTgAuth from "./useTgAuth";
+import { Helmet } from "react-helmet";
+
 
 const AuthForm = () => {
     const dispatch = useDispatch();
     const { isAuth } = useSelector((state) => state.userReducer);
     const [login, { error }] = userAPI.useLoginMutation();
+    const tgWidget = useRef(null);
+    // useTgAuth("https://telegram.org/js/telegram-widget.js?22", tgWidget.current)
+
+
+
     if (isAuth) {
         return <Navigate to={"/"} />;
     }
@@ -21,6 +29,7 @@ const AuthForm = () => {
         if (!res.error) dispatch(setCredentials(res));
         console.log(res);
     };
+
 
     return (
         <form
@@ -67,6 +76,14 @@ const AuthForm = () => {
                             Forgot your password?
                         </Link>
                     </p>
+                </div>
+                <div 
+                    className="aboba"
+                    ref={tgWidget}
+                >
+                    <Helmet>
+                        <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="WEBSTER_assistant_bot" data-size="medium" data-radius="14" data-auth-url="webster.pp.ua" data-request-access="write"></script>
+                    </Helmet>
                 </div>
             </div>
         </form>

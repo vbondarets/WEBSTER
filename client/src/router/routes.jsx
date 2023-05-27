@@ -16,6 +16,7 @@ export const publicRoutes = [
     { path: "/about", component: <Container component={<AboutPage/>}/>},
     { path: "/support", component: <Container component={<SupportPage/>}/>},
     { path: "/profile", component: <Container component={<ProfilePage/>}/>},
+    { path: "/telegram-auth", component: <Container component={<ProfilePage/>}/>},
 ];
 
 export const authRoutes = [
