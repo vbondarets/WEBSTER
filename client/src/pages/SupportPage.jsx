@@ -16,7 +16,7 @@ const SupportPage = () => {
                 <div className="flex-col mt-3">
                     <div className="flex items-center">
                         <PhoneIcon className="text-white"/>
-                        <span className="text-white"> +380666999228</span>
+                        <span className="text-white"> +380000000000</span>
                     </div>
                     <div className="flex mt-2">
                         <EmailIcon className="text-white mr-1"/>

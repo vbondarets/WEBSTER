@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 
 const AboutPage = () => {
@@ -26,22 +27,26 @@ const AboutPage = () => {
                 <div className="mr-6 w-1/3 h-52 bg-mainFontColor p-10 rounded-xl">
                     <h2 className="text-xl font-bold text-white mb-4 border-b">Our Team</h2>
                     <div className="flex mb-3 justify-between">
-                        <div className="flex flex-col items-center">
+                        <Link to="https://github.com/determa" target="_blank"
+                            className="flex flex-col items-center">
                             <img className="w-20 h-20 rounded-full" src="https://lms.khpi.ucode-connect.study/media/profile_photo/ybobrov.png" alt="profile_photo"></img>
                             <p className="text-white">YBOBROV</p>
-                        </div>
-                        <div className="flex flex-col items-center">
+                        </Link>
+                        <Link to="https://github.com/Spoty-O" target="_blank" 
+                            className="flex flex-col items-center">
                             <img className="w-20 h-20 rounded-full" src="https://lms.khpi.ucode-connect.study/media/profile_photo/dkorotysh.png" alt="profile_photo"></img>
                             <p className="text-white">DKOROTYSH</p>
-                        </div>
-                        <div className="flex flex-col items-center">
+                        </Link>
+                        <Link to="https://github.com/vbondarets" target="_blank" 
+                            className="flex flex-col items-center">
                             <img className="w-20 h-20 rounded-full" src="https://avatars.githubusercontent.com/u/90688082?v=4" alt="profile_photo"></img>
                             <p className="text-white">VBONDARETS</p>
-                        </div>
-                        <div className="flex flex-col items-center">
+                        </Link>
+                        <Link to="https://github.com/estfo" target="_blank"
+                            className="flex flex-col items-center">
                             <img className="w-20 h-20 rounded-full" src="https://lms.khpi.ucode-connect.study/media/profile_photo/idashchenk.png" alt="profile_photo"></img>
                             <p className="text-white">IDASHCHENK</p>
-                        </div>
+                        </Link>
                     </div>
                 </div>
                 <div className="bg-mainFontColor h-52 p-10 rounded-xl w-1/3">
