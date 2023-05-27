@@ -11,7 +11,7 @@ import {
 } from "../../store/reducers/ToolSlice";
 import { useDispatch, useSelector } from "react-redux";
 import addImage from "./addImage";
-import addText from "./addText";
+import useAddText from "./useAddText";
 import { zoomDelta, enclose } from "../../services/utils/zoomDelta";
 
 function getMouse(options, canvas) {
@@ -23,6 +23,7 @@ function getMouse(options, canvas) {
 
 const FabricCanvas = () => {
     const canvasRef = useRef(null);
+    const addText = useAddText();
     const canvasWrapperRef = useRef(null);
     const dispatch = useDispatch();
     let active_obj = useRef([]);
@@ -39,7 +40,6 @@ const FabricCanvas = () => {
             ${downTools[2].filters[5].name}(${downTools[2].filters[5].value}%)
             ${downTools[2].filters[6].name}(${downTools[2].filters[6].value}%)
             ${downTools[2].filters[7].name}(${downTools[2].filters[7].value}deg)`;
-        console.log(canvasRef.current.style.filter);
         canvasRef.current.style.transform = `rotate(${downTools[4].value}deg)`;
     }, [canvasRef, downTools]);
 
@@ -76,6 +76,9 @@ const FabricCanvas = () => {
     }, []);
 
     useEffect(() => {
+        if(canvas){
+            canvas.__eventListeners = undefined;
+        }
         if (curTool === "Text" && canvas) {
             canvas.on("selection:created", function (options) {
                 active_obj.current = canvas.getActiveObjects();
@@ -86,7 +89,11 @@ const FabricCanvas = () => {
                     return;
                 }
                 const cords = getMouse(options, canvas);
-                canvas.setActiveObject(addText(canvas, downTools, cords));
+                const obj = addText(canvas, cords);
+                if(obj){
+                    canvas.setActiveObject(addText(canvas, cords));
+                }
+                // canvas.setActiveObject(addText(canvas, cords));
                 active_obj.current = canvas.getActiveObjects();
             });
         } else {
@@ -106,7 +113,7 @@ const FabricCanvas = () => {
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [curTool]);
+    }, [curTool, downTools]);
 
     return (
         <div
