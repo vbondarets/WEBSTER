@@ -26,14 +26,13 @@ setInterval(async () => {
     }
 }, 1200);
 
-
-bot.command('new', async (ctx) => {
-    await ctx.reply(`Context cleared, waiting for your voice or text message`);
+bot.start(async (ctx) => {
+    await ctx.reply(`Hello, my name is WEBSTER-assistant, I'm your web assistant in image generating, send me a vioce with description of an image what you want to get.`);
     return;
 });
 
-bot.command('start', async (ctx) => {
-    await ctx.reply(`Hello, my name is WEBSTER-assistant, i'm your web assistant in image generating, send me a vioce with description of an image what you want to get`);
+bot.command('new', async (ctx) => {
+    await ctx.reply(`Context cleared, waiting for your voice or text message`);
     return;
 });
 
@@ -56,6 +55,11 @@ bot.action(/^([a-zA-Z0-9]+)+(-[a-zA-Z0-9]+)$/, async (ctx) => {
     } catch (error) {
         console.log(error);
     }
+});
+
+bot.on('connected_website', async (ctx) => {
+    await ctx.reply(`Hello, my name is WEBSTER-assistant, I'm your web assistant in image generating, send me a vioce with description of an image what you want to get.`);
+    return;
 });
 
 bot.on(message('text'), async (ctx) => {
