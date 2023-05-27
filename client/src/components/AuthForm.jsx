@@ -64,7 +64,7 @@ const AuthForm = () => {
                     </div>
                     {(error || telegram_error) && (
                         <p className="text-red-500 mt-3 text-sm font-semibold italic">
-                            {error.data?.message || telegram_error.data?.message}
+                            {error?.data?.message || telegram_error?.data?.message}
                         </p>
                     )}
                     <button className="inline-flex items-center mt-8 rounded-md bg-amber-200 h-11 px-8 text-sm font-bold uppercase transition-all ease-linear duration-200 tracking-wider select-none text-black hover:bg-black hover:text-amber-200">
