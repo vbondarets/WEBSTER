@@ -26,3 +26,4 @@ yarn-error.log*
 package-lock.json
 test.js
 static/images/*
+!static/images/default_user.png

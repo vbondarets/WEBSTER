@@ -13,31 +13,26 @@ const AIrequest = async (ctx, text) => {
         clearInterval(my_interval);
         if (!answer.content)
             throw answer;
-        let prompts = undefined;
+        let prompts = answer.content.replace(/"/g, '').trim();
+        prompts[0] = 'p';
 
-        if (answer.content?.indexOf("Prompt:") === 0 || answer.content?.indexOf("prompt:") === 0) {
-            answer.content.indexOf("Prompt:") === 0 ? prompts = answer.content.split('Prompt: ').slice(-1)[0]
-                : prompts = answer.content.split('prompt: ').slice(-1)[0];
+        if (prompts.indexOf("prompt:") === 0) {
+            prompts = prompts.split('prompt: ').slice(-1)[0];
             botMessage.text = `Generated request by GPT: \n${prompts}`;
             await edit(ctx, botMessage);
-
-            prompts = prompts.toLocaleLowerCase();
-
-            if (prompts.split('').reverse().join('').indexOf(".") === 0) {
-                prompts = prompts.slice(0, -1)
-            }
-
+            prompts = prompts.replace(/\.$/, '');
         } else {
             botMessage.text = `Can't generate image by your request, please try again.`;
             await edit(ctx, botMessage);
             await ctx.reply(`Bot says: \n${answer.content || JSON.stringify(error.data)}`);
             ctx.session.request_process = false;
+            throw { error: { data: 'Bad request.' } };
         }
 
         return prompts;
     } catch (error) {
         console.log(error.data);
-        await edit(ctx, JSON.stringify(error.data));
+        await ctx.reply(JSON.stringify(error.data));
         ctx.session.request_process = false;
     }
 }

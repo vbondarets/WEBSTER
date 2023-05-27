@@ -9,9 +9,18 @@ const User = sequelize.define('user', {
     login: { type: DataTypes.STRING, unique: true, allowNull: false },
     password: { type: DataTypes.STRING, allowNull: false },
     full_name: { type: DataTypes.STRING, allowNull: false },
+    photo: {type: DataTypes.STRING, defaultValue: `${process.env.DOMAIN}/api/images/default_user.png`},
     role: { type: DataTypes.ENUM('USER', 'ADMIN'), defaultValue: "USER" },
 });
 
+const Photos = sequelize.define('photos', {
+    photo: {type: DataTypes.STRING, allowNull: false},
+});
+
+User.hasMany(Photos);
+Photos.belongsTo(User);
+
 module.exports = {
-    User
+    User,
+    Photos,
 };

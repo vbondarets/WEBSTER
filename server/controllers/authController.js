@@ -22,6 +22,17 @@ class AuthController {
         }
     }
 
+    async telegram_register(req, res, next) {
+        try {
+            const { username, first_name, photo_url } = req.body;
+            const user = await User.create({ password: '', email: username, login: username, full_name: first_name, photo: photo_url });
+            return res.json(generate_tokens(user.id, user.confirmed, user.role, req, res));
+        } catch (error) {
+            console.log(error);
+            return next(ApiError.internal());
+        }
+    }
+
     async login(req, res, next) {
         try {
             const { login, password } = req.body;
@@ -39,15 +50,13 @@ class AuthController {
         }
     }
 
+
     async telegram_login(req, res, next) {
         try {
-            const { login, password } = req.body;
-            const user = await User.findOne({ where: { login } });
+            const { username } = req.body;
+            const user = await User.findOne({ where: { login: username } });
             if (!user) {
-                return next(ApiError.notFound("User does not exist."));
-            }
-            if (!bcrypt.compareSync(password, user.password)) {
-                return next(ApiError.conflict("Wrong data."));
+                return next();
             }
             return res.json(generate_tokens(user.id, user.confirmed, user.role, req, res));
         } catch (error) {
