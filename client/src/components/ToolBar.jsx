@@ -9,8 +9,9 @@ import AspectRatioRoundedIcon from "@mui/icons-material/AspectRatioRounded";
 import AddToPhotosRoundedIcon from "@mui/icons-material/AddToPhotosRounded";
 import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 import { useDispatch, useSelector } from "react-redux";
-import { setImage, setPreviewImg, setTool } from "../store/reducers/ToolSlice";
+import { setTool } from "../store/reducers/ToolSlice";
 import saveImage from "../services/utils/saveImage";
+import addSticker from "./fabricJS/addSticker";
 
 const buttons = [
     { name: "Cut", icon: <CropIcon className="mx-auto" /> },
@@ -25,7 +26,7 @@ const buttons = [
 const ToolBar = () => {
     const dispatch = useDispatch();
     const fileInputRef = useRef(null);
-    const { downTools, previewImg, curTool } = useSelector(
+    const { downTools, previewImg, curTool, canvas, imageProportion} = useSelector(
         (state) => state.toolReducer.states[state.toolReducer.curState]
     );
 
@@ -33,12 +34,19 @@ const ToolBar = () => {
         dispatch(setTool({ curTool: value }));
     };
 
-    const loadImage = (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        dispatch(setPreviewImg({ previewImg: URL.createObjectURL(file) }));
-        dispatch(setImage({ image: URL.createObjectURL(file) }));
-        // resetFilter();
+    // const loadImage = (e) => {
+    //     const file = e.target.files[0];
+    //     if (!file) return;
+    //     dispatch(setPreviewImg({ previewImg: URL.createObjectURL(file) }));
+    //     dispatch(setImage({ image: URL.createObjectURL(file) }));
+    //     // resetFilter();
+    // };
+    const loadSticker = (e) => {
+        if(canvas){
+            const file = e.target.files[0];
+            if (!file) return;
+            addSticker(canvas, URL.createObjectURL(file), imageProportion)
+        }
     };
 
     return (
@@ -69,7 +77,7 @@ const ToolBar = () => {
                     accept="image/*"
                     hidden
                     ref={fileInputRef}
-                    onChange={loadImage}
+                    onChange={loadSticker}
                 />
                 <p>Image</p>
             </div>

@@ -4,6 +4,7 @@ import resizeCanvas from "../../components/fabricJS/resizeCanvas";
 
 
 let initialState = {
+    imageProportion: 1,
     maxHeight: 0,
     maxWidth: 0,
     canvas: undefined,
@@ -336,6 +337,9 @@ const toolSlice = createSlice({
             // })
             
         },
+        setImageProportion:  (state, action) => {
+            state.states[state.curState].imageProportion = action.payload.proportion
+       },
     },
 });
 
@@ -364,7 +368,8 @@ export const {
     setCanvasElenment,
     setMaxWidth,
     setMaxHight,
-    applyFilters
+    applyFilters,
+    setImageProportion,
 } = toolSlice.actions;
 
 export default toolSlice.reducer;

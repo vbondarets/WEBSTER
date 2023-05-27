@@ -7,6 +7,7 @@ import {
     setMaxHight,
     setMaxWidth,
     setWidth,
+    setImageProportion
 } from "../../store/reducers/ToolSlice";
 import { useDispatch, useSelector } from "react-redux";
 import addImage from "./addImage";
@@ -68,7 +69,8 @@ const FabricCanvas = () => {
             canvasWrapperRef.current?.clientWidth,
             dispatch,
             setHight,
-            setWidth
+            setWidth,
+            setImageProportion
         );
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
