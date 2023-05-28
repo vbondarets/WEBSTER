@@ -2,7 +2,7 @@ const { Telegraf, session } = require('telegraf');
 const { message } = require('telegraf/filters');
 const TNL = require('./utils/midjourney_api');
 const AIrequest = require('./utils/AIrequest');
-const { midjourney_imagine, midjourney_button } = require('./utils/midjourney_requests');
+const { midjourney_imagine, midjourney_button, dalle_imagine } = require('./utils/generating_requests');
 require('dotenv').config();
 
 const removeFile = require('./utils/removeFile');
@@ -76,6 +76,7 @@ bot.on(message('text'), async (ctx) => {
             const prompts = await AIrequest(ctx, ctx.message.text);
             if (!prompts)
                 return;
+                // ctx.replyWithMediaGroup
             actionQueue.push(async () => {
                 await midjourney_imagine(ctx, prompts, tnl, ctx.session.link_img);
                 return ctx;

@@ -30,6 +30,7 @@ class OpenAi {
             await edit(ctx, JSON.stringify(error.data));
         }
     }
+
     async transcription(filePath) {
         try {
             const { data } = await this.openai.createTranscription(
@@ -39,6 +40,20 @@ class OpenAi {
             return data.text
         } catch (error) {
             console.log("Error: ", error)
+        }
+    }
+
+    async imagine(prompts) {
+        try {
+            const request = {
+                prompt: prompts,
+                n: 4,
+                size: '1024x1024',
+            }
+            const { data } = await this.openai.createImage(request);
+            return data.data;
+        } catch (error) {
+            console.log("Error: ", error);
         }
     }
 }

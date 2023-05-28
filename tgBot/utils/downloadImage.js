@@ -11,16 +11,17 @@ const downloadImage = async (url) => {
         const { data } = await axios({
             method: 'get',
             url,
-            responseType: 'stream',
+            responseType: 'arraybuffer',
         });
-        return new Promise((resolve) => {
-            const stream = createWriteStream(imgPath);
-            data.pipe(stream);
-            stream.on('finish', async () => {
-                resolve(imgPath);
+        return Buffer.from(data, 'binary').toString('base64');
+        // return new Promise((resolve) => {
+        //     const stream = createWriteStream(imgPath);
+        //     data.pipe(stream);
+        //     stream.on('finish', async () => {
+        //         resolve(imgPath);
 
-            })
-        })
+        //     })
+        // })
     } catch (error) {
         console.log('Error: ', error.message)
     }

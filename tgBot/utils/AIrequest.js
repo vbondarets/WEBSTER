@@ -31,7 +31,7 @@ const AIrequest = async (ctx, text) => {
         return prompts;
     } catch (error) {
         console.log(error);
-        await ctx.reply(JSON.stringify(error.data ? error.data: error.response.data));
+        await ctx.reply(JSON.stringify(error.data ? error.data: error.response.statusText));
         ctx.session.request_process = false;
     }
 }

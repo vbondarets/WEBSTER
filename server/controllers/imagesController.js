@@ -1,3 +1,4 @@
+const { Photos } = require('../models/models');
 const ApiError = require("../helpers/error/ApiError");
 
 class ImagesController {
