@@ -80,6 +80,7 @@ const FabricCanvas = () => {
             canvas.__eventListeners = undefined;
         }
         if (curTool === "Text" && canvas) {
+            canvas.__eventListeners = undefined;
             canvas.on("selection:created", function (options) {
                 active_obj.current = canvas.getActiveObjects();
             });
@@ -91,7 +92,8 @@ const FabricCanvas = () => {
                 const cords = getMouse(options, canvas);
                 const obj = addText(canvas, cords);
                 if(obj){
-                    canvas.setActiveObject(addText(canvas, cords));
+                    console.log("text")
+                    canvas.setActiveObject(obj);
                 }
                 // canvas.setActiveObject(addText(canvas, cords));
                 active_obj.current = canvas.getActiveObjects();
