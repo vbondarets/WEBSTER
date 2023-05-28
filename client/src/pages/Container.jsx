@@ -5,7 +5,7 @@ const Container = ({ component }) => {
     return (
         <div className="flex flex-col min-h-screen bg-mainColor text-mainFontColor">
             <Navbar />
-            <div className="w-full h-full">{component}</div>
+            {component}
         </div>
     );
 };

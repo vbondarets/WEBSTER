@@ -24,7 +24,7 @@ const TextTools = () => {
 
     return (
         <div
-            className='textTools flex flex-row w-full h-full justify-center mt-1 font-sans mx-auto space-x-8'
+            className='textTools flex  w-full h-full justify-center items-center font-sans gap-6'
             onClick={() => { setOnColor(false) }}
         >
             <div className='fontChange my-auto'>
@@ -32,7 +32,9 @@ const TextTools = () => {
                     <InputLabel style={{ color: "rgb(112, 160, 203)" }} className=' text-mainFontColor '>Font</InputLabel>
                     <Select
                         style={{ color: "rgb(112, 160, 203)" }}
+                        className='border-b border-mainFontColor focus:outline-none focus:ring focus:border-red-500 '
                         autoWidth
+                        disableUnderline={true}
                         value={downTools[5].curFont}
                         onChange={event => {
                             dispatch(setFont({ font: event.target.value }))
@@ -43,6 +45,7 @@ const TextTools = () => {
                         {downTools[5].fonts.map(font => {
                             return <MenuItem
                                 value={font}
+                                className='focus:outline-none'
                                 key={font}
                             >
                                 {font}
@@ -93,7 +96,7 @@ const TextTools = () => {
                         onColor ? setOnColor(false) : setOnColor(true)
                     }}
                     style={{ backgroundColor: `rgb(${downTools[5].curColor.rgb.r},${downTools[5].curColor.rgb.g},${downTools[5].curColor.rgb.b})` }}
-                    className={`w-12 h-12 rounded-full`}
+                    className={`w-12 h-12 rounded-full border border-mainFontColor`}
                 >
                 </div>
                 {onColor &&

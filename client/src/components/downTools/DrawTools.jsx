@@ -41,9 +41,9 @@ const DrawTool = () => {
   }
 
   return (
-    <div className='drawTools flex flex-row w-fit h-full mt-1 font-sans mx-auto space-x-6'>
+    <div className='drawTools flex w-full h-full font-sans justify-center gap-3'>
       <div 
-        className={`move ${"move" === downTools[3].curTool && "text-amber-200 border border-mainFontColor"} h-5/6 w-20 rounded-2xl cursor-pointer flex flex-col justify-center items-center hover:text-amber-200 hover:bg-[#333042] content-center`}
+        className={`move ${"move" === downTools[3].curTool && "text-amber-200 border border-mainFontColor"} h-20 w-20 rounded-2xl cursor-pointer flex flex-col justify-center items-center hover:text-amber-200 hover:bg-[#333042]`}
         onClick={(e) => { dispatch(setDrawTool({tool: 'move'}))}}
       >
         <OpenWithIcon/>
@@ -51,13 +51,13 @@ const DrawTool = () => {
       {downTools[3].tools.map((tool, index) => {
         return <div
           key={tool}
-          className={`${tool} ${tool === downTools[3].curTool && "text-amber-200 border border-mainFontColor"} h-5/6 w-20 rounded-2xl cursor-pointer flex flex-col justify-center items-center hover:text-amber-200 hover:bg-[#333042] content-center`}
+          className={`${tool} ${tool === downTools[3].curTool && "text-amber-200 border border-mainFontColor"} h-20 w-20 rounded-2xl cursor-pointer flex flex-col justify-center items-center hover:text-amber-200 hover:bg-[#333042]`}
           onClick={(e) => { dispatch(setDrawTool({tool}))}}
         >
           {iconsArr[index]}
         </div>
       })}
-      <div className=' flex flex-col w-fit h-full'>
+      <div className='flex flex-col ml-3 w-fit h-full'>
         <HuePicker
           width='200px'
           className='mx-auto mt-2 w-1'

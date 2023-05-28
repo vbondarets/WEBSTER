@@ -9,7 +9,7 @@ import Snackbar from '@mui/material/Snackbar';
 
 const CutTools = () => {
     const cutBar = useRef();
-    const { downTools, image } = useSelector(
+    const { downTools, image, maxWidth, maxHeight } = useSelector(
         (state) => state.toolReducer.states[state.toolReducer.curState]
 
     );
@@ -35,24 +35,49 @@ const CutTools = () => {
     const cropImage = () => {
         var newImage = new Image();
         newImage.src = image;
+        let rHeight = 1;
+        let rWidth = 1;
+        let rFinal = 1;
+        if (newImage.width > maxWidth || newImage.height > maxHeight) {
+            rHeight = maxHeight / newImage.height;
+            rWidth = maxWidth / newImage.width;
+            rFinal = rWidth > rHeight ? rHeight : rWidth;
+        }
+        console.log(
+            newImage.width,
+            newImage.height,
+            "  |  ",
+            newImage.width * rFinal,
+            newImage.height * rFinal,
+            "  |  ",
+            downTools[6].width,
+            downTools[6].height,
+            "  |  ",
+            newImage.width * rWidth,
+            newImage.height * rHeight,
+            "||",downTools[0].position
+        );
 
         const canvas = document.createElement("canvas");
-        const scaleX = newImage.naturalWidth / newImage.width;
-        const scaleY = newImage.naturalHeight / newImage.height;
+        const scaleX = newImage.width * rFinal / downTools[0].position.width;
+        const scaleY = newImage.height * rFinal / downTools[0].position.height;
+        console.log()
         canvas.width = downTools[0].position.width;
         canvas.height = downTools[0].position.height;
         const ctx = canvas.getContext("2d");
-
-        const pixelRatio = window.devicePixelRatio;
-        canvas.width = downTools[0].position.width * pixelRatio;
-        canvas.height = downTools[0].position.height * pixelRatio;
-        ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+        
+        // const pixelRatio = window.devicePixelRatio;
+        // console.log(pixelRatio)
+        // canvas.width = downTools[0].position.width * pixelRatio;
+        // canvas.height = downTools[0].position.height * pixelRatio;
+        // ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
         ctx.imageSmoothingQuality = "high";
-
+        
+        console.log( scaleX, scaleY)
         ctx.drawImage(
             newImage,
             downTools[0].position.x * scaleX,
-            downTools[0].position.y * scaleY,
+            downTools[0].position.y  * scaleY,
             downTools[0].position.width * scaleX,
             downTools[0].position.height * scaleY,
             0,
@@ -60,7 +85,7 @@ const CutTools = () => {
             downTools[0].position.width,
             downTools[0].position.height
         );
-
+            console.log(ctx)
         // Converting to base64
         const base64Image = canvas.toDataURL("image/jpeg");
         if (

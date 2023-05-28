@@ -21,7 +21,7 @@ const FilterTools = () => {
     }
 
     return (
-        <div ref={filtersBar} className='filterTool w-fit h-full mt-1 font-sans flex flex-row space-x-6 mx-auto'>
+        <div ref={filtersBar} className='filterTool h-full font-sans flex justify-center gap-3'>
             {downTools[1].filters.map((filter, index) => {
                 const filterStr = (filterObj) => {
                     let str = '';
@@ -40,7 +40,7 @@ const FilterTools = () => {
                 }
                 return <div
                     key={filter}
-                    className={`${filter} ${downTools[1].filters[index] === downTools[1].curFilter && "text-amber-200  border border-mainFontColor"} filters h-20 w-20 hover:text-amber-200 hover:bg-[#333042] rounded-2xl cursor-pointer flex flex-col justify-center items-center content-center`}
+                    className={`${filter} ${downTools[1].filters[index] === downTools[1].curFilter && "text-amber-200  border border-mainFontColor"} filters h-24 w-20 hover:text-amber-200 hover:bg-[#333042] rounded-2xl cursor-pointer flex flex-col justify-center items-center content-center px-1 py-3`}
                     onClick={() => {
                         dispatch(setFilter({filter}))
                         applyNewFilters(downTools[2].filters, downTools[1].filtersValues[index])
@@ -48,7 +48,7 @@ const FilterTools = () => {
                     }}
                 >
                     <div 
-                        className='imageContainer w-5/6 h-2/3 mt-1 flex justify-center'
+                        className='imageContainer flex justify-center'
                     >
                         {/* <ImageRoundedIcon/> */}
                         {/* {console.log(filter)} */}
@@ -56,7 +56,7 @@ const FilterTools = () => {
                         ?
                             <img 
                                 style={{filter: filterStr(downTools[1].filtersValues[index])}}
-                                className='rounded'
+                                className='rounded-lg'
                                 alt='filter' 
                                 src={previewImg}
                             />
