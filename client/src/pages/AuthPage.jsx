@@ -14,7 +14,7 @@ const AuthPage = () => {
             >
                 WEBSTER
             </Link>
-            <h6 className="flex gap-8 text-amber-200 font-bold text-xl select-none">
+            <h6 className="flex gap-8 text-mainFontColor font-bold text-xl select-none">
                 <span>Log In</span>
                 <span>Sign Up</span>
             </h6>
@@ -30,9 +30,9 @@ const AuthPage = () => {
             />
             <label
                 htmlFor="check"
-                className="bg-amber-200 w-14 h-4 relative rounded-full mb-3 cursor-pointer"
+                className="bg-mainFontColor w-14 h-4 relative rounded-full mb-3 cursor-pointer"
             >
-                <div className="flex items-center justify-center w-8 h-8 bg-black absolute rounded-full -left-2 -top-2 transition-all ease-linear duration-[350ms] text-orange-300">
+                <div className="flex items-center justify-center w-8 h-8 bg-black absolute rounded-full -left-2 -top-2 transition-all ease-linear duration-[350ms] text-mainFontColor">
                     <NorthWestIcon />
                 </div>
             </label>

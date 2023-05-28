@@ -25,7 +25,7 @@ const RegisterForm = () => {
 
     return (
         <form
-            className="card-back w-full h-full absolute rounded-md preserve-3d rotate-y-180 text-amber-200"
+            className="card-back w-full h-full absolute rounded-md preserve-3d rotate-y-180 text-mainFontColor"
             method="POST"
             onSubmit={handler}
         >
@@ -84,7 +84,7 @@ const RegisterForm = () => {
                             {error.data?.message}
                         </p>
                     )}
-                    <button className="inline-flex items-center mt-4 rounded-md bg-amber-200 h-11 px-8 text-sm font-bold uppercase transition-all ease-linear duration-200 tracking-wider select-none text-black hover:bg-black hover:text-amber-200">
+                    <button className="inline-flex items-center mt-4 rounded-md bg-mainFontColor text-white h-11 px-8 text-sm font-bold uppercase transition-all ease-linear duration-200 tracking-wider select-none text-black hover:bg-white hover:text-mainFontColor">
                         Register
                     </button>
                 </div>

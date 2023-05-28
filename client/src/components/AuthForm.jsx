@@ -35,7 +35,7 @@ const AuthForm = () => {
 
     return (
         <form
-            className="card-front w-full h-full absolute rounded-md preserve-3d text-amber-200"
+            className="card-front w-full h-full absolute rounded-md preserve-3d text-mainFontColor"
             method="POST"
             onSubmit={handler}
         >
@@ -67,7 +67,7 @@ const AuthForm = () => {
                             {error?.data?.message || telegram_error?.data?.message}
                         </p>
                     )}
-                    <button className="inline-flex items-center mt-8 rounded-md bg-amber-200 h-11 px-8 text-sm font-bold uppercase transition-all ease-linear duration-200 tracking-wider select-none text-black hover:bg-black hover:text-amber-200">
+                    <button className="inline-flex items-center mt-8 rounded-md bg-mainFontColor h-11 px-8 text-sm font-bold uppercase transition-all ease-linear duration-200 tracking-wider select-none text-black hover:bg-white hover:text-mainFontColor">
                         Login
                     </button>
                     <TelegramLoginButton className="flex justify-center mt-5" dataOnauth={onTelegramAuth} botName="WEBSTER_assistant_bot" requestAccess="write" usePic={false} />
