@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import addImage from "./addImage";
 import useAddText from "./useAddText";
 import { zoomDelta, enclose } from "../../services/utils/zoomDelta";
+import drawLine from "./drawLine";
+// import drawArrow from "./drawArrow";
 
 function getMouse(options, canvas) {
     const pointer = canvas.getPointer(options.e);
@@ -76,10 +78,12 @@ const FabricCanvas = () => {
     }, []);
 
     useEffect(() => {
-        if(canvas){
+        if (canvas) {
             canvas.__eventListeners = undefined;
+            canvas.isDrawingMode = false;
         }
         if (curTool === "Text" && canvas) {
+            canvas.isDrawingMode = false;
             canvas.__eventListeners = undefined;
             canvas.on("selection:created", function (options) {
                 active_obj.current = canvas.getActiveObjects();
@@ -91,15 +95,28 @@ const FabricCanvas = () => {
                 }
                 const cords = getMouse(options, canvas);
                 const obj = addText(canvas, cords);
-                if(obj){
-                    console.log("text")
+                if (obj) {
                     canvas.setActiveObject(obj);
                 }
-                // canvas.setActiveObject(addText(canvas, cords));
                 active_obj.current = canvas.getActiveObjects();
-            });
-        } else {
+            })
+        }
+        else if (curTool === "Draw" && canvas && (downTools[3].curTool === "free")) {
+            canvas.isDrawingMode = true;
+            const color = `rgba(${downTools[3].curColor.rgb.r}, ${downTools[3].curColor.rgb.g}, ${downTools[3].curColor.rgb.b}, ${downTools[3].curColor.rgb.a})`
+            canvas.freeDrawingBrush.color = color;
+            canvas.freeDrawingBrush.width = downTools[3].size;
+        }
+        else if (curTool === "Draw" && canvas && (downTools[3].curTool === "straight")) {
+            drawLine(canvas, downTools)
+        }
+        // else if (curTool === "Draw" && canvas && (downTools[3].curTool === "arrow")) {
+        //     console.log("arrow")
+        //     drawArrow(canvas, downTools);
+        // }
+        else {
             if (canvas) {
+                canvas.isDrawingMode = false;
                 canvas.__eventListeners = undefined;
             }
         }

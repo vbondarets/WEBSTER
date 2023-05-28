@@ -177,11 +177,11 @@ let initialState = {
         {
             name: "Draw",
             curTool: "free",
+            size: 5,
             curColor: { rgb: { r: 0, g: 0, b: 0, a: 1 } },
             tools: [
                 "free",
                 "straight",
-                "arrow",
                 "triangle",
                 "rectangle",
                 "circle",
@@ -276,12 +276,15 @@ const toolSlice = createSlice({
                 action.payload.filter;
         },
         setDrawColor: (state, action) => {
-            state.states[state.curState].downTools[3].curColor =
-                action.payload.color;
+            state.states[state.curState].downTools[3].curColor = {rgb: action.payload.color};
         },
         setDrawTool: (state, action) => {
             state.states[state.curState].downTools[3].curTool =
                 action.payload.tool;
+        },
+        setDrawSize: (state, action) => {
+            state.states[state.curState].downTools[3].size =
+                action.payload.size;
         },
         setFont: (state, action) => {
             state.states[state.curState].downTools[5].curFont =
@@ -370,6 +373,7 @@ export const {
     setMaxHight,
     applyFilters,
     setImageProportion,
+    setDrawSize,
 } = toolSlice.actions;
 
 export default toolSlice.reducer;

@@ -20,7 +20,7 @@ const addImage = (previewImg, canvas, height, width, dispatch, setHight, setWidt
         dispatch(setHight({ height: baseImg.height * scale }));
         dispatch(setWidth({ width: baseImg.width * scale }));
         dispatch(setImageProportion({ proportion: scale }));
-        console.log(`canvas heigth: ${height}, width: ${width}\n image heigth: ${baseImg.height}, width: ${baseImg.width}, new image heigth: ${ baseImg.height * scale}, width: ${baseImg.width * scale}`)
+        // console.log(`canvas heigth: ${height}, width: ${width}\n image heigth: ${baseImg.height}, width: ${baseImg.width}, new image heigth: ${ baseImg.height * scale}, width: ${baseImg.width * scale}`)
     });
 
 }
