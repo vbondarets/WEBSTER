@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { setDrawColor, setDrawSize } from "../../store/reducers/ToolSlice";
 import { setDrawTool } from "../../store/reducers/ToolSlice";
 import { Slider } from '@mui/material';
+import OpenWithIcon from '@mui/icons-material/OpenWith';
 
 const DrawTool = () => {
   const iconsArr = [
@@ -25,15 +26,28 @@ const DrawTool = () => {
   <BsFillCircleFill />
   ]
 
-  const { downTools } = useSelector((state) => state.toolReducer.states[state.toolReducer.curState]);
+  const { downTools, canvas } = useSelector((state) => state.toolReducer.states[state.toolReducer.curState]);
   const dispatch = useDispatch();
 
   const colorHandler = (color) => {
     dispatch(setDrawColor({ color }))
+    const fillColor = `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
+
+    canvas.getActiveObjects().forEach(element => {
+      console.log(element.type)
+      element.set({fill: element.type !=="path" && fillColor, stroke: fillColor})
+    });
+    canvas.renderAll()
   }
 
   return (
     <div className='drawTools flex flex-row w-fit h-full mt-1 font-sans mx-auto space-x-6'>
+      <div 
+        className={`move ${"move" === downTools[3].curTool && "text-amber-200 border border-mainFontColor"} h-5/6 w-20 rounded-2xl cursor-pointer flex flex-col justify-center items-center hover:text-amber-200 hover:bg-[#333042] content-center`}
+        onClick={(e) => { dispatch(setDrawTool({tool: 'move'}))}}
+      >
+        <OpenWithIcon/>
+      </div>
       {downTools[3].tools.map((tool, index) => {
         return <div
           key={tool}

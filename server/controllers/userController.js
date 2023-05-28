@@ -20,6 +20,9 @@ class UserController {
     }
     async getById(req, res, next) {
         try {
+            if(!req.params.id){
+                return next(ApiError.badRequest(`User not found`));
+            }
             const user = await User.findOne({ 
                 attributes: ['id', 'email', 'login', 'full_name', 'photo'],
                 where: { id: req.params.id },

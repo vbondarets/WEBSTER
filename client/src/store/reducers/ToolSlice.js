@@ -176,7 +176,7 @@ let initialState = {
         },
         {
             name: "Draw",
-            curTool: "free",
+            curTool: "move",
             size: 5,
             curColor: { rgb: { r: 0, g: 0, b: 0, a: 1 } },
             tools: [

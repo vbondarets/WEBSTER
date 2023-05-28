@@ -14,6 +14,9 @@ import addImage from "./addImage";
 import useAddText from "./useAddText";
 import { zoomDelta, enclose } from "../../services/utils/zoomDelta";
 import drawLine from "./drawLine";
+import addTrialngle from "./addTrialngle";
+import addRectangle from "./addRectangle";
+import addCircle from "./addCircle";
 // import drawArrow from "./drawArrow";
 
 function getMouse(options, canvas) {
@@ -83,8 +86,8 @@ const FabricCanvas = () => {
             canvas.isDrawingMode = false;
         }
         if (curTool === "Text" && canvas) {
-            canvas.isDrawingMode = false;
-            canvas.__eventListeners = undefined;
+            // canvas.isDrawingMode = false;
+            // canvas.__eventListeners = undefined;
             canvas.on("selection:created", function (options) {
                 active_obj.current = canvas.getActiveObjects();
             });
@@ -109,6 +112,57 @@ const FabricCanvas = () => {
         }
         else if (curTool === "Draw" && canvas && (downTools[3].curTool === "straight")) {
             drawLine(canvas, downTools)
+        }
+        else if (curTool === "Draw" && canvas && (downTools[3].curTool === "triangle")) {
+            canvas.on("selection:created", function (options) {
+                active_obj.current = canvas.getActiveObjects();
+            });
+            canvas.on("mouse:down", function (options) {
+                if (active_obj.current[0] || options.target != null) {
+                    active_obj.current = canvas.getActiveObjects();
+                    return;
+                }
+                const pointer = canvas.getPointer(options.e);
+                const obj = addTrialngle(canvas, downTools, pointer);
+                if (obj) {
+                    canvas.setActiveObject(obj);
+                }
+                active_obj.current = canvas.getActiveObjects();
+            })
+        }
+        else if (curTool === "Draw" && canvas && (downTools[3].curTool === "rectangle")) {
+            canvas.on("selection:created", function (options) {
+                active_obj.current = canvas.getActiveObjects();
+            });
+            canvas.on("mouse:down", function (options) {
+                if (active_obj.current[0] || options.target != null) {
+                    active_obj.current = canvas.getActiveObjects();
+                    return;
+                }
+                const pointer = canvas.getPointer(options.e);
+                const obj = addRectangle(canvas, downTools, pointer);
+                if (obj) {
+                    canvas.setActiveObject(obj);
+                }
+                active_obj.current = canvas.getActiveObjects();
+            })
+        }
+        else if (curTool === "Draw" && canvas && (downTools[3].curTool === "circle")) {
+            canvas.on("selection:created", function (options) {
+                active_obj.current = canvas.getActiveObjects();
+            });
+            canvas.on("mouse:down", function (options) {
+                if (active_obj.current[0] || options.target != null) {
+                    active_obj.current = canvas.getActiveObjects();
+                    return;
+                }
+                const pointer = canvas.getPointer(options.e);
+                const obj = addCircle(canvas, downTools, pointer);
+                if (obj) {
+                    canvas.setActiveObject(obj);
+                }
+                active_obj.current = canvas.getActiveObjects();
+            })
         }
         // else if (curTool === "Draw" && canvas && (downTools[3].curTool === "arrow")) {
         //     console.log("arrow")
