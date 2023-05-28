@@ -13,8 +13,7 @@ const AIrequest = async (ctx, text) => {
         clearInterval(my_interval);
         if (!answer.content)
             throw answer;
-        let prompts = answer.content.replace(/"/g, '').trim();
-        prompts[0] = 'p';
+        let prompts = answer.content.replace(/"/g, '').trim().replace(/^P/, 'p');
 
         if (prompts.indexOf("prompt:") === 0) {
             prompts = prompts.split('prompt: ').slice(-1)[0];
@@ -26,13 +25,13 @@ const AIrequest = async (ctx, text) => {
             await edit(ctx, botMessage);
             await ctx.reply(`Bot says: \n${answer.content || JSON.stringify(error.data)}`);
             ctx.session.request_process = false;
-            throw { error: { data: 'Bad request.' } };
+            throw { data: 'Bad request.' };
         }
 
         return prompts;
     } catch (error) {
-        console.log(error.data);
-        await ctx.reply(JSON.stringify(error.data));
+        console.log(error);
+        await ctx.reply(JSON.stringify(error.data ? error.data: error.response.data));
         ctx.session.request_process = false;
     }
 }

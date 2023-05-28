@@ -1,20 +1,23 @@
 import React from "react";
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import PhotoSizeSelectActualIcon from '@mui/icons-material/PhotoSizeSelectActual';
-
+import { useSelector } from "react-redux";
+import { userAPI } from "../services/UserService";
 
 const ProfilePage = () => {
+    const {id} = useSelector((state) => state.userReducer)
+    const { data } = userAPI.useGetOneUserQuery(id);
     return (
         <div>
             <div className="flex flex-col mt-4 items-center">
                 <div className="flex justify-center w-1/2 bg-mainFontColor text-white rounded-xl p-5">
                     <div className="mr-8">
-                        <img className="w-36 h-36 rounded-full" src="https://lms.khpi.ucode-connect.study/media/profile_photo/idashchenk.png" alt="profile_photo" />
+                        <img className="w-36 h-36 rounded-full" src={data ? (data.photo && data.photo) : ""} alt="profile_photo" />
                     </div>
                     <div className="flex flex-col justify-between mt-2">
                         <div className="flex items-center">
                             <AccountBoxIcon />
-                            <h1 className="font-bold text-2xl">Firemort</h1>
+                            <h1 className="font-bold text-2xl">{data ? (data.login && data.login) : "Username"}</h1>
                         </div>
                         <div className="flex gap-4 ">
                             <div className="flex flex-col items-center">

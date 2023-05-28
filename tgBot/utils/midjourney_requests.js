@@ -123,7 +123,8 @@ const midjourney_imagine = async (ctx, prompt, tnl, imgUrl) => {
     } catch (error) {
         console.log(error)
         clearInterval(my_interval_1);
-        await ctx.deleteMessage(botMessage_1.message_id);
+        if (botMessage_1)
+            await ctx.deleteMessage(botMessage_1.message_id);
         if (error.response.hasOwnProperty('data')) {
             await ctx.reply(JSON.stringify(error.response.data));
         }
@@ -137,7 +138,6 @@ const midjourney_button = async (ctx, button_type, buttonMessageId, tnl) => {
         var botMessage_1 = await ctx.reply(code(`Your image in progress ...`));
         var my_interval_1 = points_change(botMessage_1, ctx);
 
-        // const tnl_request = await tnl.button(button_type, buttonMessageId, { userId, chatId: ctx.chat.id, prompt }, 'https://webster.pp.ua/api/images');
         const tnl_request = await tnl.button(button_type, buttonMessageId);
 
 

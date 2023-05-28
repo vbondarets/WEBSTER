@@ -70,7 +70,7 @@ const AuthForm = () => {
                     <button className="inline-flex items-center mt-8 rounded-md bg-amber-200 h-11 px-8 text-sm font-bold uppercase transition-all ease-linear duration-200 tracking-wider select-none text-black hover:bg-black hover:text-amber-200">
                         Login
                     </button>
-                    <TelegramLoginButton className="flex justify-center mt-5" dataOnauth={onTelegramAuth} botName="WEBSTER_assistant_bot" usePic={false} />
+                    <TelegramLoginButton className="flex justify-center mt-5" dataOnauth={onTelegramAuth} botName="WEBSTER_assistant_bot" requestAccess="write" usePic={false} />
                     <p className="mt-5 text-center">
                         <Link
                             to={"#"}
