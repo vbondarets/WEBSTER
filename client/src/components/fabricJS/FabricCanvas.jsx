@@ -45,7 +45,6 @@ const FabricCanvas = () => {
             ${downTools[2].filters[5].name}(${downTools[2].filters[5].value}%)
             ${downTools[2].filters[6].name}(${downTools[2].filters[6].value}%)
             ${downTools[2].filters[7].name}(${downTools[2].filters[7].value}deg)`;
-        canvasRef.current.style.transform = `rotate(${downTools[4].value}deg)`;
     }, [canvasRef, downTools]);
 
     useEffect(() => {
@@ -168,6 +167,14 @@ const FabricCanvas = () => {
                 canvas.isDrawingMode = false;
                 canvas.__eventListeners = undefined;
             }
+        }
+        if (curTool === "Rotate" && canvas) {
+            canvas.backgroundImage._setOriginToCenter();
+            canvas.backgroundImage.set({
+                angle: downTools[4].value,
+            }).setCoords();
+            canvas.backgroundImage._resetOrigin();
+            canvas.renderAll();
         }
         if (canvas) {
             canvas.on("mouse:wheel", function (opt) {
