@@ -10,6 +10,8 @@ import FormControl from '@mui/material/FormControl';
 import { fabric } from 'fabric';
 import { imagesAPI } from '../services/ImageService';
 import saveImage from '../services/utils/saveImage';
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 
 const ModalDownload = (props) => {
@@ -25,11 +27,20 @@ const ModalDownload = (props) => {
     const [image_upload, { upload_error }] = imagesAPI.useSaveImageMutation();
     const [messageError, setMessageError] = useState('')
     const errorRef = useRef();
+    const [isLock, setIsLock] = useState(true);
+    // const dispatch = useDispatch();
+    const [proportions, setProportions] = useState();
 
     useEffect(() => {
         setWidth(downTools[6].width)
         setHeight(downTools[6].height)
     }, [downTools])
+    useEffect(() => {
+        if (isLock) {
+            setProportions(width / height)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isLock]);
     useEffect(() => {
         if (height > 4000) {
             setHeight(4000)
@@ -59,7 +70,7 @@ const ModalDownload = (props) => {
             });
             const finalImg = new Image();
 
-            finalImg.onload = function () {    
+            finalImg.onload = function () {
                 fabric.Image.fromURL(finalImg.src, async function (img) {
                     // console.log(finalImg);
                     let scaleX = width / img.width;
@@ -76,9 +87,9 @@ const ModalDownload = (props) => {
                     });
                     newCanvas.renderAll()
                     await saveImage(newCanvas.toDataURL({
-                            format: format,
-                            quality: quality / 100
-                        }), downTools, image_upload, isAuth, format)
+                        format: format,
+                        quality: quality / 100
+                    }), downTools, image_upload, isAuth, format)
                     props.setOpen(false)
                 });
             };
@@ -161,9 +172,24 @@ const ModalDownload = (props) => {
                     variant="standard"
                     value={width}
                     onChange={event => {
+                        if (isLock) {
+                            setHeight(Math.round(parseFloat(event.target.value / proportions)))
+                        }
                         setWidth(event.target.value)
                     }}
                 />
+                {isLock
+                    ?
+                    <LockIcon
+                        style={{ color: "rgb(112, 160, 203)", marginTop:("10px") }}
+                        onClick={() => { setIsLock(false) }}
+                    />
+                    :
+                    <LockOpenIcon
+                        style={{ color: "rgb(112, 160, 203)", marginTop:("10px") }}
+                        onClick={() => { setIsLock(true) }}
+                    />
+                }
                 <TextField
                     InputLabelProps={{
                         sx: {
@@ -177,6 +203,9 @@ const ModalDownload = (props) => {
                     variant="standard"
                     value={height}
                     onChange={event => {
+                        if (isLock) {
+                            setWidth(Math.round(parseFloat(event.target.value * proportions)))
+                        }
                         setHeight(event.target.value)
                     }}
                 />

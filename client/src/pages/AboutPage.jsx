@@ -141,10 +141,10 @@ const AboutPage = () => {
                             <div className="flex flex-col items-center text-xl">
                                 <img
                                     className="h-12 object-contain"
-                                    src="https://mmg-gitlab.fjfi.cvut.cz/gitlab/uploads/-/system/project/avatar/6/tnl_logo_circle.png"
-                                    alt="TNL"
+                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Midjourney_Emblem.png/160px-Midjourney_Emblem.png"
+                                    alt="Midjourney"
                                 />
-                                <span>TNL</span>
+                                <span>Midjourney</span>
                             </div>
                             <div className="flex flex-col items-center text-xl">
                                 <img
