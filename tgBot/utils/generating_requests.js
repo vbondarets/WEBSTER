@@ -67,7 +67,7 @@ const photo_reply = async (ctx, response, keyboard = []) => {
             // const imageFilePath = await downloadImage(response.imageUrl);
             const media = response.map((element) => {
                 return {
-                    media: { url: element.url},
+                    media: { url: element.url },
                     type: 'photo',
                 }
             });
@@ -198,7 +198,7 @@ const midjourney_button = async (ctx, button_type, buttonMessageId, tnl) => {
                 return { text: element, data: `${response.buttonMessageId}-${element}`, hide: false };
             })
 
-        await photo_reply(ctx, response, keyboard);
+        await photo_reply(ctx, [{ url: response.imageUrl }], keyboard);
 
     } catch (error) {
         console.log(error)

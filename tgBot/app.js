@@ -15,6 +15,16 @@ const actionQueue = [];
 bot.launch();
 bot.use(session({ defaultSession: () => ({ link_img: undefined, request_process: false }) }));
 
+// const Extra = require('telegraf/extra')
+const { Markup, Extra } = require("telegraf");
+
+const keyboard = Markup.inlineKeyboard([
+    Markup.button.login('Login', 'https://webster.pp.ua/auth', {
+        bot_username: 'WEBSTER_assistant_bot',
+        request_write_access: true,
+    }),
+])
+
 setInterval(async () => {
     if (actionQueue.length > 0) {
         const func = actionQueue.shift();
@@ -27,7 +37,8 @@ setInterval(async () => {
 }, 1200);
 
 bot.start(async (ctx) => {
-    await ctx.reply(`Hello, my name is WEBSTER-assistant, I'm your web assistant in image generating, send me a vioce with description of an image what you want to get.`);
+    // console.log(await ctx.telegram.getUserProfilePhotos(ctx.message.from.id).photos[0][0])
+    await ctx.reply(`Hello, my name is WEBSTER-assistant, I'm your web assistant in image generating, send me a vioce with description of an image what you want to get.`, keyboard);
     return;
 });
 
@@ -58,6 +69,7 @@ bot.action(/^([a-zA-Z0-9]+)+(-[a-zA-Z0-9]+)$/, async (ctx) => {
 });
 
 bot.on('connected_website', async (ctx) => {
+    // console.log(ctx.telegram.getUserProfilePhotos(ctx.message.from.id))
     await ctx.reply(`Hello, my name is WEBSTER-assistant, I'm your web assistant in image generating, send me a vioce with description of an image what you want to get.`);
     return;
 });
@@ -76,7 +88,6 @@ bot.on(message('text'), async (ctx) => {
             const prompts = await AIrequest(ctx, ctx.message.text);
             if (!prompts)
                 return;
-                // ctx.replyWithMediaGroup
             actionQueue.push(async () => {
                 await midjourney_imagine(ctx, prompts, tnl, ctx.session.link_img);
                 return ctx;
@@ -129,7 +140,7 @@ bot.on(message('photo'), async (ctx) => {
             return;
         }
         (async () => {
-            const link = await ctx.telegram.getFileLink(ctx.message.photo[ctx.message.photo.length - 1].file_id);
+            const link = await ctx.telegram.getFile(ctx.message.photo[ctx.message.photo.length - 1].file_id);
             ctx.session.link_img = link.href;
 
             await ctx.reply('Send me text or voice message with theme for generate img.');
