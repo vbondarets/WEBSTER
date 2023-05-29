@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useCallback, useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import LockIcon from "@mui/icons-material/Lock";
 import PersonIcon from "@mui/icons-material/Person";
 import { userAPI } from "../services/UserService";
@@ -14,23 +14,36 @@ const AuthForm = () => {
     const { isAuth } = useSelector((state) => state.userReducer);
     const [login, { error }] = userAPI.useLoginMutation();
     const [telegram_login, { telegram_error }] = userAPI.useLoginByTelegramMutation();
-    
-    if (isAuth) {
-        return <Navigate to={"/"} />;
-    }
-    
+    const [searchParams] = useSearchParams();
+
+
     const handler = async (e) => {
         e.preventDefault();
         const res = await login(new FormData(e.target));
         if (!res.error) dispatch(setCredentials(res));
         console.log(res);
     };
-    
-    const onTelegramAuth = async (user) => {
+
+    const onTelegramAuth = useCallback(async (user) => {
         console.log(user);
         const res = await telegram_login(user);
         if (!res.error) dispatch(setCredentials(res));
         console.log(res);
+    }, [telegram_login, dispatch])
+
+    useEffect(() => {
+        if (searchParams.size !== 0) {
+            let obj = {};
+            for (let entry of searchParams.entries()) {
+                obj[entry[0]] = entry[1];
+            }
+            onTelegramAuth(obj);
+        }
+    }, [onTelegramAuth, searchParams])
+
+
+    if (isAuth) {
+        return <Navigate to={"/"} />;
     }
 
     return (
