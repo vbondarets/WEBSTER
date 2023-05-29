@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import TuneIcon from "@mui/icons-material/Tune";
 import CropIcon from "@mui/icons-material/Crop";
 import BrushIcon from "@mui/icons-material/Brush";
@@ -10,8 +10,9 @@ import AddToPhotosRoundedIcon from "@mui/icons-material/AddToPhotosRounded";
 import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
 import { useDispatch, useSelector } from "react-redux";
 import { setTool } from "../store/reducers/ToolSlice";
-import saveImage from "../services/utils/saveImage";
+// import saveImage from "../services/utils/saveImage";
 import addSticker from "./fabricJS/addSticker";
+import ModalDownload from "./ModalDownload";
 
 const buttons = [
     { name: "Cut", icon: <CropIcon className="mx-auto" /> },
@@ -24,9 +25,10 @@ const buttons = [
 ];
 
 const ToolBar = () => {
+    const [open, setOpen] = useState(false);
     const dispatch = useDispatch();
     const fileInputRef = useRef(null);
-    const { downTools, previewImg, curTool, canvas, imageProportion} = useSelector(
+    const { curTool, canvas, imageProportion } = useSelector(
         (state) => state.toolReducer.states[state.toolReducer.curState]
     );
 
@@ -34,15 +36,8 @@ const ToolBar = () => {
         dispatch(setTool({ curTool: value }));
     };
 
-    // const loadImage = (e) => {
-    //     const file = e.target.files[0];
-    //     if (!file) return;
-    //     dispatch(setPreviewImg({ previewImg: URL.createObjectURL(file) }));
-    //     dispatch(setImage({ image: URL.createObjectURL(file) }));
-    //     // resetFilter();
-    // };
     const loadSticker = (e) => {
-        if(canvas){
+        if (canvas) {
             const file = e.target.files[0];
             if (!file) return;
             addSticker(canvas, URL.createObjectURL(file), imageProportion)
@@ -54,9 +49,8 @@ const ToolBar = () => {
             {buttons.map((value) => (
                 <div
                     key={value.name}
-                    className={`${
-                        curTool === value.name && "bg-toolBg text-amber-200"
-                    } flex flex-col items-center justify-center h-16 w-16 rounded-2xl hover:text-amber-200 hover:bg-toolBg/90 cursor-pointer`}
+                    className={`${curTool === value.name && "bg-toolBg text-amber-200"
+                        } flex flex-col items-center justify-center h-16 w-16 rounded-2xl hover:text-amber-200 hover:bg-toolBg/90 cursor-pointer`}
                     onClick={() => setActiveTool(value.name)}
                 >
                     {value.icon}
@@ -84,12 +78,17 @@ const ToolBar = () => {
             <div
                 className="flex flex-col items-center justify-center h-16 w-16 rounded-2xl hover:text-amber-200 hover:bg-toolBg/90 cursor-pointer"
                 onClick={() => {
-                    saveImage(previewImg, downTools);
+                    // saveImage(previewImg, downTools);
+                    setOpen(true)
                 }}
             >
                 <DownloadRoundedIcon className="mx-auto" />
                 <p className="hidden">Download</p>
             </div>
+            <ModalDownload
+                open={open}
+                setOpen={setOpen}
+            />
         </div>
     );
 };

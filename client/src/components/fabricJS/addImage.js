@@ -7,6 +7,7 @@ const addImage = (previewImg, canvas, height, width, dispatch, setHight, setWidt
     baseImg.src = previewImg;
 
     fabric.Image.fromURL(previewImg, function (img) {
+        console.log(img)
         let scale = getScale(baseImg.width, baseImg.height, width, height);
         canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
             scaleX: scale,
@@ -17,8 +18,8 @@ const addImage = (previewImg, canvas, height, width, dispatch, setHight, setWidt
             height: baseImg.height * scale
         });
         canvas.renderAll()
-        dispatch(setHight({ height: baseImg.height * scale }));
-        dispatch(setWidth({ width: baseImg.width * scale }));
+        dispatch(setHight({ height: Math.round(baseImg.height * scale)}));
+        dispatch(setWidth({ width: Math.round(baseImg.width * scale)}));
         dispatch(setImageProportion({ proportion: scale }));
         //console.log(`canvas heigth: ${height}, width: ${width}\n image heigth: ${baseImg.height}, width: ${baseImg.width}, new image heigth: ${ baseImg.height * scale}, width: ${baseImg.width * scale}`)
     });

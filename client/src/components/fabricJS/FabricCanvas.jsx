@@ -59,8 +59,8 @@ const FabricCanvas = () => {
             allowTouchScrolling: true,
         });
         canvas.allowTouchScrolling = true;
-        canvas.setHeight(canvasWrapperRef.current?.clientHeight || 0);
-        canvas.setWidth(canvasWrapperRef.current?.clientWidth || 0);
+        canvas.setHeight(Math.round(canvasWrapperRef.current?.clientHeight || 0));
+        canvas.setWidth(Math.round(canvasWrapperRef.current?.clientWidth || 0));
         dispatch(
             setMaxHight({ height: canvasWrapperRef.current?.clientHeight })
         );
