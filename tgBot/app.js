@@ -187,7 +187,7 @@ bot.on(message('photo'), async (ctx) => {
             return;
         }
         (async () => {
-            const link = await ctx.telegram.getFile(ctx.message.photo[ctx.message.photo.length - 1].file_id);
+            const link = await ctx.telegram.getFileLink(ctx.message.photo[ctx.message.photo.length - 1].file_id);
             if (ctx.session.link_img) {
                 await ctx.reply('Image changed.')
             } else {
