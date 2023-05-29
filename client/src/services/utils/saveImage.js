@@ -1,8 +1,8 @@
-const saveImage = (previewImg, downTools) => {
+const saveImage = async (previewImg, downTools, image_upload, isAuth, format) => {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
     const image = new Image();
-    image.onload = () => {
+    image.onload = async () => {
         canvas.width = image.naturalWidth;
         canvas.height = image.naturalHeight;
 
@@ -31,6 +31,11 @@ const saveImage = (previewImg, downTools) => {
         link.download = "image.jpg";
         link.href = canvas.toDataURL();
         link.click();
+        // console.log( link.href)
+        if (isAuth) {
+            console.log(link.href);
+            image_upload({ url: link.href, format });
+        }
     };
 
     image.src = previewImg;

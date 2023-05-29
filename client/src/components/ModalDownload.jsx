@@ -9,7 +9,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import FormControl from '@mui/material/FormControl';
 import { fabric } from 'fabric';
 import { imagesAPI } from '../services/ImageService';
-
+import saveImage from '../services/utils/saveImage';
 
 
 const ModalDownload = (props) => {
@@ -60,15 +60,8 @@ const ModalDownload = (props) => {
             const finalImg = new Image();
 
             finalImg.onload = function () {    
-                finalImg.style.filter = `${downTools[2].filters[0].name}(${downTools[2].filters[0].value}%) 
-                    ${downTools[2].filters[1].name}(${downTools[2].filters[1].value}%) 
-                    ${downTools[2].filters[2].name}(${downTools[2].filters[2].value}%)
-                    ${downTools[2].filters[3].name}(${downTools[2].filters[3].value}%)
-                    ${downTools[2].filters[4].name}(${downTools[2].filters[4].value}px)
-                    ${downTools[2].filters[5].name}(${downTools[2].filters[5].value}%)
-                    ${downTools[2].filters[6].name}(${downTools[2].filters[6].value}%)
-                    ${downTools[2].filters[7].name}(${downTools[2].filters[7].value}deg)`;
-                fabric.Image(finalImg, function (img) {
+                fabric.Image.fromURL(finalImg.src, async function (img) {
+                    // console.log(finalImg);
                     let scaleX = width / img.width;
                     let scaleY = height / img.height;
                     if (width < img.width) {
@@ -82,16 +75,10 @@ const ModalDownload = (props) => {
                         scaleY: scaleY,
                     });
                     newCanvas.renderAll()
-                    const link = document.createElement("a");
-                    link.download = `${fileName}.${format}`;
-                    link.href = newCanvas.toDataURL({
-                        format: format,
-                        quality: quality / 100
-                    });
-                    link.click();
-                    if (isAuth) {
-                        image_upload({ url: link.href, format });
-                    }
+                    await saveImage(newCanvas.toDataURL({
+                            format: format,
+                            quality: quality / 100
+                        }), downTools, image_upload, isAuth, format)
                     props.setOpen(false)
                 });
             };
