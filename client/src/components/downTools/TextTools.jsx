@@ -76,19 +76,21 @@ const TextTools = () => {
                     }
                 }}
             />
-            {downTools[5].positions.map((position, index) => {
-                return <div
-                    key={position}
-                    className={`${position} ${position === downTools[5].curPosition && "text-amber-200 border border-mainFontColor"}tools h-5/6 w-20 rounded-2xl cursor-pointer flex flex-col justify-center items-center hover:text-amber-200 hover:bg-[#333042] content-center`}
-                    onClick={() => { 
-                        dispatch(setFontPosition({ position })) 
-                        editAlign(position, canvas);
-                    }}
-                >
-                    {positionArr[index]}
-                    <p>{position}</p>
-                </div>
-            })}
+            <div className='flex gap-2'>
+                {downTools[5].positions.map((position, index) => {
+                    return <div
+                        key={position}
+                        className={`${position} ${position === downTools[5].curPosition && "text-amber-200 border border-mainFontColor"} h-5/6 w-16 rounded-2xl cursor-pointer flex flex-col justify-center items-center hover:text-amber-200 hover:bg-[#333042]`}
+                        onClick={() => { 
+                            dispatch(setFontPosition({ position })) 
+                            editAlign(position, canvas);
+                        }}
+                    >
+                        {positionArr[index]}
+                        <p>{position}</p>
+                    </div>
+                })}
+            </div>
             <div className="w-fit h-fit my-auto relative">
                 <div
                     onClick={(e) => {
