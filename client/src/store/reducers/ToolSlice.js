@@ -4,6 +4,7 @@ import resizeCanvas from "../../components/fabricJS/resizeCanvas";
 
 
 let initialState = {
+    userImg: false,
     imageProportion: 1,
     maxHeight: 0,
     maxWidth: 0,
@@ -230,8 +231,6 @@ const toolSlice = createSlice({
     reducers: {
         setCanvas: (state, action) => {
             addValue(state, action, "canvas");
-            // state.states[state.curState].canvas = action.payload.canvas
-            // console.log(state.states[state.curState].canvas)
         },
         setCanvasElenment: (state, action) => {
             state.states[state.curState].canvasElement = action.payload.canvas
@@ -239,7 +238,6 @@ const toolSlice = createSlice({
         },
         setTool: (state, action) => {
             addValue(state, action, "curTool");
-            // console.log(newValue)
         },
         setDownTool: (state, action) => {
             addValue(state, action, "curDownTool");
@@ -265,14 +263,13 @@ const toolSlice = createSlice({
         setRotate: (state, action) => {
             state.states[state.curState].downTools[4].value =
                 action.payload.value;
-            // console.log(state.downTools[4].value);
         },
         setFilter: (state, action) => {
             state.states[state.curState].downTools[1].curFilter =
                 action.payload.filter;
         },
         setDrawColor: (state, action) => {
-            state.states[state.curState].downTools[3].curColor = {rgb: action.payload.color};
+            state.states[state.curState].downTools[3].curColor = { rgb: action.payload.color };
         },
         setDrawTool: (state, action) => {
             state.states[state.curState].downTools[3].curTool =
@@ -307,7 +304,7 @@ const toolSlice = createSlice({
         },
         setWidth: (state, action) => {
             state.states[state.curState].downTools[6].width =
-            action.payload.width;
+                action.payload.width;
             if (state.states[state.curState].canvas) {
                 resizeCanvas(state.states[state.curState].previewImg, state.states[state.curState].canvas, state.states[state.curState].downTools[6].height, action.payload.width)
             }
@@ -330,15 +327,15 @@ const toolSlice = createSlice({
         redoState: (state) => {
             if (state.curState < state.states.length - 1) state.curState += 1;
         },
-        applyFilters:  (state, action) => {
-             state.states[state.curState].downTools[2].filters = action.payload.filters
-            //     console.log(incomeFilters[index], filter)
-            // })
-            
+        applyFilters: (state, action) => {
+            state.states[state.curState].downTools[2].filters = action.payload.filters
         },
-        setImageProportion:  (state, action) => {
+        setImageProportion: (state, action) => {
             state.states[state.curState].imageProportion = action.payload.proportion
-       },
+        },
+        setUserImg: (state, action) => {
+            state.states[state.curState].userImg = action.payload.bool
+        },
     },
 });
 
@@ -369,6 +366,7 @@ export const {
     applyFilters,
     setImageProportion,
     setDrawSize,
+    setUserImg
 } = toolSlice.actions;
 
 export default toolSlice.reducer;

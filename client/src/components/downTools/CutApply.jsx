@@ -104,8 +104,8 @@ const CutApply = ({ crop, setCrop }) => {
                 crop.width,
                 crop.height
             );
-
             // Converting to base64
+            console.log(canvas)
             const base64Image = canvas.toDataURL("image/jpeg");
             if (crop.width === 0 || crop.height === 0) {
                 dispatch(setPreviewImg({ previewImg: image }));

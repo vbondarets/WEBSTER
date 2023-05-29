@@ -7,10 +7,8 @@ import Select from '@mui/material/Select';
 import { Button, InputLabel, Slider, TextField } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import FormControl from '@mui/material/FormControl';
-// import { inputLabelClasses } from "@mui/material/InputLabel";
 import { fabric } from 'fabric';
 import { imagesAPI } from '../services/ImageService';
-// import getScale from '../services/utils/getScale';
 
 
 
@@ -27,7 +25,6 @@ const ModalDownload = (props) => {
     const [image_upload, { upload_error }] = imagesAPI.useSaveImageMutation();
 
     useEffect(() => {
-        // console.log(downTools)
         setWidth(downTools[6].width)
         setHeight(downTools[6].height)
     }, [downTools])
@@ -64,7 +61,6 @@ const ModalDownload = (props) => {
                     format: format,
                     quality: quality / 100
                 });
-                // console.log(link.href);
                 link.click();
                 if (isAuth)
                     image_upload({ url: link.href, format });
@@ -80,7 +76,6 @@ const ModalDownload = (props) => {
             aria-describedby="modal-modal-description"
             className='rounded'
         >
-            {/* {console.log(downTools.maxWidth, downTools.maxHeight)} */}
             <Box
                 className={'absolute top-1/2 start-1/2 w-1/4 bg-[#1f2029] p-4 border-2 border-[#000] -translate-y-1/2 -translate-x-1/2 flex flex-col'}
             >
@@ -214,7 +209,7 @@ const ModalDownload = (props) => {
                 >
                     Download
                 </Button>
-                {console.log(upload_error)}
+                {upload_error && console.log(upload_error) }
             </Box>
         </Modal>
     )

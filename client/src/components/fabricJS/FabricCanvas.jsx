@@ -75,7 +75,8 @@ const FabricCanvas = () => {
             dispatch,
             setHight,
             setWidth,
-            setImageProportion
+            setImageProportion,
+            downTools[4].value
         );
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -86,8 +87,6 @@ const FabricCanvas = () => {
             canvas.isDrawingMode = false;
         }
         if (curTool === "Text" && canvas) {
-            // canvas.isDrawingMode = false;
-            // canvas.__eventListeners = undefined;
             canvas.on("selection:created", function (options) {
                 active_obj.current = canvas.getActiveObjects();
             });
@@ -164,10 +163,6 @@ const FabricCanvas = () => {
                 active_obj.current = canvas.getActiveObjects();
             })
         }
-        // else if (curTool === "Draw" && canvas && (downTools[3].curTool === "arrow")) {
-        //     console.log("arrow")
-        //     drawArrow(canvas, downTools);
-        // }
         else {
             if (canvas) {
                 canvas.isDrawingMode = false;

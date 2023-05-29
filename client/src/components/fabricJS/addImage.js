@@ -2,26 +2,25 @@ import { fabric } from 'fabric';
 import getScale from '../../services/utils/getScale';
 
 
-const addImage = (previewImg, canvas, height, width, dispatch, setHight, setWidth, setImageProportion) => {
+const addImage = (previewImg, canvas, height, width, dispatch, setHight, setWidth, setImageProportion, rotate) => {
     const baseImg = new Image();
     baseImg.src = previewImg;
 
-    fabric.Image.fromURL(previewImg, function (img) {
-        console.log(img)
-        let scale = getScale(baseImg.width, baseImg.height, width, height);
+    fabric.Image.fromURL(baseImg.src, function (img) {
+        let scale = getScale(img.width, img.height, width, height);
         canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
             scaleX: scale,
             scaleY: scale,
+            rotate: rotate
         });
         canvas.setDimensions({
-            width: baseImg.width * scale ,
-            height: baseImg.height * scale
+            width: img.width * scale ,
+            height: img.height * scale
         });
         canvas.renderAll()
-        dispatch(setHight({ height: Math.round(baseImg.height * scale)}));
-        dispatch(setWidth({ width: Math.round(baseImg.width * scale)}));
+        dispatch(setHight({ height: Math.round(img.height * scale)}));
+        dispatch(setWidth({ width: Math.round(img.width * scale)}));
         dispatch(setImageProportion({ proportion: scale }));
-        //console.log(`canvas heigth: ${height}, width: ${width}\n image heigth: ${baseImg.height}, width: ${baseImg.width}, new image heigth: ${ baseImg.height * scale}, width: ${baseImg.width * scale}`)
     });
 
 }

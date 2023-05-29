@@ -1,10 +1,10 @@
 import React from "react";
-import { setRotate } from "../../store/reducers/ToolSlice";
+import {setRotate } from "../../store/reducers/ToolSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Slider } from "@mui/material";
 
 const RotateTools = () => {
-    const { downTools } = useSelector((state) => state.toolReducer.states[state.toolReducer.curState]);
+    const { downTools} = useSelector((state) => state.toolReducer.states[state.toolReducer.curState]);
     const dispatch = useDispatch();
     return (
         <div className="w-3/6 mx-auto">
