@@ -173,7 +173,7 @@ const ModalDownload = (props) => {
                     value={width}
                     onChange={event => {
                         if (isLock) {
-                            setHeight(Math.round(parseFloat(event.target.value / proportions)))
+                            setHeight(Math.round(parseFloat(event.target.value / proportions)))``
                         }
                         setWidth(event.target.value)
                     }}
