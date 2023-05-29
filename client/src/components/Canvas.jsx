@@ -127,7 +127,7 @@ const Canvas = () => {
                                     <span> or drag and drop</span>
                                 </p>
                                 <p className="text-xs">
-                                    PNG, JPG (MAX. 800x400px)
+                                    PNG, JPG, WEBP
                                 </p>
                             </div>
                         }

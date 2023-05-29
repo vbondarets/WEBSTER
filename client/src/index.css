@@ -4,6 +4,27 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900");
 
+/* Works on Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(112, 160, 203) rgb(31 32 41);
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+    background: rgb(31 32 41);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: rgb(112, 160, 203);
+    border-radius: 20px;
+    border: 3px solid rgb(31 32 41);
+}
+
 body {
     margin: 0;
     width: 100%;
@@ -17,6 +38,7 @@ body {
     display: flex;
     flex-direction: column;
     color: rgb(234, 236, 239);
+    overflow: none;
 }
 
 .checkbox-auth:checked {
@@ -49,6 +71,6 @@ body {
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
