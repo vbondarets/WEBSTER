@@ -168,7 +168,7 @@ const FabricCanvas = () => {
                 canvas.__eventListeners = undefined;
             }
         }
-        if (curTool === "Rotate" && canvas) {
+        if (canvas && canvas.backgroundImage) {
             canvas.backgroundImage._setOriginToCenter();
             canvas.backgroundImage.set({
                 angle: downTools[4].value,
@@ -188,7 +188,7 @@ const FabricCanvas = () => {
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [curTool, downTools]);
+    }, [curTool, downTools, canvas]);
 
     return (
         <div
