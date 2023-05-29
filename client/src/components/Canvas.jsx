@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
-import ReactCrop from "react-image-crop";
 import { FileUploader } from "react-drag-drop-files";
 import RestoreRoundedIcon from "@mui/icons-material/RestoreRounded";
 import UndoRoundedIcon from "@mui/icons-material/UndoRounded";
@@ -18,27 +17,9 @@ import {
 import FabricCanvas from "./fabricJS/FabricCanvas";
 import CutApply from "./downTools/CutApply";
 
-const getAspect = (key) => {
-    switch (key) {
-        case "1:1":
-            return 1;
-        case "3:2":
-            return 3 / 2;
-        case "4:3":
-            return 4 / 3;
-        case "5:4":
-            return 5 / 4;
-        case "7:5":
-            return 7 / 5;
-        case "16:9":
-            return 16 / 9;
-        default:
-            return 0;
-    }
-};
 
 const Canvas = () => {
-    const { downTools, image, previewImg, curTool, canvas } = useSelector(
+    const { image, previewImg, curTool, canvas } = useSelector(
         (state) => state.toolReducer.states[state.toolReducer.curState]
     );
     const [crop, setCrop] = useState({
@@ -49,25 +30,6 @@ const Canvas = () => {
         unit: "px",
     });
     const dispatch = useDispatch();
-    const previewImgRef = useRef(null);
-
-    const applyFilter = useCallback(() => {
-        previewImgRef.current.style.filter = `${downTools[2].filters[0].name}(${downTools[2].filters[0].value}%) 
-            ${downTools[2].filters[1].name}(${downTools[2].filters[1].value}%) 
-            ${downTools[2].filters[2].name}(${downTools[2].filters[2].value}%)
-            ${downTools[2].filters[3].name}(${downTools[2].filters[3].value}%)
-            ${downTools[2].filters[4].name}(${downTools[2].filters[4].value}px)
-            ${downTools[2].filters[5].name}(${downTools[2].filters[5].value}%)
-            ${downTools[2].filters[6].name}(${downTools[2].filters[6].value}%)
-            ${downTools[2].filters[7].name}(${downTools[2].filters[7].value}deg)`;
-        previewImgRef.current.style.transform = `rotate(${downTools[4].value}deg)`;
-    }, [previewImgRef, downTools]);
-
-    useEffect(() => {
-        if (previewImgRef.current !== null) {
-            applyFilter();
-        }
-    }, [applyFilter]);
 
     const loadImage = (file) => {
         dispatch(setPreviewImg({ previewImg: URL.createObjectURL(file) }));
@@ -115,26 +77,11 @@ const Canvas = () => {
                 >
                     <DeleteOutlineIcon />
                 </div>
-                {curTool === "Cut" && crop && <CutApply position={crop} />}
             </div>
             {previewImg && image ? (
                 <>
                     {curTool === "Cut" ? (
-                        <ReactCrop
-                            crop={crop}
-                            aspect={getAspect(downTools[0].curFormat)}
-                            onChange={(c) => {
-                                setCrop(c);
-                            }}
-                        >
-                            <img
-                                src={image}
-                                className="z-0 select-none"
-                                alt="preview"
-                                ref={previewImgRef}
-                                onLoad={applyFilter}
-                            />
-                        </ReactCrop>
+                        <CutApply crop={crop} setCrop={setCrop} />
                     ) : (
                         <FabricCanvas />
                     )}
