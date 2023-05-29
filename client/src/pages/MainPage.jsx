@@ -7,6 +7,9 @@ import ColorTutor from '../assets/Instructions/Color.gif'
 import RotateTutor from '../assets/Instructions/Rotate.gif'
 import TextTutor from '../assets/Instructions/Text.gif'
 import DownloadTutor from '../assets/Instructions/Download.gif'
+import FilterTutor from '../assets/Instructions/Filter.gif'
+import DrawTutor from '../assets/Instructions/Draw.gif'
+import ResizeTutor from '../assets/Instructions/Resize.gif'
 
 const MainPage = () => {
     return (
@@ -33,7 +36,7 @@ const MainPage = () => {
                     </div>
                     <div className='flex justify-center flex-col bg-mainFontColor p-6 rounded-xl shadow-lg shadow-blue-400/50 gap-3'>
                         <p><strong>4.</strong> In the studio, you can apply filters on your image and apply this operation.</p>
-                        <img className='mt-2 mb-2 rounded-xl shadow-lg shadow-indigo-500/50' src={CutTutor} alt="Gif"/>
+                        <img className='mt-2 mb-2 rounded-xl shadow-lg shadow-indigo-500/50' src={FilterTutor} alt="Gif"/>
                     </div>
                     <div className='flex justify-center flex-col bg-mainFontColor p-6 rounded-xl shadow-lg shadow-blue-400/50 gap-3'>
                         <p><strong>5.</strong> With help of "Color" you are able to change brightness, contrast and other setting of your photo.</p>
@@ -41,7 +44,7 @@ const MainPage = () => {
                     </div>
                     <div className='flex justify-center flex-col bg-mainFontColor p-6 rounded-xl shadow-lg shadow-blue-400/50 gap-3'>
                         <p><strong>6.</strong> With help of "Draw" you are able to draw smth on your photo.</p>
-                        <img className='mt-2 mb-2 rounded-xl shadow-lg shadow-indigo-500/50' src={ColorTutor} alt="Gif"/>
+                        <img className='mt-2 mb-2 rounded-xl shadow-lg shadow-indigo-500/50' src={DrawTutor} alt="Gif"/>
                     </div>
                     <div className='flex justify-center flex-col bg-mainFontColor p-6 rounded-xl shadow-lg shadow-blue-400/50 gap-3'>
                         <p><strong>7.</strong> Also you can rotate your image and apply this operation.</p>
@@ -53,7 +56,7 @@ const MainPage = () => {
                     </div>
                     <div className='flex justify-center flex-col bg-mainFontColor p-6 rounded-xl shadow-lg shadow-blue-400/50 gap-3'>
                         <p><strong>9.</strong> Resize give you opportunity to change current size of your image.</p>
-                        <img className='mt-2 mb-2 rounded-xl shadow-lg shadow-indigo-500/50' src={ColorTutor} alt="Gif"/>
+                        <img className='mt-2 mb-2 rounded-xl shadow-lg shadow-indigo-500/50' src={ResizeTutor} alt="Gif"/>
                     </div>
                     <div className='flex justify-center flex-col bg-mainFontColor p-6 rounded-xl shadow-lg shadow-blue-400/50 gap-3'>
                         <p><strong>10.</strong> You can easily save all your changes and download new image with our last futures.</p>
