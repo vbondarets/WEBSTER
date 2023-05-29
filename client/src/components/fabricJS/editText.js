@@ -1,5 +1,8 @@
 // import { fabric } from 'fabric';
 const editText = (text, canvas) => {
+  if(!canvas){
+    return
+  }
   const objects = canvas.getActiveObjects()
   if (objects.length && objects[0].type === 'text') {
     const textObject = objects[0]
@@ -8,6 +11,9 @@ const editText = (text, canvas) => {
   }
 }
 const editColor = (color, canvas) => {
+  if(!canvas){
+    return
+  }
   const objects = canvas.getActiveObjects()
   objects.forEach(object => {
     if (object.type === "text") {
@@ -17,6 +23,9 @@ const editColor = (color, canvas) => {
   canvas.renderAll()
 }
 const editFont = (font, canvas) => {
+  if(!canvas){
+    return
+  }
   const objects = canvas.getActiveObjects()
   objects.forEach(object => {
     if (object.type === "text") {
@@ -26,6 +35,9 @@ const editFont = (font, canvas) => {
   canvas.renderAll()
 }
 const editAlign = (align, canvas) => {
+  if(!canvas){
+    return
+  }
   const objects = canvas.getActiveObjects()
   objects.forEach(object => {
     if (object.type === "text") {
@@ -34,6 +46,9 @@ const editAlign = (align, canvas) => {
   canvas.renderAll()
 }
 const editSize = (size, canvas) => {
+  if(!canvas){
+    return
+  }
   const objects = canvas.getActiveObjects()
   objects.forEach(object => {
     if (object.type === "text") {

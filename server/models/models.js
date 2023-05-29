@@ -15,6 +15,7 @@ const User = sequelize.define('user', {
 
 const Photos = sequelize.define('photos', {
     photo: {type: DataTypes.STRING, allowNull: false},
+    ai:{type: DataTypes.BOOLEAN, defaultValue: false},
 });
 
 User.hasMany(Photos);
