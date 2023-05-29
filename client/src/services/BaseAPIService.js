@@ -4,6 +4,6 @@ import baseQueryWithReauth from "./QueryWithReauth";
 export const baseAPI = createApi({
     reducerPath: "baseAPI",
     baseQuery: baseQueryWithReauth,
-    tagTypes: ["User"],
+    tagTypes: ["User", "Image"],
     endpoints: () => ({}),
 });

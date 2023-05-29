@@ -65,25 +65,39 @@ const photo_reply = async (ctx, response, keyboard = []) => {
             await ctx.reply(`Your image:`);
 
             // const imageFilePath = await downloadImage(response.imageUrl);
-            const media = response.map((element) => {
-                return {
-                    media: { url: element.url },
-                    type: 'photo',
-                }
-            });
+            // const media = response.map((element) => {
+            //     return {
+            //         media: { url: element.url },
+            //         type: 'photo',
+            //     }
+            // });
 
-            await ctx.replyWithMediaGroup(media);
-            await ctx.reply('Choose image manipulation.',
-                Markup.inlineKeyboard([
+            await ctx.replyWithPhoto(
+                { url: response[0].url }, {
+                ...Markup.inlineKeyboard([
                     keyboard.slice(0, 4).map((element) => {
                         return Markup.button.callback(element.text, element.data, element.hide);
                     }),
                     keyboard.slice(4, 8).map((element) => {
                         return Markup.button.callback(element.text, element.data, element.hide);
                     }),
+                    [Markup.button.callback('Save', `save`, false)],
                 ]
                 ).resize(true),
-            )
+            }
+            );
+            // await ctx.reply('Choose image manipulation.',
+            //     Markup.inlineKeyboard([
+            //         keyboard.slice(0, 4).map((element) => {
+            //             return Markup.button.callback(element.text, element.data, element.hide);
+            //         }),
+            //         keyboard.slice(4, 8).map((element) => {
+            //             return Markup.button.callback(element.text, element.data, element.hide);
+            //         }),
+            //         [Markup.button.callback('Save', `save`, show)],
+            //     ]
+            //     ).resize(true),
+            // )
         }
     } catch (error) {
         console.log(error);
@@ -132,45 +146,45 @@ const midjourney_imagine = async (ctx, prompt, tnl, imgUrl) => {
     }
 }
 
-const dalle_imagine = async (ctx, prompt, tnl) => {
-    try {
+// const dalle_imagine = async (ctx, prompt, tnl) => {
+//     try {
 
-        var botMessage_1 = await ctx.reply(code(`Your image in progress ...`));
-        var my_interval_1 = points_change(botMessage_1, ctx);
+//         var botMessage_1 = await ctx.reply(code(`Your image in progress ...`));
+//         var my_interval_1 = points_change(botMessage_1, ctx);
 
-        const response = await OpenAi.imagine(prompt);
-        console.log(response)
+//         const response = await OpenAi.imagine(prompt);
+//         console.log(response)
 
 
-        await new Promise((resolve) => {
-            setTimeout(resolve, 3000);
-        });
+//         await new Promise((resolve) => {
+//             setTimeout(resolve, 3000);
+//         });
 
-        // const response = await progress_interval(ctx, tnl_request, tnl);
+//         // const response = await progress_interval(ctx, tnl_request, tnl);
 
-        clearInterval(my_interval_1);
+//         clearInterval(my_interval_1);
 
-        await ctx.deleteMessage(botMessage_1.message_id);
+//         await ctx.deleteMessage(botMessage_1.message_id);
 
-        const keyboard = [
-            { text: 'V1', data: `texdfs`, hide: false },
-            { text: 'V2', data: `texdfs`, hide: false },
-            { text: 'V3', data: `texdfs`, hide: false },
-            { text: 'V4', data: `texdfs`, hide: false },
-        ]
-        await photo_reply(ctx, response, keyboard);
+//         const keyboard = [
+//             { text: 'V1', data: `texdfs`, hide: false },
+//             { text: 'V2', data: `texdfs`, hide: false },
+//             { text: 'V3', data: `texdfs`, hide: false },
+//             { text: 'V4', data: `texdfs`, hide: false },
+//         ]
+//         await photo_reply(ctx, response, keyboard);
 
-    } catch (error) {
-        console.log(error)
-        clearInterval(my_interval_1);
-        if (botMessage_1)
-            await ctx.deleteMessage(botMessage_1.message_id);
-        if (error.response.hasOwnProperty('data')) {
-            await ctx.reply(JSON.stringify(error.response.data));
-        }
-        ctx.session.request_process = false;
-    }
-}
+//     } catch (error) {
+//         console.log(error)
+//         clearInterval(my_interval_1);
+//         if (botMessage_1)
+//             await ctx.deleteMessage(botMessage_1.message_id);
+//         if (error.response.hasOwnProperty('data')) {
+//             await ctx.reply(JSON.stringify(error.response.data));
+//         }
+//         ctx.session.request_process = false;
+//     }
+// }
 
 const midjourney_button = async (ctx, button_type, buttonMessageId, tnl) => {
     try {
@@ -211,4 +225,4 @@ const midjourney_button = async (ctx, button_type, buttonMessageId, tnl) => {
     }
 }
 
-module.exports = { midjourney_imagine, midjourney_button, dalle_imagine };
+module.exports = { midjourney_imagine, midjourney_button };

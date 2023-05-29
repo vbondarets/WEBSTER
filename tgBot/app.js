@@ -2,7 +2,7 @@ const { Telegraf, session } = require('telegraf');
 const { message } = require('telegraf/filters');
 const TNL = require('./utils/midjourney_api');
 const AIrequest = require('./utils/AIrequest');
-const { midjourney_imagine, midjourney_button, dalle_imagine } = require('./utils/generating_requests');
+const { midjourney_imagine, midjourney_button } = require('./utils/generating_requests');
 require('dotenv').config();
 
 const removeFile = require('./utils/removeFile');
@@ -13,13 +13,22 @@ const tnl = new TNL(process.env.TNL_AUTH_TOKEN);
 const actionQueue = [];
 
 bot.launch();
-bot.use(session({ defaultSession: () => ({ link_img: undefined, request_process: false }) }));
+bot.use(session({ defaultSession: () => ({ link_img: undefined, request_process: false, webster_id: undefined }) }));
 
-// const Extra = require('telegraf/extra')
-const { Markup, Extra } = require("telegraf");
+const { Markup } = require("telegraf");
+const { default: axios } = require('axios');
+
+const get_webster_id = async (ctx) => {
+    try {
+        const { data } = await axios.post('https://webster.pp.ua/api/user/getter/', { username: (await ctx.telegram.getChat(ctx.chat.id)).username });
+        ctx.session.webster_id = data.id;
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 const keyboard = Markup.inlineKeyboard([
-    Markup.button.login('Login', 'https://webster.pp.ua/auth', {
+    Markup.button.login('Login on Webster', 'https://webster.pp.ua/auth', {
         bot_username: 'WEBSTER_assistant_bot',
         request_write_access: true,
     }),
@@ -37,15 +46,21 @@ setInterval(async () => {
 }, 1200);
 
 bot.start(async (ctx) => {
-    // console.log(await ctx.telegram.getUserProfilePhotos(ctx.message.from.id).photos[0][0])
-    await ctx.reply(`Hello, my name is WEBSTER-assistant, I'm your web assistant in image generating, send me a vioce with description of an image what you want to get.`, keyboard);
-    return;
+    try {
+        get_webster_id(ctx);
+        // console.log(await ctx.telegram.getUserProfilePhotos(ctx.message.from.id).photos[0][0])
+        ctx.reply(`Hello, my name is WEBSTER-assistant, I'm your web assistant in image generating, send me a vioce with description of an image what you want to get.`, keyboard);
+        return;
+
+    } catch (error) {
+        console.log(error);
+    }
 });
 
-bot.command('new', async (ctx) => {
-    await ctx.reply(`Context cleared, waiting for your voice or text message`);
-    return;
-});
+// bot.command('new', async (ctx) => {
+//     ctx.reply(`Context cleared, waiting for your voice or text message`);
+//     return;
+// });
 
 bot.action(/^([a-zA-Z0-9]+)+(-[a-zA-Z0-9]+)$/, async (ctx) => {
     try {
@@ -68,9 +83,33 @@ bot.action(/^([a-zA-Z0-9]+)+(-[a-zA-Z0-9]+)$/, async (ctx) => {
     }
 });
 
+bot.action('save', async (ctx) => {
+    try {
+        if (ctx.session.webster_id) {
+            (async () => {
+                try {
+                    const link = (await ctx.telegram.getFileLink(ctx.callbackQuery.message.photo[ctx.callbackQuery.message.photo.length - 1].file_id)).href;
+                    await axios.post('https://webster.pp.ua/api/images/telegram', { id: ctx.session.webster_id, url: link });
+                    ctx.answerCbQuery('Image saved.');
+                } catch (error) {
+                    console.log(error);
+                    ctx.answerCbQuery('Image save error.');
+                }
+            })()
+        } else {
+            ctx.answerCbQuery('Login on Webster.');
+            get_webster_id(ctx);
+        }
+        return;
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 bot.on('connected_website', async (ctx) => {
+    get_webster_id(ctx);
     // console.log(ctx.telegram.getUserProfilePhotos(ctx.message.from.id))
-    await ctx.reply(`Hello, my name is WEBSTER-assistant, I'm your web assistant in image generating, send me a vioce with description of an image what you want to get.`);
+    ctx.reply(`Hello, my name is WEBSTER-assistant, I'm your web assistant in image generating, send me a vioce with description of an image what you want to get.`);
     return;
 });
 
@@ -82,8 +121,7 @@ bot.on(message('text'), async (ctx) => {
         }
         ctx.session.request_process = true;
         (async () => {
-            console.log('wokr')
-            await ctx.reply(`Your message looks like: \n${ctx.message.text}`);
+            ctx.reply(`Your message looks like: \n${ctx.message.text}`);
 
             const prompts = await AIrequest(ctx, ctx.message.text);
             if (!prompts)
@@ -143,7 +181,7 @@ bot.on(message('photo'), async (ctx) => {
             const link = await ctx.telegram.getFile(ctx.message.photo[ctx.message.photo.length - 1].file_id);
             ctx.session.link_img = link.href;
 
-            await ctx.reply('Send me text or voice message with theme for generate img.');
+            ctx.reply('Send me text or voice message with theme for generate img.');
         })()
 
         return;

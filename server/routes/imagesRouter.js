@@ -3,7 +3,8 @@ const router = new Router();
 const authMiddleware = require('../middleware/authMiddleware');
 const imagesController = require('../controllers/imagesController');
 
-router.get('/', imagesController.getImages);
-router.post('/', imagesController.postImage);
+router.get('/', authMiddleware, imagesController.getImages);
+router.post('/', authMiddleware, imagesController.save_image);
+router.post('/telegram', imagesController.save_telegram_image);
 
 module.exports = router;

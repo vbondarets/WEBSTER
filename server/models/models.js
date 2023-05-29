@@ -9,13 +9,13 @@ const User = sequelize.define('user', {
     login: { type: DataTypes.STRING, unique: true, allowNull: false },
     password: { type: DataTypes.STRING, allowNull: false },
     full_name: { type: DataTypes.STRING, allowNull: false },
-    photo: {type: DataTypes.STRING, defaultValue: `${process.env.DOMAIN}/api/images/default_user.png`},
+    photo: { type: DataTypes.STRING, defaultValue: `${process.env.DOMAIN}/api/images/default_user.png` },
     role: { type: DataTypes.ENUM('USER', 'ADMIN'), defaultValue: "USER" },
 });
 
 const Photos = sequelize.define('photos', {
-    photo: {type: DataTypes.STRING, allowNull: false},
-    ai:{type: DataTypes.BOOLEAN, defaultValue: false},
+    photo: { type: DataTypes.STRING, allowNull: false },
+    AI: { type: DataTypes.BOOLEAN, defaultValue: false },
 });
 
 User.hasMany(Photos);

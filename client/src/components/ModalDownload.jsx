@@ -9,6 +9,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import FormControl from '@mui/material/FormControl';
 // import { inputLabelClasses } from "@mui/material/InputLabel";
 import { fabric } from 'fabric';
+import { imagesAPI } from '../services/ImageService';
 // import getScale from '../services/utils/getScale';
 
 
@@ -17,11 +18,13 @@ const ModalDownload = (props) => {
     const { downTools, canvas } = useSelector(
         (state) => state.toolReducer.states[state.toolReducer.curState]
     );
+    const { isAuth } = useSelector((state) => state.userReducer);
     const [format, setFormat] = useState("")
     const [width, setWidth] = useState(0)
     const [height, setHeight] = useState(0)
     const [fileName, setFileName] = useState("Filename")
     const [quality, setQuality] = useState(100)
+    const [image_upload, { upload_error }] = imagesAPI.useSaveImageMutation();
 
     useEffect(() => {
         // console.log(downTools)
@@ -61,7 +64,10 @@ const ModalDownload = (props) => {
                     format: format,
                     quality: quality / 100
                 });
+                // console.log(link.href);
                 link.click();
+                if (isAuth)
+                    image_upload({ url: link.href, format });
             });
         }
     }
@@ -208,6 +214,7 @@ const ModalDownload = (props) => {
                 >
                     Download
                 </Button>
+                {console.log(upload_error)}
             </Box>
         </Modal>
     )

@@ -56,7 +56,7 @@ export const userAPI = baseAPI.injectEndpoints({
         }),
         getOneUser: build.query({
             query: (data) => ({
-                url: `/user/${data}`,
+                url: `/user`,
                 method: "GET",
             }),
             providesTags: ["User"],
