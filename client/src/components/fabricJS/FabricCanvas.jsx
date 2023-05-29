@@ -81,11 +81,11 @@ const FabricCanvas = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     useEffect(() => {
-        if (canvas ) {
+        if (canvas) {
             const ourArr = [...canvasObjArr]
             const currArr = [...canvas._objects]
-             console.log(ourArr.length , currArr.length);
-            
+            console.log(ourArr.length, currArr.length);
+
             if (ourArr.length > currArr.length) {
                 ourArr.forEach(obj => {
                     canvas.add(obj);
@@ -94,7 +94,7 @@ const FabricCanvas = () => {
             }
         }
         // eslint-disable-next-line
-    }, [canvas,canvasObjArr])
+    }, [canvas, canvasObjArr])
 
     useEffect(() => {
         if (canvas) {
@@ -104,20 +104,6 @@ const FabricCanvas = () => {
             if (currObjs.length > canvasObjArr.length) {
                 dispatch(addObjs({ canvasObjArr: currObjs }));
             }
-            // console.log(currObjs.leng, canvasObjArr.lenght);
-            if (currObjs && canvasObjArr) {
-                // console.log("est'")
-                // console.log(canvasObjArr)
-                // console.log(currObjs.leng, canvasObjArr.lenght);
-                // canvasObjArr.forEach(obj => {
-                //     canvas.add(obj);
-                //     canvas.renderAll()
-                // });
-                // canvas.renderAll()
-            }
-            // if (currObjs.lenght > canvasObjArr.lenght) {
-            //     dispatch(addObjs({ canvasObjArr: currObjs }));
-            // }
         }
         if (curTool === "Text" && canvas) {
             canvas.on("selection:created", function (options) {
@@ -146,16 +132,16 @@ const FabricCanvas = () => {
             canvas.freeDrawingBrush.color = color;
             canvas.freeDrawingBrush.width = downTools[3].size;
             const currObjs = canvas.getObjects();
-                    if (currObjs.length > canvasObjArr.length) {
-                        dispatch(addObjs({ canvasObjArr: currObjs }));
-                    }
+            if (currObjs.length > canvasObjArr.length) {
+                dispatch(addObjs({ canvasObjArr: currObjs }));
+            }
         }
         else if (curTool === "Draw" && canvas && (downTools[3].curTool === "straight")) {
             drawLine(canvas, downTools)
             const currObjs = canvas.getObjects();
-                    if (currObjs.length > canvasObjArr.length) {
-                        dispatch(addObjs({ canvasObjArr: currObjs }));
-                    }
+            if (currObjs.length > canvasObjArr.length) {
+                dispatch(addObjs({ canvasObjArr: currObjs }));
+            }
         }
         else if (curTool === "Draw" && canvas && (downTools[3].curTool === "triangle")) {
             canvas.on("selection:created", function (options) {
@@ -225,9 +211,9 @@ const FabricCanvas = () => {
                 canvas.isDrawingMode = false;
                 canvas.__eventListeners = undefined;
                 const currObjs = canvas.getObjects();
-                    if (currObjs.length > canvasObjArr.length) {
-                        dispatch(addObjs({ canvasObjArr: currObjs }));
-                    }
+                if (currObjs.length > canvasObjArr.length) {
+                    dispatch(addObjs({ canvasObjArr: currObjs }));
+                }
             }
         }
         if (canvas && canvas.backgroundImage) {
