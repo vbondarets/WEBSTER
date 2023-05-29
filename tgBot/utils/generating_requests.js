@@ -64,14 +64,6 @@ const photo_reply = async (ctx, response, keyboard = []) => {
         if (response[0]) {
             await ctx.reply(`Your image:`);
 
-            // const imageFilePath = await downloadImage(response.imageUrl);
-            // const media = response.map((element) => {
-            //     return {
-            //         media: { url: element.url },
-            //         type: 'photo',
-            //     }
-            // });
-
             await ctx.replyWithPhoto(
                 { url: response[0].url }, {
                 ...Markup.inlineKeyboard([
@@ -86,18 +78,6 @@ const photo_reply = async (ctx, response, keyboard = []) => {
                 ).resize(true),
             }
             );
-            // await ctx.reply('Choose image manipulation.',
-            //     Markup.inlineKeyboard([
-            //         keyboard.slice(0, 4).map((element) => {
-            //             return Markup.button.callback(element.text, element.data, element.hide);
-            //         }),
-            //         keyboard.slice(4, 8).map((element) => {
-            //             return Markup.button.callback(element.text, element.data, element.hide);
-            //         }),
-            //         [Markup.button.callback('Save', `save`, show)],
-            //     ]
-            //     ).resize(true),
-            // )
         }
     } catch (error) {
         console.log(error);
