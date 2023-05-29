@@ -132,6 +132,13 @@ const FabricCanvas = () => {
             canvas.freeDrawingBrush.color = color;
             canvas.freeDrawingBrush.width = downTools[3].size;
             const currObjs = canvas.getObjects();
+            canvas.on('mouse:up', function (o) {
+                canvas.isDrawingMode = false;
+                if (currObjs.length > canvasObjArr.length) {
+                    dispatch(addObjs({ canvasObjArr: currObjs }));
+                }
+                canvas.isDrawingMode = true;
+            });
             if (currObjs.length > canvasObjArr.length) {
                 dispatch(addObjs({ canvasObjArr: currObjs }));
             }
