@@ -97,10 +97,10 @@ const AboutPage = () => {
                         <h2 className="text-2xl border-b border-white pb-1 mb-6 font-bold">
                             Stack Of Technologies
                         </h2>
-                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-5 items-center">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-8 items-end">
                             <div className="flex flex-col items-center text-xl">
                                 <img
-                                    className="h-12"
+                                    className="h-12 object-contain"
                                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/2300px-React-icon.svg.png"
                                     alt="React"
                                 />
@@ -108,7 +108,7 @@ const AboutPage = () => {
                             </div>
                             <div className="flex flex-col items-center text-xl">
                                 <img
-                                    className="h-12"
+                                    className="h-12 object-contain"
                                     src="https://raw.githubusercontent.com/reduxjs/redux/master/logo/logo.png   "
                                     alt="RTK"
                                 />
@@ -116,7 +116,7 @@ const AboutPage = () => {
                             </div>
                             <div className="flex flex-col items-center text-xl">
                                 <img
-                                    className="h-12"
+                                    className="h-12 object-contain"
                                     src="https://camo.qiitausercontent.com/44049127109ccf907500dba6026b174154388cb0/68747470733a2f2f71696974612d696d6167652d73746f72652e73332e616d617a6f6e6177732e636f6d2f302f37353633332f38323938633065652d636430302d653634362d303465372d6338393264323165653566642e706e67"
                                     alt="JOI"
                                 />
@@ -124,7 +124,7 @@ const AboutPage = () => {
                             </div>
                             <div className="flex flex-col items-center text-xl">
                                 <img
-                                    className="h-12"
+                                    className="h-12 object-contain"
                                     src="https://mui.com/static/logo.png"
                                     alt="MUI"
                                 />
@@ -132,7 +132,7 @@ const AboutPage = () => {
                             </div>
                             <div className="flex flex-col items-center text-xl">
                                 <img
-                                    className="w-20 h-10"
+                                    className="w-20 h-10 object-contain"
                                     src="https://ies.solutions/wordpress/wp-content/uploads/jwt.png"
                                     alt="JWT"
                                 />
@@ -140,7 +140,7 @@ const AboutPage = () => {
                             </div>
                             <div className="flex flex-col items-center text-xl">
                                 <img
-                                    className="h-12"
+                                    className="h-12 object-contain"
                                     src="https://mmg-gitlab.fjfi.cvut.cz/gitlab/uploads/-/system/project/avatar/6/tnl_logo_circle.png"
                                     alt="TNL"
                                 />
@@ -148,11 +148,51 @@ const AboutPage = () => {
                             </div>
                             <div className="flex flex-col items-center text-xl">
                                 <img
-                                    className="w-30 h-10"
+                                    className="w-30 h-10 object-contain"
                                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/OpenAI_Logo.svg/2560px-OpenAI_Logo.svg.png"
                                     alt="OpenAI"
                                 />
                                 <span>OpenAI</span>
+                            </div>
+                            <div className="flex flex-col items-center text-xl">
+                                <img
+                                    className="w-30 h-10 object-contain"
+                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/262px-Node.js_logo.svg.png"
+                                    alt="NodeJS"
+                                />
+                                <span>NodeJS</span>
+                            </div>
+                            <div className="flex flex-col items-center text-xl">
+                                <img
+                                    className="w-30 h-10 object-contain"
+                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Expressjs.png/400px-Expressjs.png"
+                                    alt="Express"
+                                />
+                                <span>Express</span>
+                            </div>
+                            <div className="flex flex-col items-center text-xl">
+                                <img
+                                    className="w-30 h-10 object-contain"
+                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/155px-Postgresql_elephant.svg.png"
+                                    alt="PostgreSQL"
+                                />
+                                <span>PostgreSQL</span>
+                            </div>
+                            <div className="flex flex-col items-center text-xl">
+                                <img
+                                    className="w-30 h-10 object-contain"
+                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Telegram_2019_Logo.svg/160px-Telegram_2019_Logo.svg.png"
+                                    alt="Telegraf"
+                                />
+                                <span>Telegraf</span>
+                            </div>
+                            <div className="flex flex-col items-center text-xl">
+                                <img
+                                    className="w-30 h-10 object-contain"
+                                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Docker_%28container_engine%29_logo.svg/440px-Docker_%28container_engine%29_logo.svg.png"
+                                    alt="Docker"
+                                />
+                                <span>Docker</span>
                             </div>
                         </div>
                     </div>

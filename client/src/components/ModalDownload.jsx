@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { useSelector } from 'react-redux';
@@ -23,6 +23,8 @@ const ModalDownload = (props) => {
     const [fileName, setFileName] = useState("Filename")
     const [quality, setQuality] = useState(100)
     const [image_upload, { upload_error }] = imagesAPI.useSaveImageMutation();
+    const [messageError, setMessageError] = useState('')
+    const errorRef = useRef();
 
     useEffect(() => {
         setWidth(downTools[6].width)
@@ -62,9 +64,18 @@ const ModalDownload = (props) => {
                     quality: quality / 100
                 });
                 link.click();
-                if (isAuth)
+                if (isAuth){
                     image_upload({ url: link.href, format });
+                }
+                props.setOpen(false)
             });
+        }
+        else {
+            errorRef.current.style.display = 'block'
+            setMessageError('Fill all data')
+            setTimeout(() => {
+                errorRef.current.style.display = 'none'
+            }, 1500)
         }
     }
 
@@ -199,6 +210,12 @@ const ModalDownload = (props) => {
                         setQuality(event.target.value)
                     }}
                 />
+                <p
+                    ref={errorRef}
+                    className='w-1/2 text-2xl text-center rounded bg-mainFontColor mt-4 mx-auto py-0 border-2 border-red-500 hidden'
+                >
+                    {messageError}
+                </p>
                 <Button
                     style={{ marginTop: "20px" }}
                     startIcon={<DownloadIcon />}

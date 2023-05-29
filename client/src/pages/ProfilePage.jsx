@@ -44,7 +44,7 @@ const ProfilePage = () => {
                             console.log(element);
                             return <img
                                 id={element.id}
-                                className="rounded-xl cursor-pointer"
+                                className="rounded-xl cursor-pointer object-contain"
                                 src={element.photo}
                                 alt="edit_photo"
                                 key={element.id}
