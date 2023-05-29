@@ -58,10 +58,9 @@ const ModalDownload = (props) => {
                 height: height
             });
             const finalImg = new Image();
-            finalImg.src = imgHref
 
             finalImg.onload = function () {    
-                template.style.filter = `${downTools[2].filters[0].name}(${downTools[2].filters[0].value}%) 
+                finalImg.style.filter = `${downTools[2].filters[0].name}(${downTools[2].filters[0].value}%) 
                     ${downTools[2].filters[1].name}(${downTools[2].filters[1].value}%) 
                     ${downTools[2].filters[2].name}(${downTools[2].filters[2].value}%)
                     ${downTools[2].filters[3].name}(${downTools[2].filters[3].value}%)
@@ -96,6 +95,7 @@ const ModalDownload = (props) => {
                     props.setOpen(false)
                 });
             };
+            finalImg.src = imgHref
         }
         else {
             errorRef.current.style.display = 'block'
