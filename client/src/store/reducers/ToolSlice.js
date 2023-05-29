@@ -323,27 +323,29 @@ const toolSlice = createSlice({
             state.states = state.states.slice(0, 1);
         },
         undoState: (state) => {
-            if (state.curState > 0) state.curState -= 1;
-
-
-            const ourArr = [...state.states[state.curState].canvasObjArr]
-            console.log(ourArr.length)
-            state.states[state.curState].canvas.remove(...state.states[state.curState].canvas.getObjects());
-            ourArr.forEach(obj => {
-                state.states[state.curState].canvas.add(obj);
-            });
-            state.states[state.curState].canvas.renderAll()
+            if (state.curState > 0) {
+                state.curState -= 1;
+                const ourArr = [...state.states[state.curState].canvasObjArr]
+                console.log(ourArr.length);
+                state.states[state.curState].canvas.remove(...state.states[state.curState].canvas.getObjects());
+                ourArr.forEach(obj => {
+                    state.states[state.curState].canvas.add(obj);
+                });
+                state.states[state.curState].canvas.renderAll();
+            }
         },
         redoState: (state) => {
-            if (state.curState < state.states.length - 1) state.curState += 1;
+            if (state.curState < state.states.length - 1) {
+                state.curState += 1;
 
-            const ourArr = [...state.states[state.curState].canvasObjArr]
-            console.log(ourArr.length)
-            state.states[state.curState].canvas.remove(...state.states[state.curState].canvas.getObjects());
-            ourArr.forEach(obj => {
-                state.states[state.curState].canvas.add(obj);
-            });
-            state.states[state.curState].canvas.renderAll()
+                const ourArr = [...state.states[state.curState].canvasObjArr]
+                console.log(ourArr.length);
+                state.states[state.curState].canvas.remove(...state.states[state.curState].canvas.getObjects());
+                ourArr.forEach(obj => {
+                    state.states[state.curState].canvas.add(obj);
+                });
+                state.states[state.curState].canvas.renderAll();
+            }
         },
         applyFilters: (state, action) => {
             state.states[state.curState].downTools[2].filters = action.payload.filters

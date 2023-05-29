@@ -14,7 +14,7 @@ const Navbar = () => {
     console.log(data);
     return (
         <nav className="bg-main w-full z-40 top-0 left-0 border-b-2 border-slate-700">
-            <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
+            <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3 select-none">
                 <Link
                     to={"/"}
                     className=" ease-in-out duration-150 hover:text-amber-200 transition-all self-center text-2xl font-semibold whitespace-nowrap"

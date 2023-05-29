@@ -4,7 +4,7 @@ import PhotoSizeSelectActualIcon from '@mui/icons-material/PhotoSizeSelectActual
 import { userAPI } from "../services/UserService";
 import { imagesAPI } from "../services/ImageService";
 import { useDispatch } from "react-redux";
-import { setImage, setPreviewImg} from "../store/reducers/ToolSlice";
+import { resetState, setImage, setPreviewImg} from "../store/reducers/ToolSlice";
 import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
@@ -55,6 +55,7 @@ const ProfilePage = () => {
                                     const toDataURL = url => fetch(url)
                                         .then(response => response.blob())
                                         .then(blob => new Promise((resolve, reject) => {
+                                            dispatch(resetState());
                                             const reader = new FileReader()
                                             reader.onloadend = () => resolve(reader.result)
                                             reader.onerror = reject

@@ -25,7 +25,7 @@ const CutTools = () => {
                         className={`${format} ${
                             format === downTools[0].curFormat &&
                             "text-amber-200 border border-mainFontColor"
-                        } format h-5/6 w-20 hover:text-amber-200 hover:bg-[#333042] rounded-2xl cursor-pointer flex flex-col justify-center items-center content-center`}
+                        } format select-none h-5/6 w-20 hover:text-amber-200 hover:bg-[#333042] rounded-2xl cursor-pointer flex flex-col justify-center items-center content-center`}
                         onClick={(e) => {
                             dispatch(setFormat({ format }));
                         }}

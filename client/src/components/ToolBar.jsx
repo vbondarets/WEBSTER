@@ -45,7 +45,7 @@ const ToolBar = () => {
     };
 
     return (
-        <div className="flex flex-col gap-1 items-center p-1 text-sm z-20 bg-[#131314] border-r-2 border-slate-700">
+        <div className="flex flex-col gap-1 items-center p-1 text-sm z-20 bg-[#131314] border-r-2 border-slate-700 select-none">
             {buttons.map((value) => (
                 <div
                     key={value.name}
@@ -60,8 +60,8 @@ const ToolBar = () => {
             <div
                 className="flex flex-col items-center justify-center h-16 w-16 rounded-2xl hover:text-amber-200 hover:bg-toolBg/90 cursor-pointer"
                 onClick={() => {
-                    setActiveTool("Image");
-                    fileInputRef.current.click();
+                    if (canvas)
+                        fileInputRef.current.click();
                 }}
             >
                 <AddToPhotosRoundedIcon className="mx-auto" />
@@ -79,7 +79,7 @@ const ToolBar = () => {
                 className="flex flex-col items-center justify-center h-16 w-16 rounded-2xl hover:text-amber-200 hover:bg-toolBg/90 cursor-pointer"
                 onClick={() => {
                     // saveImage(previewImg, downTools);
-                    if(canvas){
+                    if (canvas) {
                         setOpen(true)
                     }
                 }}

@@ -27,7 +27,7 @@ const TextTools = () => {
             className='textTools flex  w-full h-full justify-center items-center font-sans gap-6'
             onClick={() => { setOnColor(false) }}
         >
-            <div className='fontChange my-auto'>
+            <div className='fontChange my-auto select-none'>
                 <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
                     <InputLabel style={{ color: "rgb(112, 160, 203)" }} className=' text-mainFontColor '>Font</InputLabel>
                     <Select
@@ -80,7 +80,7 @@ const TextTools = () => {
                 {downTools[5].positions.map((position, index) => {
                     return <div
                         key={position}
-                        className={`${position} ${position === downTools[5].curPosition && "text-amber-200 border border-mainFontColor"} h-5/6 w-16 rounded-2xl cursor-pointer flex flex-col justify-center items-center hover:text-amber-200 hover:bg-[#333042]`}
+                        className={`${position} ${position === downTools[5].curPosition && "text-amber-200 border border-mainFontColor"} select-none h-5/6 w-16 rounded-2xl cursor-pointer flex flex-col justify-center items-center hover:text-amber-200 hover:bg-[#333042]`}
                         onClick={() => { 
                             dispatch(setFontPosition({ position })) 
                             editAlign(position, canvas);

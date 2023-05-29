@@ -40,7 +40,7 @@ const FilterTools = () => {
                 }
                 return <div
                     key={filter}
-                    className={`${filter} ${downTools[1].filters[index] === downTools[1].curFilter && "text-amber-200  border border-mainFontColor"} filters h-24 w-20 hover:text-amber-200 hover:bg-[#333042] rounded-2xl cursor-pointer flex flex-col justify-center items-center content-center px-1 py-3`}
+                    className={`${filter} ${downTools[1].filters[index] === downTools[1].curFilter && "text-amber-200  border border-mainFontColor"} select-none filters h-24 w-20 hover:text-amber-200 hover:bg-[#333042] rounded-2xl cursor-pointer flex flex-col justify-center items-center content-center px-1 py-3`}
                     onClick={() => {
                         dispatch(setFilter({filter}))
                         applyNewFilters(downTools[2].filters, downTools[1].filtersValues[index])
