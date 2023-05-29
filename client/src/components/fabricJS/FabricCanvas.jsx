@@ -7,7 +7,8 @@ import {
     setMaxHight,
     setMaxWidth,
     setWidth,
-    setImageProportion
+    setImageProportion,
+    addObjs
 } from "../../store/reducers/ToolSlice";
 import { useDispatch, useSelector } from "react-redux";
 import addImage from "./addImage";
@@ -32,7 +33,7 @@ const FabricCanvas = () => {
     const canvasWrapperRef = useRef(null);
     const dispatch = useDispatch();
     let active_obj = useRef([]);
-    const { downTools, previewImg, curTool, canvas } = useSelector(
+    const { downTools, previewImg, curTool, canvas, canvasObjArr } = useSelector(
         (state) => state.toolReducer.states[state.toolReducer.curState]
     );
 
@@ -79,11 +80,44 @@ const FabricCanvas = () => {
         );
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    useEffect(() => {
+        if (canvas ) {
+            const ourArr = [...canvasObjArr]
+            const currArr = [...canvas._objects]
+             console.log(ourArr.length , currArr.length);
+            
+            if (ourArr.length > currArr.length) {
+                ourArr.forEach(obj => {
+                    canvas.add(obj);
+                });
+                canvas.renderAll()
+            }
+        }
+        // eslint-disable-next-line
+    }, [canvas,canvasObjArr])
 
     useEffect(() => {
         if (canvas) {
             canvas.__eventListeners = undefined;
             canvas.isDrawingMode = false;
+            const currObjs = canvas.getObjects();
+            if (currObjs.length > canvasObjArr.length) {
+                dispatch(addObjs({ canvasObjArr: currObjs }));
+            }
+            // console.log(currObjs.leng, canvasObjArr.lenght);
+            if (currObjs && canvasObjArr) {
+                // console.log("est'")
+                // console.log(canvasObjArr)
+                // console.log(currObjs.leng, canvasObjArr.lenght);
+                // canvasObjArr.forEach(obj => {
+                //     canvas.add(obj);
+                //     canvas.renderAll()
+                // });
+                // canvas.renderAll()
+            }
+            // if (currObjs.lenght > canvasObjArr.lenght) {
+            //     dispatch(addObjs({ canvasObjArr: currObjs }));
+            // }
         }
         if (curTool === "Text" && canvas) {
             canvas.on("selection:created", function (options) {
@@ -98,6 +132,10 @@ const FabricCanvas = () => {
                 const obj = addText(canvas, cords);
                 if (obj) {
                     canvas.setActiveObject(obj);
+                    const currObjs = canvas.getObjects();
+                    if (currObjs.length > canvasObjArr.length) {
+                        dispatch(addObjs({ canvasObjArr: currObjs }));
+                    }
                 }
                 active_obj.current = canvas.getActiveObjects();
             })
@@ -107,9 +145,17 @@ const FabricCanvas = () => {
             const color = `rgba(${downTools[3].curColor.rgb.r}, ${downTools[3].curColor.rgb.g}, ${downTools[3].curColor.rgb.b}, ${downTools[3].curColor.rgb.a})`
             canvas.freeDrawingBrush.color = color;
             canvas.freeDrawingBrush.width = downTools[3].size;
+            const currObjs = canvas.getObjects();
+                    if (currObjs.length > canvasObjArr.length) {
+                        dispatch(addObjs({ canvasObjArr: currObjs }));
+                    }
         }
         else if (curTool === "Draw" && canvas && (downTools[3].curTool === "straight")) {
             drawLine(canvas, downTools)
+            const currObjs = canvas.getObjects();
+                    if (currObjs.length > canvasObjArr.length) {
+                        dispatch(addObjs({ canvasObjArr: currObjs }));
+                    }
         }
         else if (curTool === "Draw" && canvas && (downTools[3].curTool === "triangle")) {
             canvas.on("selection:created", function (options) {
@@ -124,6 +170,10 @@ const FabricCanvas = () => {
                 const obj = addTrialngle(canvas, downTools, pointer);
                 if (obj) {
                     canvas.setActiveObject(obj);
+                    const currObjs = canvas.getObjects();
+                    if (currObjs.length > canvasObjArr.length) {
+                        dispatch(addObjs({ canvasObjArr: currObjs }));
+                    }
                 }
                 active_obj.current = canvas.getActiveObjects();
             })
@@ -141,6 +191,10 @@ const FabricCanvas = () => {
                 const obj = addRectangle(canvas, downTools, pointer);
                 if (obj) {
                     canvas.setActiveObject(obj);
+                    const currObjs = canvas.getObjects();
+                    if (currObjs.length > canvasObjArr.length) {
+                        dispatch(addObjs({ canvasObjArr: currObjs }));
+                    }
                 }
                 active_obj.current = canvas.getActiveObjects();
             })
@@ -158,6 +212,10 @@ const FabricCanvas = () => {
                 const obj = addCircle(canvas, downTools, pointer);
                 if (obj) {
                     canvas.setActiveObject(obj);
+                    const currObjs = canvas.getObjects();
+                    if (currObjs.length > canvasObjArr.length) {
+                        dispatch(addObjs({ canvasObjArr: currObjs }));
+                    }
                 }
                 active_obj.current = canvas.getActiveObjects();
             })
@@ -166,6 +224,10 @@ const FabricCanvas = () => {
             if (canvas) {
                 canvas.isDrawingMode = false;
                 canvas.__eventListeners = undefined;
+                const currObjs = canvas.getObjects();
+                    if (currObjs.length > canvasObjArr.length) {
+                        dispatch(addObjs({ canvasObjArr: currObjs }));
+                    }
             }
         }
         if (canvas && canvas.backgroundImage) {

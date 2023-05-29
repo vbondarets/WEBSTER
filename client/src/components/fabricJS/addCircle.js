@@ -7,8 +7,8 @@ const addCircle = (canvas, downTools, pointer) => {
         return
     }
     const circle = new fabric.Circle({
-        top: pointer.y - (10 * downTools[3].size),
-        left: pointer.x - (10 * downTools[3].size),
+        top: pointer.y - (5 * downTools[3].size),
+        left: pointer.x - (5 * downTools[3].size),
         radius: 10 * downTools[3].size,
         fill: color,
         stroke: color,

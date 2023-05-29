@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, {useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ContentCutRoundedIcon from "@mui/icons-material/ContentCutRounded";
 import { setFormat } from "../../store/reducers/ToolSlice";
