@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import ReactCrop from "react-image-crop";
@@ -6,22 +6,48 @@ import { FileUploader } from "react-drag-drop-files";
 import RestoreRoundedIcon from "@mui/icons-material/RestoreRounded";
 import UndoRoundedIcon from "@mui/icons-material/UndoRounded";
 import RedoRoundedIcon from "@mui/icons-material/RedoRounded";
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import "react-image-crop/dist/ReactCrop.css";
 import {
     setImage,
-    setPosition,
     setPreviewImg,
     resetState,
     undoState,
     redoState,
 } from "../store/reducers/ToolSlice";
 import FabricCanvas from "./fabricJS/FabricCanvas";
+import CutApply from "./downTools/CutApply";
+
+const getAspect = (key) => {
+    switch (key) {
+        case "1:1":
+            return 1;
+        case "3:2":
+            return 3 / 2;
+        case "4:3":
+            return 4 / 3;
+        case "5:4":
+            return 5 / 4;
+        case "7:5":
+            return 7 / 5;
+        case "16:9":
+            return 16 / 9;
+        default:
+            return 0;
+    }
+};
 
 const Canvas = () => {
     const { downTools, image, previewImg, curTool, canvas } = useSelector(
         (state) => state.toolReducer.states[state.toolReducer.curState]
     );
+    const [crop, setCrop] = useState({
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+        unit: "px",
+    });
     const dispatch = useDispatch();
     const previewImgRef = useRef(null);
 
@@ -79,23 +105,26 @@ const Canvas = () => {
                     className="hover:bg-gray-200/40 p-2 rounded-lg cursor-pointer"
                     onClick={() => {
                         if (canvas) {
-                            canvas.getActiveObjects().forEach(object => canvas.remove(object))
-                            canvas.discardActiveObject()
-                            canvas.renderAll()
+                            canvas
+                                .getActiveObjects()
+                                .forEach((object) => canvas.remove(object));
+                            canvas.discardActiveObject();
+                            canvas.renderAll();
                         }
                     }}
                 >
                     <DeleteOutlineIcon />
                 </div>
+                {curTool === "Cut" && crop && <CutApply position={crop} />}
             </div>
             {previewImg && image ? (
                 <>
                     {curTool === "Cut" ? (
                         <ReactCrop
-                            crop={downTools[0].position}
-                            onChange={(c, percentCrop) => {
-                                console.log(c, percentCrop);
-                                dispatch(setPosition(c));
+                            crop={crop}
+                            aspect={getAspect(downTools[0].curFormat)}
+                            onChange={(c) => {
+                                setCrop(c);
                             }}
                         >
                             <img
@@ -126,9 +155,7 @@ const Canvas = () => {
                                     </span>
                                     <span> or drag and drop</span>
                                 </p>
-                                <p className="text-xs">
-                                    PNG, JPG, WEBP
-                                </p>
+                                <p className="text-xs">PNG, JPG, WEBP</p>
                             </div>
                         }
                         classes="flex flex-col items-center justify-center w-1/2 xl:w-1/3 min-w-[250px] h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer hover:bg-gray-100/10"

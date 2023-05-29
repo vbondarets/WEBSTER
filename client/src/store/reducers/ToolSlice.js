@@ -25,7 +25,6 @@ let initialState = {
         {
             name: "Cut",
             curFormat: "Custom",
-            position: { x: 0, y: 0, width: 0, height: 0, unit: "px" },
             formats: ["Custom", "1:1", "3:2", "4:3", "5:4", "7:5", "16:9"],
         },
         {
@@ -251,9 +250,6 @@ const toolSlice = createSlice({
         setImage: (state, action) => {
             state.states[state.curState].image = action.payload.image;
         },
-        setPosition: (state, action) => {
-            state.states[state.curState].downTools[0].position = action.payload;
-        },
         setValues: (state, action) => {
             const newValue = {
                 ...state.states[state.curState].downTools,
@@ -360,7 +356,6 @@ export const {
     setFontColor,
     setFontPosition,
     setImage,
-    setPosition,
     setFontSize,
     resetState,
     undoState,
