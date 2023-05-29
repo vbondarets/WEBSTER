@@ -38,7 +38,7 @@ const ModalDownload = (props) => {
             setWidth(4000)
         }
         if (height < 0) {
-           setHeight(0)
+            setHeight(0)
         }
         if (width < 0) {
             setWidth(0)
@@ -71,6 +71,14 @@ const ModalDownload = (props) => {
                     scaleY: scaleY,
                 });
                 newCanvas.renderAll()
+                newCanvas.style.filter = `${downTools[2].filters[0].name}(${downTools[2].filters[0].value}%) 
+                ${downTools[2].filters[1].name}(${downTools[2].filters[1].value}%) 
+                ${downTools[2].filters[2].name}(${downTools[2].filters[2].value}%)
+                ${downTools[2].filters[3].name}(${downTools[2].filters[3].value}%)
+                ${downTools[2].filters[4].name}(${downTools[2].filters[4].value}px)
+                ${downTools[2].filters[5].name}(${downTools[2].filters[5].value}%)
+                ${downTools[2].filters[6].name}(${downTools[2].filters[6].value}%)
+                ${downTools[2].filters[7].name}(${downTools[2].filters[7].value}deg)`;
                 const link = document.createElement("a");
                 link.download = `${fileName}.${format}`;
                 link.href = newCanvas.toDataURL({
@@ -78,7 +86,7 @@ const ModalDownload = (props) => {
                     quality: quality / 100
                 });
                 link.click();
-                if (isAuth){
+                if (isAuth) {
                     image_upload({ url: link.href, format });
                 }
                 props.setOpen(false)
@@ -240,7 +248,7 @@ const ModalDownload = (props) => {
                 >
                     Download
                 </Button>
-                {upload_error && console.log(upload_error) }
+                {upload_error && console.log(upload_error)}
             </Box>
         </Modal>
     )

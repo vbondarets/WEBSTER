@@ -42,9 +42,12 @@ const ProfilePage = () => {
                     <div className="grid grid-cols-1 w-3/4 mt-4 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
                         {image_data.photos.map((element) => {
                             console.log(element);
-                            return <img
+                            return <div
+                                        className="w-full h-full border border-mainFontColor p-1 rounded hover:bg-white/10 hover:border-amber-200"
+                                    >
+                                 <img
                                 id={element.id}
-                                className="rounded-xl cursor-pointer object-contain"
+                                className="rounded-xl cursor-pointer h-full w-fuul object-contain"
                                 src={element.photo}
                                 alt="edit_photo"
                                 key={element.id}
@@ -67,6 +70,8 @@ const ProfilePage = () => {
                                         })
                                 }}
                             />
+                            </div>
+                           
                         })}
                     </div>
                 </div>
