@@ -16,8 +16,8 @@ const HOST = process.env.HOST ? process.env.HOST : 'localhost';
 const app = express();
 
 app.use(cors({ origin: { origin: '*' }, credentials: true }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '10mb' }))
+app.use(express.urlencoded({ limit: '10mb', extended: true }))
 app.use('/api', express.static(path.resolve(__dirname, "static")));
 app.use(fileUpload({}));
 app.use(cookieParser());
