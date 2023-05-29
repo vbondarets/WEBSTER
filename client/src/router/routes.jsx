@@ -11,15 +11,13 @@ import ProfilePage from "../pages/ProfilePage";
 export const publicRoutes = [
     { path: "/", component: <Container component={<MainPage/>}/>},
     { path: "/auth", component: <AuthPage /> },
-    { path: "/test", component: <Container component={<Test/>}/>},
     { path: "/studio", component: <Container component={<Studio/>}/>},
     { path: "/about", component: <Container component={<AboutPage/>}/>},
     { path: "/support", component: <Container component={<SupportPage/>}/>},
-    { path: "/profile", component: <Container component={<ProfilePage/>}/>},
     { path: "/telegram-auth", component: <Container component={<ProfilePage/>}/>},
 ];
 
 export const authRoutes = [
-    // { path: "/notification", component: <Container component={<NotifyPage />} /> },
-    // { path: "/favorite", component: <Container component={<FavoritePage />} /> },
+    { path: "/profile", component: <Container component={<ProfilePage/>}/>},
+    { path: "/test", component: <Container component={<Test/>}/>},
 ]

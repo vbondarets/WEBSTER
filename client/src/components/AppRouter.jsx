@@ -5,7 +5,7 @@ import { publicRoutes } from '../router/routes';
 
 
 const AppRouter = () => {
-    // const {isAuth, confirmed} = useSelector((state) => state.userReducer);
+    const {isAuth} = useSelector((state) => state.userReducer);
     // const role = useSelector(store => store.Auth.user.role);
     return (
         <Routes>
@@ -13,9 +13,9 @@ const AppRouter = () => {
                 return <Route key={path} path={path} element={component} exact/>
             })}
 
-            {/* {isAuth && authRoutes.map(({path, component}) => {
+            {isAuth && authRoutes.map(({path, component}) => {
                 return <Route key={path} path={path} element={component} exact/>
-            })} */}
+            })}
             <Route path='*' element={<Navigate to={'/'} replace/>}/>
         </Routes>
     )

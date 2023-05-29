@@ -79,7 +79,9 @@ const ToolBar = () => {
                 className="flex flex-col items-center justify-center h-16 w-16 rounded-2xl hover:text-amber-200 hover:bg-toolBg/90 cursor-pointer"
                 onClick={() => {
                     // saveImage(previewImg, downTools);
-                    setOpen(true)
+                    if(canvas){
+                        setOpen(true)
+                    }
                 }}
             >
                 <DownloadRoundedIcon className="mx-auto" />
