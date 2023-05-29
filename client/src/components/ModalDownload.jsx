@@ -66,12 +66,7 @@ const ModalDownload = (props) => {
                 if (height < img.height) {
                     scaleY = img.height / height
                 }
-                newCanvas.setBackgroundImage(img, newCanvas.renderAll.bind(newCanvas), {
-                    scaleX: scaleX,
-                    scaleY: scaleY,
-                });
-                newCanvas.renderAll()
-                newCanvas.style.filter = `${downTools[2].filters[0].name}(${downTools[2].filters[0].value}%) 
+                img.style.filter = `${downTools[2].filters[0].name}(${downTools[2].filters[0].value}%) 
                 ${downTools[2].filters[1].name}(${downTools[2].filters[1].value}%) 
                 ${downTools[2].filters[2].name}(${downTools[2].filters[2].value}%)
                 ${downTools[2].filters[3].name}(${downTools[2].filters[3].value}%)
@@ -79,6 +74,11 @@ const ModalDownload = (props) => {
                 ${downTools[2].filters[5].name}(${downTools[2].filters[5].value}%)
                 ${downTools[2].filters[6].name}(${downTools[2].filters[6].value}%)
                 ${downTools[2].filters[7].name}(${downTools[2].filters[7].value}deg)`;
+                newCanvas.setBackgroundImage(img, newCanvas.renderAll.bind(newCanvas), {
+                    scaleX: scaleX,
+                    scaleY: scaleY,
+                });
+                newCanvas.renderAll()
                 const link = document.createElement("a");
                 link.download = `${fileName}.${format}`;
                 link.href = newCanvas.toDataURL({
