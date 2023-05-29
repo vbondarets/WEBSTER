@@ -30,6 +30,20 @@ const ModalDownload = (props) => {
         setWidth(downTools[6].width)
         setHeight(downTools[6].height)
     }, [downTools])
+    useEffect(() => {
+        if (height > 4000) {
+            setHeight(4000)
+        }
+        if (width > 4000) {
+            setWidth(4000)
+        }
+        if (height < 0) {
+           setHeight(0)
+        }
+        if (width < 0) {
+            setWidth(0)
+        }
+    }, [height, width])
 
     async function downloadImg() {
         if (format && width && height && fileName && quality && canvas) {

@@ -32,12 +32,13 @@ const DrawTool = () => {
   const colorHandler = (color) => {
     dispatch(setDrawColor({ color }))
     const fillColor = `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
-
-    canvas.getActiveObjects().forEach(element => {
-      console.log(element.type)
-      element.set({fill: element.type !=="path" && fillColor, stroke: fillColor})
-    });
-    canvas.renderAll()
+    if(canvas){
+      canvas.getActiveObjects().forEach(element => {
+        console.log(element.type)
+        element.set({fill: element.type !=="path" && fillColor, stroke: fillColor})
+      });
+      canvas.renderAll()
+    }
   }
 
   return (
