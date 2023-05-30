@@ -204,3 +204,4 @@ bot.on(message('photo'), async (ctx) => {
 });
 
 bot.launch();
+//Work by Spoty-O
